@@ -75,6 +75,16 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+        <a-form-item label="后端项目路径"  name="backendProjectPath">
+          <a-input style="width: 100%" v-model:value="form.backendProjectPath" placeholder="后端项目路径" />
+        </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="版权信息" name="copyright">
+            <a-input style="width: 100%" v-model:value="form.copyright" placeholder="版权信息"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="前端作者" name="frontAuthor">
             <a-input style="width: 100%" v-model:value="form.frontAuthor" placeholder="前端作者"/>
           </a-form-item>
@@ -86,10 +96,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="版权信息" name="copyright">
-            <a-input style="width: 100%" v-model:value="form.copyright" placeholder="版权信息"/>
-          </a-form-item>
+        <a-form-item label="前端项目路径"  name="frontProjectPath">
+          <a-input style="width: 100%" v-model:value="form.frontProjectPath" placeholder="前端项目路径" />
+        </a-form-item>
         </a-col>
+
 
         <a-col :span="12">
           <a-form-item label="包名称" name="packageName">
@@ -226,9 +237,11 @@ const formDefault = {
   timeout: undefined, //超时时间
   backendAuthor: undefined, //后端作者
   backendDate: undefined, //后端日期
-  copyright: undefined, //版权信息
+  backendProjectPath: undefined, //后端项目路径
   frontAuthor: undefined, //前端作者
   frontDate: undefined, //前端日期
+  frontProjectPath: undefined, //前端项目路径
+  copyright: undefined, //版权信息
   packageName: undefined, //包名称
   moduleName: undefined, //模型名称
   tableExtendedData: undefined, //表扩展字段
