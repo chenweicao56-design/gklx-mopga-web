@@ -2,8 +2,8 @@
   * 表
   *
   * @Author:    gklx
-  * @Date:      2025-09-05 13:54:04
-  * @Copyright  gklx
+  * @Date:      2025-09-06 18:37:07
+  * @Copyright  1.0
 -->
 <template>
   <a-drawer
@@ -14,6 +14,7 @@
       :maskClosable="false"
       :destroyOnClose="true"
   >
+
     <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 5 }" >
       <a-row>
         <a-col :span="12">
@@ -37,6 +38,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="版权"  name="copyright">
+            <a-input style="width: 100%" v-model:value="form.copyright" placeholder="版权" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="前端作者"  name="frontAuthor">
             <a-input style="width: 100%" v-model:value="form.frontAuthor" placeholder="前端作者" />
           </a-form-item>
@@ -47,19 +53,13 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="包名称"  name="packageName">
-            <a-input style="width: 100%" v-model:value="form.packageName" placeholder="包名称" />
+          <a-form-item label="包名"  name="packageName">
+            <a-input style="width: 100%" v-model:value="form.packageName" placeholder="包名" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="模快名称"  name="moduleName">
-            <a-input style="width: 100%" v-model:value="form.moduleName" placeholder="模快名称" />
-          </a-form-item>
-        </a-col>
-
-        <a-col :span="12">
-          <a-form-item label="版权信息"  name="copyright">
-            <a-input style="width: 100%" v-model:value="form.copyright" placeholder="版权信息" />
+          <a-form-item label="模块名"  name="moduleName">
+            <a-input style="width: 100%" v-model:value="form.moduleName" placeholder="模块名" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -150,111 +150,115 @@
   import DictSelect from "/@/components/support/dict-select/index.vue";
   // ------------------------ 事件 ------------------------
 
-  const emits = defineEmits(['reloadList']);
+const emits = defineEmits(['reloadList']);
 
   // ------------------------ 显示与隐藏 ------------------------
-  // 是否显示
-  const visibleFlag = ref(false);
+// 是否显示
+const visibleFlag = ref(false);
 
-  function show(rowData) {
-    Object.assign(form, formDefault);
-    if (rowData && !_.isEmpty(rowData)) {
-      Object.assign(form, rowData);
-    }
-    // 使用字典时把下面这注释修改成自己的字典字段 有多个字典字段就复制多份同理修改 不然打开表单时不显示字典初始值
-    // if (form.status && form.status.length > 0) {
-    //   form.status = form.status.map((e) => e.valueCode);
-    // }
-    visibleFlag.value = true;
-    nextTick(() => {
-      formRef.value.clearValidate();
-    });
+function show(rowData) {
+  Object.assign(form, formDefault);
+  if (rowData && !_.isEmpty(rowData)) {
+    Object.assign(form, rowData);
   }
-
-  function onClose() {
-    Object.assign(form, formDefault);
-    visibleFlag.value = false;
-  }
-
-  // ------------------------ 表单 ------------------------
-
-  // 组件ref
-  const formRef = ref();
-
-  const formDefault = {
-    tableId: undefined, //ID
-    databaseId: undefined, //数据源Id
-    tableName: undefined, //表名称
-    tableComment: undefined, //表注释
-    sort: undefined, //排序（越大越靠前）
-    backendAuthor: undefined, //后端作者
-    backendDate: undefined, //后端日期
-    copyright: undefined, //版权信息
-    frontAuthor: undefined, //前端作者
-    frontDate: undefined, //前端日期
-    packageName: undefined, //包名称
-    moduleName: undefined, //模快名称
-    extendedData: undefined, //扩展字段
-    isPhysicallyDeleted: undefined, //逻辑删除
-    wordName: undefined, //单词名
-    status: undefined, //状态
-    subTableId: undefined, //数据源Id
-    tablePrefix: undefined, //表前缀
-    isPage: undefined, //是否分页（1是）
-    isDetail: undefined, //是否详情（1是）
-    isAdd: undefined, //是否增加（1是）
-    isUpdate: undefined, //是否修改（1是）
-    isDelete: undefined, //是否删除（1是）
-    isBatchDelete: undefined, //是否批量删除（1是）
-    editComponent: undefined, //编辑组件
-    formCountLine: undefined, //每行几个表单
-  };
-
-  let form = reactive({ ...formDefault });
-
-  const rules = {
-    tableName: [{ required: true, message: '表名称 必填' }],
-    tableComment: [{ required: true, message: '表注释 必填' }],
-    isPage: [{ required: true, message: '是否分页（1是） 必填' }],
-    isDetail: [{ required: true, message: '是否详情（1是） 必填' }],
-    isAdd: [{ required: true, message: '是否增加（1是） 必填' }],
-    isUpdate: [{ required: true, message: '是否修改（1是） 必填' }],
-    isDelete: [{ required: true, message: '是否删除（1是） 必填' }],
-    isBatchDelete: [{ required: true, message: '是否批量删除（1是） 必填' }],
-    editComponent: [{ required: true, message: '编辑组件 必填' }],
-    formCountLine: [{ required: true, message: '每行几个表单 必填' }],
-  };
-
-  // 点击确定，验证表单
-  async function onSubmit() {
-    try {
-      await formRef.value.validateFields();
-      save();
-    } catch (err) {
-      message.error('参数验证错误，请仔细填写表单数据!');
-    }
-  }
-
-  // 新建、编辑API
-  async function save() {
-    SmartLoading.show();
-    try {
-      if (form.tableId) {
-        await tableApi.update(form);
-      } else {
-        await tableApi.add(form);
-      }
-      message.success('操作成功');
-      emits('reloadList');
-      onClose();
-    } catch (err) {
-      smartSentry.captureError(err);
-    } finally {
-      SmartLoading.hide();
-    }
-  }
-
-  defineExpose({
-    show,
+  visibleFlag.value = true;
+  nextTick(() => {
+    formRef.value.clearValidate();
   });
+}
+
+function onClose() {
+  Object.assign(form, formDefault);
+  visibleFlag.value = false;
+}
+
+ // ------------------------ 表单 ------------------------
+
+// 组件ref
+const formRef = ref();
+
+const formDefault = {
+  tableId: undefined, //ID
+  databaseId: undefined, //数据源Id
+  tableName: undefined, //表名称
+  tableComment: undefined, //表注释
+  sort: undefined, //排序（越大越靠前）
+  backendAuthor: undefined, //后端作者
+  backendDate: undefined, //后端日期
+  copyright: undefined, //版权
+  frontAuthor: undefined, //前端作者
+  frontDate: undefined, //前端日期
+  packageName: undefined, //包名
+  moduleName: undefined, //模块名
+  isPhysicallyDeleted: undefined, //逻辑删除
+  wordName: undefined, //单词名
+  tablePrefix: undefined, //表前缀
+  extendedData: undefined, //扩展字段
+  isPage: undefined, //是否分页（1是）
+  isDetail: undefined, //是否详情（1是）
+  isAdd: undefined, //是否增加（1是）
+  isUpdate: undefined, //是否修改（1是）
+  isDelete: undefined, //是否删除（1是）
+  isBatchDelete: undefined, //是否批量删除（1是）
+  editComponent: undefined, //编辑组件
+  formCountLine: undefined, //每行几个表单
+ };
+
+let form = reactive({ ...formDefault });
+
+const rules = {
+  databaseId: [{ required: true, message: '数据源Id 必填' }],
+  tableName: [{ required: true, message: '表名称 必填' }],
+  backendAuthor: [{ required: true, message: '后端作者 必填' }],
+  backendDate: [{ required: true, message: '后端日期 必填' }],
+  copyright: [{ required: true, message: '版权 必填' }],
+  frontAuthor: [{ required: true, message: '前端作者 必填' }],
+  frontDate: [{ required: true, message: '前端日期 必填' }],
+  packageName: [{ required: true, message: '包名 必填' }],
+  moduleName: [{ required: true, message: '模块名 必填' }],
+  isPhysicallyDeleted: [{ required: true, message: '逻辑删除 必填' }],
+  wordName: [{ required: true, message: '单词名 必填' }],
+  isPage: [{ required: true, message: '是否分页（1是） 必填' }],
+  isDetail: [{ required: true, message: '是否详情（1是） 必填' }],
+  isAdd: [{ required: true, message: '是否增加（1是） 必填' }],
+  isUpdate: [{ required: true, message: '是否修改（1是） 必填' }],
+  isDelete: [{ required: true, message: '是否删除（1是） 必填' }],
+  isBatchDelete: [{ required: true, message: '是否批量删除（1是） 必填' }],
+  editComponent: [{ required: true, message: '编辑组件 必填' }],
+  formCountLine: [{ required: true, message: '每行几个表单 必填' }],
+};
+
+// 点击确定，验证表单
+async function onSubmit() {
+  try {
+    await formRef.value.validateFields();
+    save();
+  } catch (err) {
+    message.error('参数验证错误，请仔细填写表单数据!');
+  }
+}
+
+// 新建、编辑API
+async function save() {
+  SmartLoading.show();
+  try {
+    if (form.tableId) {
+      await tableApi.update(form);
+    } else {
+      await tableApi.add(form);
+    }
+    message.success('操作成功');
+    emits('reloadList');
+    onClose();
+  } catch (err) {
+    smartSentry.captureError(err);
+  } finally {
+    SmartLoading.hide();
+  }
+}
+
+defineExpose({
+  show,
+});
+
 </script>
