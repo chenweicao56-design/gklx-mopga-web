@@ -9,14 +9,14 @@
   <!-- 查询表单区域 -->
   <a-form class="smart-query-form">
     <a-row class="smart-query-form-row">
-      <a-form-item 
-          label="名称" 
+      <a-form-item
+          label="名称"
           class="smart-query-form-item"
       >
-        <a-input 
-            style="width: 200px" 
-            v-model:value="queryForm.databaseName" 
-            placeholder="名称" 
+        <a-input
+            style="width: 200px"
+            v-model:value="queryForm.databaseName"
+            placeholder="名称"
         />
       </a-form-item>
 
@@ -39,7 +39,7 @@
 
   <!-- 表格卡片区域 -->
   <a-card size="small" :bordered="false" :hoverable="true">
-        <!-- 表格操作栏（新增/批量删除） -->
+    <!-- 表格操作栏（新增/批量删除） -->
     <a-row class="smart-table-btn-block">
       <div class="smart-table-operate-block">
         <a-button @click="showForm" type="primary" size="small">
@@ -53,10 +53,10 @@
 
       <!-- 表格列配置 -->
       <div class="smart-table-setting-block">
-        <TableOperator 
-            v-model="columns" 
-            :tableId="null" 
-            :refresh="queryData" 
+        <TableOperator
+            v-model="columns"
+            :tableId="null"
+            :refresh="queryData"
         />
       </div>
     </a-row>
@@ -71,20 +71,20 @@
         bordered
         :loading="tableLoading"
         :pagination="false"
-   >
-     <template #bodyCell="{ text, record, column }">
+    >
+      <template #bodyCell="{ text, record, column }">
 
-       <!-- 操作列（编辑/删除） -->
-       <template v-if="column.dataIndex === 'action'">
-         <div class="smart-table-operate">
-           <a-button @click="showForm(record)" type="link">编辑</a-button>
-           <a-button @click="onDelete(record)" danger type="link">删除</a-button>
+        <!-- 操作列（编辑/删除） -->
+        <template v-if="column.dataIndex === 'action'">
+          <div class="smart-table-operate">
+            <a-button @click="showForm(record)" type="link">编辑</a-button>
+            <a-button @click="onDelete(record)" danger type="link">删除</a-button>
           </div>
         </template>
       </template>
     </a-table>
 
-        <!-- 分页控件 -->
+    <!-- 分页控件 -->
     <div class="smart-query-table-page">
       <a-pagination
           showSizeChanger
@@ -102,22 +102,22 @@
     </div>
 
     <!-- 新增/编辑表单弹窗 -->
-    <DatabaseForm 
-        ref="formRef" 
+    <DatabaseForm
+        ref="formRef"
         @reloadList="queryData"
-        />
-    </a-card>
+    />
+  </a-card>
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from 'vue';
-import { message, Modal } from 'ant-design-vue';
-import { SmartLoading } from '/@/components/framework/smart-loading';
+import {reactive, ref, onMounted} from 'vue';
+import {message, Modal} from 'ant-design-vue';
+import {SmartLoading} from '/@/components/framework/smart-loading';
 import TableOperator from '/@/components/support/table-operator/index.vue';
 import DatabaseForm from '/@/views/business/generate/database/database-form.vue';
-import { databaseApi } from '/@/api/business/generate/database-api';
-import { PAGE_SIZE_OPTIONS } from '/@/constants/common-const';
-import { smartSentry } from '/@/lib/smart-sentry';
+import {databaseApi} from '/@/api/business/generate/database-api';
+import {PAGE_SIZE_OPTIONS} from '/@/constants/common-const';
+import {smartSentry} from '/@/lib/smart-sentry';
 
 // ========================== 表格列配置 ==========================
 const columns = ref([
@@ -172,7 +172,7 @@ const queryFormState = {
   pageSize: 10, // 每页条数
 };
 // 响应式查询表单
-const queryForm = reactive({ ...queryFormState });
+const queryForm = reactive({...queryFormState});
 // 表格加载状态
 const tableLoading = ref(false);
 // 表格数据源
@@ -182,7 +182,7 @@ const total = ref(0);
 
 // 重置查询条件
 function resetQuery() {
-  const { pageSize } = queryForm;
+  const {pageSize} = queryForm;
   Object.assign(queryForm, queryFormState);
   queryForm.pageSize = pageSize; // 保留每页条数
   queryData();
@@ -198,14 +198,14 @@ function onSearch() {
 async function queryData() {
   tableLoading.value = true;
   try {
-      const queryResult = await databaseApi.queryPage(queryForm);
-      tableData.value = queryResult.data.list;
-      total.value = queryResult.data.total;
+    const queryResult = await databaseApi.queryPage(queryForm);
+    tableData.value = queryResult.data.list;
+    total.value = queryResult.data.total;
   } catch (error) {
-      smartSentry.captureError(error);
-      message.error('查询失败，请稍后重试');
+    smartSentry.captureError(error);
+    message.error('查询失败，请稍后重试');
   } finally {
-      tableLoading.value = false;
+    tableLoading.value = false;
   }
 }
 
@@ -221,7 +221,7 @@ function showForm(record = {}) {
 }
 
 // ========================== 单个删除 ==========================
-    // 单个删除确认
+// 单个删除确认
 function onDelete(record) {
   Modal.confirm({
     title: '删除确认',
