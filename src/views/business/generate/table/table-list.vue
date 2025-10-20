@@ -420,7 +420,7 @@ async function requestBatchDelete() {
 const tableCreateRef = ref();
 
 function GetDatabaseById(){
-  databaseApi.get(databaseId.value).then(res => {
+  databaseApi.getDetail(databaseId.value).then(res => {
      database.value = res.data;
   })
 }
