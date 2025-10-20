@@ -2,11 +2,11 @@
   * 模板
   *
   * @Author:    gklx
-  * @Date:      2025-09-05 14:10:43
-  * @Copyright  gklx
+  * @Date:      2025-09-06 18:37:07
+  * @Copyright  1.0
 -->
 <template>
-  <!---------- 查询表单form begin ----------->
+  <!-- 查询表单区域 -->
   <a-form class="smart-query-form">
     <a-row class="smart-query-form-row">
       <a-form-item label="关键字" class="smart-query-form-item">
@@ -15,46 +15,57 @@
       <a-form-item class="smart-query-form-item">
         <a-button type="primary" @click="onSearch">
           <template #icon>
-            <SearchOutlined/>
+            <SearchOutlined />
           </template>
           查询
         </a-button>
         <a-button @click="resetQuery" class="smart-margin-left10">
           <template #icon>
-            <ReloadOutlined/>
+            <ReloadOutlined />
           </template>
           重置
         </a-button>
       </a-form-item>
     </a-row>
   </a-form>
-  <!---------- 查询表单form end ----------->
 
+  <!-- 表格卡片区域 -->
   <a-card size="small" :bordered="false" :hoverable="true">
-    <!---------- 表格操作行 begin ----------->
+        <!-- 表格操作栏（新增/批量删除） -->
     <a-row class="smart-table-btn-block">
       <div class="smart-table-operate-block">
         <a-button @click="showForm" type="primary" size="small">
           <template #icon>
-            <PlusOutlined/>
+            <PlusOutlined />
           </template>
           新建
         </a-button>
-        <a-button @click="confirmBatchDelete" type="primary" danger size="small"
-                  :disabled="selectedRowKeyList.length == 0">
-          <template #icon>
-            <DeleteOutlined/>
-          </template>
-          批量删除
-        </a-button>
+
+        <a-button
+            @click="confirmBatchDelete"
+            type="primary"
+            danger
+            size="small"
+            :disabled="selectedRowKeyList.length === 0"
+         >
+           <template #icon>
+             <DeleteOutlined />
+           </template>
+           批量删除
+         </a-button>
       </div>
+
+      <!-- 表格列配置 -->
       <div class="smart-table-setting-block">
-        <TableOperator v-model="columns" :tableId="null" :refresh="queryData"/>
+        <TableOperator
+            v-model="columns"
+            :tableId="null"
+            :refresh="queryData"
+        />
       </div>
     </a-row>
-    <!---------- 表格操作行 end ----------->
 
-    <!---------- 表格 begin ----------->
+    <!-- 数据表格 -->
     <a-table
         size="small"
         :scroll="{ y: 800 }"
@@ -64,39 +75,42 @@
         bordered
         :loading="tableLoading"
         :pagination="false"
-        :row-selection="{ selectedRowKeys: selectedRowKeyList, onChange: onSelectChange }"
-    >
-      <template #bodyCell="{ text, record, column }">
-        <template v-if="column.dataIndex === 'isRequired'">
-          <a-checkbox v-model:checked="record.isRequired" @change="handleChange(record)"/>
-        </template>
-        <template v-if="column.dataIndex === 'isInsert'">
-          <a-checkbox v-model:checked="record.isInsert" @change="handleChange(record)"/>
-        </template>
-        <template v-if="column.dataIndex === 'isUpdate'">
-          <a-checkbox v-model:checked="record.isUpdate" @change="handleChange(record)"/>
-        </template>
-        <template v-if="column.dataIndex === 'isTable'">
-          <a-checkbox v-model:checked="record.isTable" @change="handleChange(record)"/>
-        </template>
-        <template v-if="column.dataIndex === 'isWhere'">
-          <a-checkbox v-model:checked="record.isWhere" @change="handleChange(record)"/>
-        </template>
-        <template v-if="column.dataIndex === 'frontComponent'">
-          <DictSelect width="100%" v-model:value="record.frontComponent" :dict-code="DICT_CODE_ENUM.FRONT_COMPONENT"
-                      @change="handleChange( record)" placeholder="前端组件"/>
-        </template>
-
-        <template v-if="column.dataIndex === 'action'">
-          <div class="smart-table-operate">
-            <a-button @click="showForm(record)" type="link">编辑</a-button>
-            <a-button @click="onDelete(record)" danger type="link">删除</a-button>
+        :row-selection="{
+            selectedRowKeys: selectedRowKeyList,
+            onChange: onSelectChange
+        }"
+   >
+     <template #bodyCell="{ text, record, column }">
+       <template v-if="column.dataIndex === 'isRequired'">
+         <a-checkbox v-model:checked="record.isRequired" @change="handleChange(record)"/>
+       </template>
+       <template v-if="column.dataIndex === 'isInsert'">
+         <a-checkbox v-model:checked="record.isInsert" @change="handleChange(record)"/>
+       </template>
+       <template v-if="column.dataIndex === 'isUpdate'">
+         <a-checkbox v-model:checked="record.isUpdate" @change="handleChange(record)"/>
+       </template>
+       <template v-if="column.dataIndex === 'isTable'">
+         <a-checkbox v-model:checked="record.isTable" @change="handleChange(record)"/>
+       </template>
+       <template v-if="column.dataIndex === 'isWhere'">
+         <a-checkbox v-model:checked="record.isWhere" @change="handleChange(record)"/>
+       </template>
+       <template v-if="column.dataIndex === 'frontComponent'">
+         <DictSelect width="100%" v-model:value="record.frontComponent" :dict-code="DICT_CODE_ENUM.FRONT_COMPONENT"
+                     @change="handleChange( record)" placeholder="前端组件"/>
+       </template>
+       <!-- 操作列（编辑/删除） -->
+       <template v-if="column.dataIndex === 'action'">
+         <div class="smart-table-operate">
+           <a-button @click="showForm(record)" type="link">编辑</a-button>
+           <a-button @click="onDelete(record)" danger type="link">删除</a-button>
           </div>
         </template>
       </template>
     </a-table>
-    <!---------- 表格 end ----------->
 
+        <!-- 分页控件 -->
     <div class="smart-query-table-page">
       <a-pagination
           showSizeChanger
@@ -113,10 +127,14 @@
       />
     </div>
 
-    <GenTableColumnForm ref="formRef" @reloadList="queryData"/>
-
-  </a-card>
+    <!-- 新增/编辑表单弹窗 -->
+    <GenTableColumnForm
+        ref="formRef"
+        @reloadList="queryData"
+        />
+    </a-card>
 </template>
+
 <script setup>
 import {onMounted, reactive, ref} from 'vue';
 import {message, Modal} from 'ant-design-vue';
@@ -133,8 +151,8 @@ import {tableApi} from "/@/api/business/generate/table-api.js";
 
 const route = useRoute()
 const tableId = ref(route.params.id);
-// ---------------------------- 表格列 ----------------------------
 
+// ========================== 表格列配置 ==========================
 const columns = ref([
   {
     title: '字段名称',
@@ -219,7 +237,6 @@ const columns = ref([
     ellipsis: true,
     width: 160,
   },
-
   {
     title: '基类',
     dataIndex: 'isBase',
@@ -242,57 +259,57 @@ const columns = ref([
   },
 ]);
 
-
-// ---------------------------- 查询数据表单和方法 ----------------------------
-
+// ========================== 查询相关 ==========================
+// 查询表单初始状态
 const queryFormState = {
   tableId: undefined, //表id
   keyword: undefined, //表id
   pageNum: 1,
   pageSize: 10,
 };
-// 查询表单form
+// 响应式查询表单
 const queryForm = reactive({...queryFormState});
-// 表格加载loading
+// 表格加载状态
 const tableLoading = ref(false);
-// 表格数据
+// 表格数据源
 const tableData = ref([]);
-// 总数
+// 数据总数（分页用）
 const total = ref(0);
 
 // 重置查询条件
 function resetQuery() {
-  let pageSize = queryForm.pageSize;
+  const {pageSize} = queryForm;
   Object.assign(queryForm, queryFormState);
-  queryForm.pageSize = pageSize;
+  queryForm.pageSize = pageSize; // 保留每页条数
   queryData();
 }
 
-// 搜索
+// 触发查询
 function onSearch() {
-  queryForm.pageNum = 1;
+  queryForm.pageNum = 1; // 重置为第一页
   queryData();
 }
 
-// 查询数据
+// 核心查询方法（分页查询）
 async function queryData() {
   tableLoading.value = true;
   queryForm.tableId = tableId.value;
   try {
-    let queryResult = await genTableColumnApi.queryPage(queryForm);
+    const queryResult = await genTableColumnApi.queryPage(queryForm);
     tableData.value = queryResult.data.list;
     total.value = queryResult.data.total;
-  } catch (e) {
-    smartSentry.captureError(e);
+  } catch (error) {
+    smartSentry.captureError(error);
+    message.error('查询失败，请稍后重试');
   } finally {
     tableLoading.value = false;
   }
 }
 
+// 日期范围选择器变更事件（循环生成）
 
-onMounted(queryData);
-
-// ---------------------------- 添加/修改 ----------------------------
+// ========================== 新增/编辑 ==========================
+// 表单弹窗引用
 const formRef = ref();
 
 function showForm(data) {
@@ -306,76 +323,77 @@ function handleChange(record) {
   })
 }
 
-// ---------------------------- 单个删除 ----------------------------
-//确认删除
-function onDelete(data) {
+// ========================== 单个删除 ==========================
+// 单个删除确认
+function onDelete(record) {
   Modal.confirm({
-    title: '提示',
-    content: '确定要删除选吗?',
-    okText: '删除',
+    title: '删除确认',
+    content: '确定要删除这条数据吗？删除后不可恢复！',
+    okText: '确认删除',
     okType: 'danger',
-    onOk() {
-      requestDelete(data);
-    },
     cancelText: '取消',
-    onCancel() {
-    },
+    onOk: () => requestDelete(record),
   });
 }
 
-//请求删除
-async function requestDelete(data) {
+// 单个删除请求
+async function requestDelete(record) {
   SmartLoading.show();
   try {
-    let deleteForm = {
-      goodsIdList: selectedRowKeyList.value,
-    };
-    await genTableColumnApi.delete(data.columnId);
+    await genTableColumnApi.delete(record.columnId);
     message.success('删除成功');
-    queryData();
-  } catch (e) {
-    smartSentry.captureError(e);
+    queryData(); // 重新查询数据
+  } catch (error) {
+    smartSentry.captureError(error);
+    message.error('删除失败，请稍后重试');
   } finally {
     SmartLoading.hide();
   }
 }
 
-// ---------------------------- 批量删除 ----------------------------
-
-// 选择表格行
+// ========================== 批量删除 ==========================
+// 选中的行ID列表
 const selectedRowKeyList = ref([]);
 
+// 行选择变更事件
 function onSelectChange(selectedRowKeys) {
   selectedRowKeyList.value = selectedRowKeys;
 }
 
-// 批量删除
+// 批量删除确认
 function confirmBatchDelete() {
+  if (selectedRowKeyList.value.length === 0) {
+    message.warning('请先选择要删除的数据');
+    return;
+  }
+
   Modal.confirm({
-    title: '提示',
-    content: '确定要批量删除这些数据吗?',
-    okText: '删除',
+    title: '批量删除确认',
+    content: `确定要删除选中的 ${selectedRowKeyList.value.length} 条数据吗？删除后不可恢复！`,
+    okText: '确认删除',
     okType: 'danger',
-    onOk() {
-      requestBatchDelete();
-    },
     cancelText: '取消',
-    onCancel() {
-    },
+    onOk: requestBatchDelete,
   });
 }
 
-//请求批量删除
+// 批量删除请求
 async function requestBatchDelete() {
-  try {
-    SmartLoading.show();
-    await genTableColumnApi.batchDelete(selectedRowKeyList.value);
-    message.success('删除成功');
-    queryData();
-  } catch (e) {
-    smartSentry.captureError(e);
-  } finally {
-    SmartLoading.hide();
-  }
+  SmartLoading.show();
+    try {
+      await genTableColumnApi.batchDelete(selectedRowKeyList.value);
+      message.success('批量删除成功');
+      selectedRowKeyList.value = []; // 清空选择
+      queryData(); // 重新查询数据
+    } catch (error) {
+      smartSentry.captureError(error);
+      message.error('批量删除失败，请稍后重试');
+    } finally {
+      SmartLoading.hide();
+    }
 }
+
+// ========================== 页面初始化 ==========================
+// 页面挂载时执行初始查询
+onMounted(queryData);
 </script>

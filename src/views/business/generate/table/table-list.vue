@@ -245,6 +245,12 @@ const columns = ref([
     width: 100,
   },
   {
+    title: '同步',
+    dataIndex: 'actionSync',
+    fixed: 'right',
+    width: 100,
+  },
+  {
     title: '操作',
     dataIndex: 'action',
     fixed: 'right',

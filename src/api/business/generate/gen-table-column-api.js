@@ -2,13 +2,12 @@
  * 模板 api 封装
  *
  * @Author:    gklx
- * @Date:      2025-09-05 14:10:43
- * @Copyright  gklx
+ * @Date:      2025-09-06 18:37:07
+ * @Copyright  1.0
  */
 import { postRequest, getRequest } from '/@/lib/axios';
 
 export const genTableColumnApi = {
-
   /**
    * 分页查询  @author  gklx
    */
@@ -30,16 +29,22 @@ export const genTableColumnApi = {
       return postRequest('/genTableColumn/update', param);
   },
 
+  /**
+   * 获取详情  @author  ${basic.frontAuthor}
+   */
+  getDetail: (id) => {
+      return getRequest(`/genTableColumn/getDetail/${id}`);
+  },
 
   /**
-   * 删除  @author  gklx
+   * 删除  @author  ${basic.frontAuthor}
    */
   delete: (id) => {
       return getRequest(`/genTableColumn/delete/${id}`);
   },
 
   /**
-   * 批量删除  @author  gklx
+   * 批量删除  @author  ${basic.frontAuthor}
    */
   batchDelete: (idList) => {
       return postRequest('/genTableColumn/batchDelete', idList);
