@@ -2,13 +2,12 @@
  * 表 api 封装
  *
  * @Author:    gklx
- * @Date:      2025-09-05 13:54:04
- * @Copyright  gklx
+ * @Date:      2025-09-06 18:37:07
+ * @Copyright  1.0
  */
 import { postRequest, getRequest } from '/@/lib/axios';
 
 export const tableApi = {
-
   /**
    * 分页查询  @author  gklx
    */
@@ -16,12 +15,6 @@ export const tableApi = {
     return postRequest('/table/queryPage', param);
   },
 
-  /**
-   * 查询  @author  gklx
-   */
-  get: (tableId) => {
-      return getRequest(`/table/${tableId}`);
-  },
   /**
    * 查询  @author  gklx
    */
@@ -43,16 +36,22 @@ export const tableApi = {
       return postRequest('/table/update', param);
   },
 
+  /**
+   * 获取详情  @author  ${basic.frontAuthor}
+   */
+  getDetail: (id) => {
+      return getRequest(`/table/getDetail/${id}`);
+  },
 
   /**
-   * 删除  @author  gklx
+   * 删除  @author  ${basic.frontAuthor}
    */
   delete: (id) => {
       return getRequest(`/table/delete/${id}`);
   },
 
   /**
-   * 批量删除  @author  gklx
+   * 批量删除  @author  ${basic.frontAuthor}
    */
   batchDelete: (idList) => {
       return postRequest('/table/batchDelete', idList);
