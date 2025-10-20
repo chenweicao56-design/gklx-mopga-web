@@ -23,13 +23,13 @@
       <a-form-item class="smart-query-form-item">
         <a-button type="primary" @click="onSearch">
           <template #icon>
-            <SearchOutlined />
+            <SearchOutlined/>
           </template>
           查询
         </a-button>
         <a-button @click="resetQuery" class="smart-margin-left10">
           <template #icon>
-            <ReloadOutlined />
+            <ReloadOutlined/>
           </template>
           重置
         </a-button>
@@ -44,7 +44,7 @@
       <div class="smart-table-operate-block">
         <a-button @click="showForm" type="primary" size="small">
           <template #icon>
-            <PlusOutlined />
+            <PlusOutlined/>
           </template>
           新建
         </a-button>
@@ -73,6 +73,24 @@
         :pagination="false"
     >
       <template #bodyCell="{ text, record, column }">
+
+        <template v-if="column.dataIndex === 'databaseName'">
+          <router-link :to="'/table/'+record.id">{{ text }}</router-link>
+        </template>
+
+        <template v-if="column.dataIndex === 'databaseType'">
+          <DictLabel :dict-code="DICT_CODE_ENUM.DATABASE_TYPE || 'DATABASE_TYPE'" :data-value="text"/>
+        </template>
+        <template v-if="column.dataIndex === 'languageType'">
+          <DictLabel :dict-code="DICT_CODE_ENUM.LANGUAGE_TYPE || 'LANGUAGE_TYPE'" :data-value="text"/>
+        </template>
+
+        <template v-if="column.dataIndex === 'actionSync'">
+          <div class="smart-table-operate">
+            <a-button @click="handleSyncTable(record,false)" type="link">表</a-button>
+            <a-button @click="handleSyncTable(record,true)" danger type="link">表&字段</a-button>
+          </div>
+        </template>
 
         <!-- 操作列（编辑/删除） -->
         <template v-if="column.dataIndex === 'action'">
@@ -118,7 +136,11 @@ import DatabaseForm from '/@/views/business/generate/database/database-form.vue'
 import {databaseApi} from '/@/api/business/generate/database-api';
 import {PAGE_SIZE_OPTIONS} from '/@/constants/common-const';
 import {smartSentry} from '/@/lib/smart-sentry';
-
+import DictLabel from '/@/components/support/dict-label/index.vue';
+import {DICT_CODE_ENUM} from '/@/constants/support/dict-const.js';
+import {generateApi} from "/@/api/business/generate/generate-api.js";
+import {useRouter} from "vue-router";
+const router = useRouter();
 // ========================== 表格列配置 ==========================
 const columns = ref([
   {
@@ -155,6 +177,12 @@ const columns = ref([
     title: '用户名',
     dataIndex: 'userName',
     ellipsis: true,
+  },
+  {
+    title: '同步',
+    dataIndex: 'actionSync',
+    fixed: 'right',
+    width: 150,
   },
   {
     title: '操作',
@@ -249,6 +277,12 @@ async function requestDelete(record) {
 }
 
 // ========================== 批量删除 ==========================
+function handleSyncTable(data, type) {
+  generateApi.syncTable(data.id, type).then(() => {
+    message.success('同步成功');
+    router.push('/table/' + data.id)
+  })
+}
 
 // ========================== 页面初始化 ==========================
 // 页面挂载时执行初始查询
