@@ -87,8 +87,7 @@
 
         <template v-if="column.dataIndex === 'actionSync'">
           <div class="smart-table-operate">
-            <a-button @click="handleSyncTable(record,false)" type="link">表</a-button>
-            <a-button @click="handleSyncTable(record,true)" danger type="link">表&字段</a-button>
+            <a-button @click="handleSyncTable(record,false)" type="link">表同步</a-button>
           </div>
         </template>
 

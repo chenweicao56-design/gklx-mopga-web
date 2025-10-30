@@ -247,11 +247,6 @@ const columns = ref([
     },
   },
   {
-    title: '更新时间',
-    dataIndex: 'updateTime',
-    ellipsis: true,
-  },
-  {
     title: '操作',
     dataIndex: 'action',
     fixed: 'right',

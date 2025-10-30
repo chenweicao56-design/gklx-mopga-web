@@ -42,7 +42,7 @@ export const useAppConfigStore = defineStore({
     ...state,
     // 全屏
     fullScreenFlag: false,
-    aiFlag: true,
+    aiFlag: false,
   }),
   actions: {
     reset() {

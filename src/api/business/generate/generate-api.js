@@ -11,17 +11,11 @@ import axios from "axios";
 
 export const generateApi = {
 
-    syncTable: (databaseId, containColumn) => {
-        return getRequest('/gen/sync/table/' + databaseId, {containColumn: containColumn});
+    syncTable: (databaseId, data) => {
+        return getRequest('/gen/sync/table/' + databaseId, data);
     },
-    /**
-     * 增加  @author  gklx
-     */
-    syncTableColumn: (tableId) => {
-        return getRequest('/gen/sync/column/' + tableId, {});
-    },
-    batchSyncTableColumn: (tableIds) => {
-        return postRequest('/gen/batch/sync/column', tableIds);
+    dbList: (databaseId, data) => {
+        return getRequest('/gen/db/table/list/' + databaseId, data);
     },
     preview: (tableId) => {
         return getRequest('/gen/preview/' + tableId, {});

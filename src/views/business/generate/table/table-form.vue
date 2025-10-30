@@ -108,6 +108,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="是否树"  name="isTree">
+            <BooleanSelect v-model:value="form.isTree" style="width: 100%" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="编辑组件"  name="editComponent">
             <DictSelect width="100%" v-model:value="form.editComponent" :dict-code="DICT_CODE_ENUM.FRONT_EDIT_COMPONENT || 'FRONT_EDIT_COMPONENT'" placeholder="编辑组件"/>
           </a-form-item>
@@ -199,6 +204,7 @@ const formDefault = {
   isAdd: undefined, //是否增加（1是）
   isUpdate: undefined, //是否修改（1是）
   isDelete: undefined, //是否删除（1是）
+  isTree: undefined, //是否树（1是）
   isBatchDelete: undefined, //是否批量删除（1是）
   editComponent: undefined, //编辑组件
   formCountLine: undefined, //每行几个表单
@@ -224,6 +230,7 @@ const rules = {
   isUpdate: [{ required: true, message: '是否修改（1是） 必填' }],
   isDelete: [{ required: true, message: '是否删除（1是） 必填' }],
   isBatchDelete: [{ required: true, message: '是否批量删除（1是） 必填' }],
+  isTree: [{ required: true, message: '是否树（1是） 必填' }],
   editComponent: [{ required: true, message: '编辑组件 必填' }],
   formCountLine: [{ required: true, message: '每行几个表单 必填' }],
 };
