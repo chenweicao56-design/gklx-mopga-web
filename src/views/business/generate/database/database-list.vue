@@ -276,8 +276,8 @@ async function requestDelete(record) {
 }
 
 // ========================== 批量删除 ==========================
-function handleSyncTable(data, type) {
-  generateApi.syncTable(data.id, type).then(() => {
+function handleSyncTable(data, containColumn) {
+  generateApi.syncTable(data.id, { containColumn: containColumn}).then(() => {
     message.success('同步成功');
     router.push('/table/' + data.id)
   })

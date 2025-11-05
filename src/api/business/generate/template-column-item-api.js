@@ -32,6 +32,12 @@ export const templateColumnApi = {
         return postRequest('/templateColumn/add', param);
     },
     /**
+     * 增加  @author  gklx
+     */
+    addByColumnId: (columnId) => {
+        return getRequest(`/templateColumn/add/${columnId}`);
+    },
+    /**
      * 修改  @author  gklx
      */
     update: (param) => {

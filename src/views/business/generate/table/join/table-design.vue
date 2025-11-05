@@ -1,7 +1,7 @@
 <template>
   <div class="table-design-container">
     <TableLibrary :tables="tableList" :master-table-id="tableId" @table-drag="handleTableDrag"/>
-    <SqlDesign ref="sqlDesignRef" style="flex: 1;width: 100px" :drag-table="dragTable"/>
+    <SqlDesign ref="sqlDesignRef" :databaseId="databaseId" :table-list="tableList" :table-id="tableId" :master-table-id="tableId" style="flex: 1;width: 100px" :drag-table="dragTable"/>
   </div>
 
 </template>
@@ -9,16 +9,16 @@
 
 import {onMounted, ref} from "vue";
 
-import TableLibrary from "/@/components/business/design/TableLibrary.vue";
-import SqlDesign from "/@/components/business/design/SqlDesign.vue";
-import {tableApi} from '/@/api/business/generate/table-api';
+import TableLibrary from "/src/components/business/design/TableLibrary.vue";
+import SqlDesign from "/src/components/business/design/SqlDesign.vue";
+import {tableApi} from '/src/api/business/generate/table-api';
 import {useRoute} from 'vue-router'
 
 const tableList = ref([]);
 
 const route = useRoute()
 const tableId = ref(route.params.id);
-const databaseId = route.query.databaseId;
+const databaseId = ref(parseInt( route.query.databaseId));
 const dragTable = ref(null)
 
 onMounted(() => {
@@ -27,7 +27,7 @@ onMounted(() => {
 const sqlDesignRef = ref()
 
 function GetTableList() {
-  tableApi.all(databaseId).then(res => {
+  tableApi.all(databaseId.value).then(res => {
     tableList.value = res.data
   })
 }

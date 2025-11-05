@@ -99,6 +99,7 @@ function onClose() {
   templateConfigMappingRef.value.onClose();
   templateCodeRef.value.onClose();
   visibleFlag.value = false;
+  emits('reloadList');
 }
 
 // ------------------ 标签页 ------------------

@@ -139,7 +139,6 @@
     <!-- 新增/编辑表单弹窗 -->
     <TableForm ref="formRef" @reloadList="queryData" />
     <TableCreate ref="tableCreateRef" @reloadList="queryData" />
-    <TableJoin ref="tableJoinRef" :databaseId="databaseId" />
     <TableDbListModal ref="tableDbListModalRef" :databaseId="databaseId" @finish="syncTable" />
     <GenPreviewModal ref="genPreviewModalRef" />
   </a-card>
@@ -152,7 +151,6 @@
   import TableOperator from '/@/components/support/table-operator/index.vue';
   import TableDbListModal from '/src/views/business/generate/table/table-db-list-modal.vue';
   import TableCreate from './table-create.vue';
-  import TableJoin from './table-join.vue';
   import GenPreviewModal from './gen-preview-modal.vue';
   import { tableApi } from '/@/api/business/generate/table-api';
   import { databaseApi } from '/@/api/business/generate/database-api.js';
@@ -163,7 +161,7 @@
   import TableForm from '/@/views/business/generate/table/table-form.vue';
 
   const route = useRoute();
-  const databaseId = ref(route.params.id);
+  const databaseId = ref(parseInt(route.params.id));
   const database = ref({});
   const router = useRouter();
   // ========================== 表格列配置 ==========================
@@ -243,7 +241,7 @@
   // 查询表单初始状态
   const queryFormState = {
     keyword: undefined, //表名称
-    databaseId: undefined, //表名称
+    databaseId: databaseId.value, //表名称
     pageNum: 1,
     pageSize: 10,
   };
@@ -291,7 +289,6 @@
   // 表单弹窗引用
   const formRef = ref();
   const genPreviewModalRef = ref();
-  const tableJoinRef = ref();
   // 打开新增/编辑表单
   function showForm(record = {}) {
     formRef.value?.show(record);
@@ -307,16 +304,13 @@
         databaseId: databaseId.value,
       },
     });
-    // tableJoinRef.value.show(data.tableId);
   }
 
   function toColumn(data) {
     router.push('/table/column/' + data.tableId);
   }
 
-  function handleBatchSync(data) {
-
-  }
+  function handleBatchSync(data) {}
 
   function handleChange(e, record) {
     console.log(record);
