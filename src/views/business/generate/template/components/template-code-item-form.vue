@@ -39,7 +39,7 @@
       </a-tab-pane>
       <a-tab-pane key="2" tab="测试" force-render>
 <!--        <CusDiffMatchPatch ref="diffMatchPatchRef" />-->
-        <CusCodeMirror ref="testCodeMirrorRef" v-model:model-value="testCode" :height="'500px'"/>
+        <CusCodeMirror v-if="activeKey == 2" ref="testCodeMirrorRef" v-model:model-value="testCode" :height="'500px'"/>
       </a-tab-pane>
     </a-tabs>
 

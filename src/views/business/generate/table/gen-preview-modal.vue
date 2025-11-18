@@ -78,7 +78,7 @@ function onClose() {
 
 
 // ------------------ 标签页 ------------------
-const genPluginUrl = ref("http://127.0.0.1:8000");
+const genPluginUrl = ref("http://127.0.0.1:1024");
 const fileType = ref("");
 const fileTypes = ref({});
 const files = ref([]);
@@ -153,11 +153,11 @@ function syncSave() {
     okText: '确认',
     okType: 'primary',
     onOk() {
-      let ft =fileTypes.value.filter((item) => {
+      let ft =fileTypes.value.find((item) => {
         return item.value === fileType.value;
       })
       // console.log(ft)
-      generateApi.coverCode(genPluginUrl.value, ft).then((res) => {
+      generateApi.coverCode(genPluginUrl.value, ft.files).then((res) => {
         message.success('保存成功');
       })
     },

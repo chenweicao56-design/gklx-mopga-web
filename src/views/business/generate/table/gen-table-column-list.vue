@@ -86,6 +86,9 @@
         <template v-if="column.dataIndex === 'isWhere'">
           <a-checkbox v-model:checked="record.isWhere" @change="handleChange(record)" />
         </template>
+        <template v-if="column.dataIndex === 'isUnique'">
+          <a-checkbox v-model:checked="record.isUnique" @change="handleChange(record)" />
+        </template>
         <template v-if="column.dataIndex === 'frontComponent'">
           <DictSelect
             width="100%"
@@ -238,6 +241,12 @@
       customRender: (e) => {
         return e.value ? '是' : '否';
       },
+    },
+    {
+      title: '唯一',
+      dataIndex: 'isUnique',
+      ellipsis: true,
+      width: 60,
     },
     {
       title: '操作',

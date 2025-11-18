@@ -41,7 +41,7 @@ export const generateApi = {
         'Content-Type': 'application/json',
       },
     };
-    return axios.post(url + '/create-file', data, config);
+    return axios.post(url + '/sync', data, config);
   },
   generateMybatis: (data) => {
     return postRequest('/gen/mybatis/preview', data);

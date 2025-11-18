@@ -98,6 +98,12 @@
         <template v-if="column.dataIndex === 'isBatchDelete'">
           <a-checkbox v-model:checked="record.isBatchDelete" @change="(e) => handleChange(e, record)" />
         </template>
+        <template v-if="column.dataIndex === 'isImport'">
+          <a-checkbox v-model:checked="record.isImport" @change="(e) => handleChange(e, record)" />
+        </template>
+        <template v-if="column.dataIndex === 'isExport'">
+          <a-checkbox v-model:checked="record.isExport" @change="(e) => handleChange(e, record)" />
+        </template>
         <template v-if="column.dataIndex === 'actionCode'">
           <div class="smart-table-operate">
             <a-button @click="showPreview(record)" type="link">预览</a-button>
@@ -216,6 +222,18 @@
       dataIndex: 'isBatchDelete',
       ellipsis: true,
       width: 80,
+    },
+    {
+      title: '导入',
+      dataIndex: 'isImport',
+      ellipsis: true,
+      width: 60,
+    },
+    {
+      title: '导出',
+      dataIndex: 'isExport',
+      ellipsis: true,
+      width: 60,
     },
     {
       title: '代码',
