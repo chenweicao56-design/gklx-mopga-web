@@ -63,6 +63,7 @@ const abortController = new AbortController();
 const isTalking = ref(false)
 
 const chatQueryForm = ref({
+  conversationId: new Date().getTime(),
   question: "",
 })
 
