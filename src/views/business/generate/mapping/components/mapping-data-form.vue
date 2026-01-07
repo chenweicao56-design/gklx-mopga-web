@@ -20,13 +20,19 @@
           <a-input style="width: 100%" v-model:value="form.databaseFieldType" placeholder="数据库字段类型" />
         </a-form-item>
         <a-form-item label="JAVA字段类型"  name="javaFieldType">
-          <a-input style="width: 100%" v-model:value="form.javaFieldType" placeholder="JAVA字段类型" />
+          <DictSelect width="100%" v-model:value="form.javaFieldType"
+                      :dict-code="DICT_CODE_ENUM.JAVA_FIELD_TYPE"
+                      placeholder="JAVA字段类型"/>
         </a-form-item>
         <a-form-item label="前端字段类型"  name="frontFieldType">
-          <a-input style="width: 100%" v-model:value="form.frontFieldType" placeholder="前端字段类型" />
+          <DictSelect width="100%" v-model:value="form.frontFieldType"
+                      :dict-code="DICT_CODE_ENUM.FRONT_FIELD_TYPE"
+                      placeholder="前端字段类型"/>
         </a-form-item>
         <a-form-item label="前端组件"  name="frontComponent">
-          <a-input style="width: 100%" v-model:value="form.frontComponent" placeholder="前端组件" />
+          <DictSelect width="100%" v-model:value="form.frontComponent"
+                      :dict-code="DICT_CODE_ENUM.FRONT_COMPONENT"
+                      placeholder="前端组件"/>
         </a-form-item>
         <a-form-item label="备注"  name="remark">
           <a-input style="width: 100%" v-model:value="form.remark" placeholder="备注" />
@@ -52,6 +58,8 @@
   import { SmartLoading } from '/src/components/framework/smart-loading';
   import { mappingDataApi } from '/src/api/business/generate/mapping-data-api';
   import { smartSentry } from '/src/lib/smart-sentry';
+  import { DICT_CODE_ENUM } from '/@/constants/support/dict-const.js';
+  import DictSelect from '/@/components/support/dict-select/index.vue';
 
   // ------------------------ 事件 ------------------------
 

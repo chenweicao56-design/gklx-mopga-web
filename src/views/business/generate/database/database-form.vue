@@ -33,12 +33,17 @@
         </a-col>
         <a-col :span="12">
           <a-form-item label="数据源类型"  name="databaseType">
-            <a-input style="width: 100%" v-model:value="form.databaseType" placeholder="类型" />
+            <DictSelect width="100%" v-model:value="form.databaseType"
+                        :dict-code="DICT_CODE_ENUM.DATABASE_TYPE"
+                        placeholder="数据源类型"/>
+
           </a-form-item>
         </a-col>
         <a-col :span="12">
           <a-form-item label="语言类型"  name="languageType">
-            <a-input style="width: 100%" v-model:value="form.languageType" placeholder="语言类型" />
+            <DictSelect width="100%" v-model:value="form.languageType"
+                        :dict-code="DICT_CODE_ENUM.LANGUAGE_TYPE"
+                        placeholder="语言类型"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -49,6 +54,11 @@
         <a-col :span="12">
           <a-form-item label="用户名"  name="userName">
             <a-input style="width: 100%" v-model:value="form.userName" placeholder="用户名" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="模式"  name="schemaName">
+            <a-input style="width: 100%" v-model:value="form.schemaName" placeholder="模式" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -251,6 +261,7 @@ const formDefault = {
   isBatchDelete: undefined, //是否批量删除（1是）
   editComponent: undefined, //编辑组件
   formCountLine: undefined, //每行几个表单
+  schemaName: undefined, //模式
 };
 
 let form = reactive({ ...formDefault });

@@ -15,10 +15,12 @@
         <DictSelect width="100%" v-model:value="form.templateType" :dict-code="DICT_CODE_ENUM.TEMPLATE_TYPE" placeholder="模板类型" />
       </a-form-item>
       <a-form-item label="数据源类型" name="databaseType">
-        <a-input style="width: 100%" v-model:value="form.databaseType" placeholder="数据源类型" />
+        <DictSelect width="100%" v-model:value="form.databaseType"
+                    :dict-code="DICT_CODE_ENUM.DATABASE_TYPE || 'DATABASE_TYPE'" placeholder="数据源类型"/>
       </a-form-item>
       <a-form-item label="语言类型" name="languageType">
-        <a-input style="width: 100%" v-model:value="form.languageType" placeholder="语言类型" />
+        <DictSelect width="100%" v-model:value="form.languageType"
+                    :dict-code="DICT_CODE_ENUM.LANGUAGE_TYPE || 'LANGUAGE_TYPE'" placeholder="语言类型"/>
       </a-form-item>
       <a-form-item label="项目路径" name="projectPath">
         <a-input style="width: 100%" v-model:value="form.projectPath" placeholder="项目路径" />

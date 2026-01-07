@@ -178,6 +178,11 @@ const columns = ref([
     ellipsis: true,
   },
   {
+    title: '模式',
+    dataIndex: 'schemaName',
+    ellipsis: true,
+  },
+  {
     title: '同步',
     dataIndex: 'actionSync',
     fixed: 'right',

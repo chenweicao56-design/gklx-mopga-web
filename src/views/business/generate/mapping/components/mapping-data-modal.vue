@@ -56,7 +56,7 @@
         size="small"
         :dataSource="tableData"
         :columns="columns"
-        rowKey="dictDataId"
+        rowKey="id"
         :pagination="false"
         :row-selection="{ selectedRowKeys: selectedRowKeyList, onChange: onSelectChange }"
         bordered
