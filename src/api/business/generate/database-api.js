@@ -49,5 +49,11 @@ export const databaseApi = {
   batchDelete: (idList) => {
       return postRequest('/database/batchDelete', idList);
   },
+  /**
+   * 获取相关的数据库字典类型  @author  ${basic.frontAuthor}
+   */
+  getColumnTypes: (id) => {
+    return getRequest(`/database/getColumnTypes/${id}`);
+  },
 
 };

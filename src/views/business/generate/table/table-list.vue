@@ -431,6 +431,7 @@
   function syncTable(tableNames, containColumn) {
     generateApi.syncTable(databaseId.value, { containColumn: containColumn, tableNames: tableNames }).then(() => {
       message.success('同步成功');
+      onSearch()
     });
   }
 </script>

@@ -120,6 +120,7 @@ import {computed, nextTick, reactive, ref} from 'vue';
 import {message} from 'ant-design-vue';
 import {SmartLoading} from '/@/components/framework/smart-loading';
 import {generateApi} from '/@/api/business/generate/generate-api';
+import {databaseApi} from '/@/api/business/generate/database-api.js';
 import {translationApi} from '/@/api/business/generate/translation-api';
 import {smartSentry} from '/@/lib/smart-sentry';
 //初始化拖拽
@@ -151,11 +152,17 @@ function show(d) {
   database.value = d;
   form.databaseId = d.id;
   visibleFlag.value = true;
-  columnTypeOptions.value = useDictStore()
-      .getDictData(d.databaseType.toUpperCase() + "_COLUMN_TYPE").map(item => ({
-        value: item.dataValue,
-        label: item.dataLabel
-      }))
+  databaseApi.getColumnTypes(d.id).then((res) => {
+    columnTypeOptions.value = res.data.map(item => ({
+      value: item.databaseFieldType,
+      label: item.databaseFieldType
+    }))
+  })
+  // columnTypeOptions.value = useDictStore()
+  //     .getDictData(d.databaseType.toUpperCase() + "_COLUMN_TYPE").map(item => ({
+  //       value: item.dataValue,
+  //       label: item.dataLabel
+  //     }))
   nextTick(() => {
     formRef.value.clearValidate();
     initDrag();
