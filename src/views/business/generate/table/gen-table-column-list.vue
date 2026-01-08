@@ -153,11 +153,13 @@
     {
       title: '字段名称',
       dataIndex: 'columnName',
+      width: 120,
       ellipsis: true,
     },
     {
       title: '字段注释',
       dataIndex: 'columnComment',
+      width: 120,
       ellipsis: true,
     },
     {
