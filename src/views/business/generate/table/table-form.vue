@@ -123,6 +123,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="权限"  name="permission">
+            <a-input-number style="width: 100%" v-model:value="form.permission" placeholder="权限" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="编辑组件"  name="editComponent">
             <DictSelect width="100%" v-model:value="form.editComponent" :dict-code="DICT_CODE_ENUM.FRONT_EDIT_COMPONENT || 'FRONT_EDIT_COMPONENT'" placeholder="编辑组件"/>
           </a-form-item>
@@ -220,6 +225,7 @@ const formDefault = {
   formCountLine: undefined, //每行几个表单
   isImport: undefined, //是否导入
   isExport: undefined, //是否导出
+  permission: undefined, //权限（0没有）
  };
 
 let form = reactive({ ...formDefault });
@@ -247,6 +253,7 @@ const rules = {
   formCountLine: [{ required: true, message: '每行几个表单 必填' }],
   isImport: [{ required: true, message: '是否导入 必填' }],
   isExport: [{ required: true, message: '是否导出 必填' }],
+  permission: [{ required: true, message: '权限必填' }],
 };
 
 // 点击确定，验证表单

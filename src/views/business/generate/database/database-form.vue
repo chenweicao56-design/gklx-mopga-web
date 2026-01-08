@@ -157,6 +157,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="权限"  name="permission">
+            <a-input-number style="width: 100%" v-model:value="form.permission" placeholder="权限" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="编辑组件"  name="editComponent">
             <DictSelect width="100%" v-model:value="form.editComponent"
                         :dict-code="DICT_CODE_ENUM.FRONT_EDIT_COMPONENT || 'FRONT_EDIT_COMPONENT'"
@@ -262,6 +267,7 @@ const formDefault = {
   editComponent: undefined, //编辑组件
   formCountLine: undefined, //每行几个表单
   schemaName: undefined, //模式
+  permission: undefined, //权限（0没有）
 };
 
 let form = reactive({ ...formDefault });
@@ -289,6 +295,7 @@ const rules = {
   isBatchDelete: [{ required: true, message: '是否批量删除（1是） 必填' }],
   editComponent: [{ required: true, message: '编辑组件 必填' }],
   formCountLine: [{ required: true, message: '每行几个表单 必填' }],
+  permission: [{ required: true, message: '权限 必填' }],
 };
 
 // 点击确定，验证表单
