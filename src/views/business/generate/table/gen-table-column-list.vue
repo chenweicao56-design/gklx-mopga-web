@@ -86,6 +86,18 @@
         <template v-if="column.dataIndex === 'isWhere'">
           <a-checkbox v-model:checked="record.isWhere" @change="handleChange(record)" />
         </template>
+        <template v-if="column.dataIndex === 'whereType'">
+          <DictSelect
+            width="100%"
+            v-model:value="record.whereType"
+            :dict-code="DICT_CODE_ENUM.WHERE_TYPE"
+            @change="handleChange(record)"
+            placeholder="无"
+          />
+        </template>
+        <template v-if="column.dataIndex === 'isBase'">
+          <a-checkbox v-model:checked="record.isBase" @change="handleChange(record)" />
+        </template>
         <template v-if="column.dataIndex === 'isUnique'">
           <a-checkbox v-model:checked="record.isUnique" @change="handleChange(record)" />
         </template>
@@ -96,6 +108,15 @@
             :dict-code="DICT_CODE_ENUM.FRONT_COMPONENT"
             @change="handleChange(record)"
             placeholder="前端组件"
+          />
+        </template>
+        <template v-if="column.dataIndex === 'orderType'">
+          <DictSelect
+            width="100%"
+            v-model:value="record.orderType"
+            :dict-code="DICT_CODE_ENUM.ORDER_TYPE"
+            @change="handleChange(record)"
+            placeholder="排序类型"
           />
         </template>
         <!-- 操作列（编辑/删除） -->
@@ -153,102 +174,109 @@
     {
       title: '字段名称',
       dataIndex: 'columnName',
-      width: 120,
       ellipsis: true,
     },
     {
       title: '字段注释',
       dataIndex: 'columnComment',
-      width: 120,
       ellipsis: true,
     },
-    {
-      title: '主键',
-      dataIndex: 'isPk',
-      ellipsis: true,
-      width: 60,
-      customRender: (e) => {
-        return e.value ? '是' : '否';
-      },
-    },
-    {
-      title: '自增',
-      dataIndex: 'isIncrement',
-      ellipsis: true,
-      width: 60,
-      customRender: (e) => {
-        return e.value ? '是' : '否';
-      },
-    },
-    {
-      title: '非空',
-      dataIndex: 'isNull',
-      ellipsis: true,
-      width: 60,
-      customRender: (e) => {
-        return e.value ? '是' : '否';
-      },
-    },
-    {
-      title: '字段类型',
-      dataIndex: 'columnType',
-      ellipsis: true,
-    },
-    {
-      title: '默认值',
-      dataIndex: 'columnDefault',
-      ellipsis: true,
-    },
+    // {
+    //   title: '主键',
+    //   dataIndex: 'isPk',
+    //   ellipsis: true,
+    //   width: 60,
+    //   customRender: (e) => {
+    //     return e.value ? '是' : '否';
+    //   },
+    // },
+    // {
+    //   title: '自增',
+    //   dataIndex: 'isIncrement',
+    //   ellipsis: true,
+    //   width: 60,
+    //   customRender: (e) => {
+    //     return e.value ? '是' : '否';
+    //   },
+    // },
+    // {
+    //   title: '非空',
+    //   dataIndex: 'isNull',
+    //   ellipsis: true,
+    //   width: 60,
+    //   customRender: (e) => {
+    //     return e.value ? '是' : '否';
+    //   },
+    // },
+    // {
+    //   title: '字段类型',
+    //   dataIndex: 'columnType',
+    //   ellipsis: true,
+    // },
+    // {
+    //   title: '默认值',
+    //   dataIndex: 'columnDefault',
+    //   ellipsis: true,
+    // },
     {
       title: '必填',
       dataIndex: 'isRequired',
       ellipsis: true,
-      width: 60,
+      width: 50,
     },
     {
       title: '新增',
       dataIndex: 'isInsert',
       ellipsis: true,
-      width: 60,
+      width: 50,
     },
     {
       title: '修改',
       dataIndex: 'isUpdate',
       ellipsis: true,
-      width: 60,
+      width: 50,
     },
     {
       title: '表格',
       dataIndex: 'isTable',
       ellipsis: true,
-      width: 60,
+      width: 50,
     },
     {
-      title: 'where',
+      title: '过滤',
       dataIndex: 'isWhere',
       ellipsis: true,
-      width: 60,
+      width: 50,
+    },
+    {
+      title: '过滤类型',
+      dataIndex: 'whereType',
+      ellipsis: true,
+      width: 120,
     },
     {
       title: '前端组件',
       dataIndex: 'frontComponent',
       ellipsis: true,
-      width: 160,
+      width: 150,
     },
     {
       title: '基类',
       dataIndex: 'isBase',
       ellipsis: true,
-      width: 60,
-      customRender: (e) => {
-        return e.value ? '是' : '否';
-      },
+      width: 50,
     },
     {
       title: '唯一',
       dataIndex: 'isUnique',
       ellipsis: true,
       width: 60,
+    },
+    {
+      title: '排序类型',
+      dataIndex: 'orderType',
+      ellipsis: true,
+      width: 120
     },
     {
       title: '操作',

@@ -23,6 +23,7 @@ export const useDictStore = defineStore({
         return [];
       }
       let dictDataList = this.dictMap.get(dictCode);
+      console.log("================")
       return dictDataList ? dictDataList : [];
     },
 

@@ -15,39 +15,34 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="字段类型" name="columnType">
-            <a-input style="width: 100%" v-model:value="form.columnType" placeholder="字段类型" />
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
           <a-form-item label="字段注释" name="columnComment">
             <a-input style="width: 100%" v-model:value="form.columnComment" placeholder="字段注释" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="是否主键" name="isPk">
+          <a-form-item label="字段类型" name="columnType" >
+            <a-input style="width: 100%" v-model:value="form.columnType" placeholder="字段类型" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12"></a-col>
+        <a-col :span="12">
+          <a-form-item label="主键" name="isPk">
             <BooleanSelect v-model:value="form.isPk" style="width: 100%" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="是否自增" name="isIncrement">
+          <a-form-item label="自增" name="isIncrement">
             <BooleanSelect v-model:value="form.isIncrement" style="width: 100%" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="是否非空" name="isNull">
+          <a-form-item label="非空" name="isNull">
             <BooleanSelect v-model:value="form.isNull" style="width: 100%" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
           <a-form-item label="默认值" name="columnDefault">
             <a-input style="width: 100%" v-model:value="form.columnDefault" placeholder="默认值" />
-          </a-form-item>
-        </a-col>
-
-        <a-col :span="12">
-          <a-form-item label="排序" name="sort">
-            <a-input-number style="width: 100%" v-model:value="form.sort" placeholder="排序" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -71,22 +66,17 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="字典类型" name="dictType">
-            <a-input style="width: 100%" v-model:value="form.dictType" placeholder="字典类型" />
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label="是否必填" name="isRequired">
+          <a-form-item label="必填" name="isRequired">
             <BooleanSelect v-model:value="form.isRequired" style="width: 100%" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="是否新增" name="isInsert">
+          <a-form-item label="新增" name="isInsert">
             <BooleanSelect v-model:value="form.isInsert" style="width: 100%" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="是否修改" name="isUpdate">
+          <a-form-item label="修改" name="isUpdate">
             <BooleanSelect v-model:value="form.isUpdate" style="width: 100%" />
           </a-form-item>
         </a-col>
@@ -101,18 +91,24 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="是否查询条件" name="isWhere">
+          <a-form-item label="基类" name="isBase">
+            <BooleanSelect v-model:value="form.isBase" style="width: 100%" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="过滤" name="isWhere">
             <BooleanSelect v-model:value="form.isWhere" style="width: 100%" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="查询类型" name="whereType">
+          <a-form-item label="过滤类型" name="whereType">
             <DictSelect width="100%" v-model:value="form.whereType" :dict-code="DICT_CODE_ENUM.WHERE_TYPE || 'WHERE_TYPE'" placeholder="查询类型" />
           </a-form-item>
         </a-col>
+
         <a-col :span="12">
-          <a-form-item label="是否基类字段" name="isBase">
-            <BooleanSelect v-model:value="form.isBase" style="width: 100%" />
+          <a-form-item label="字典类型" name="dictType">
+            <a-input style="width: 100%" v-model:value="form.dictType" placeholder="字典类型" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -121,7 +117,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="是否唯一" name="isUnique">
+          <a-form-item label="唯一" name="isUnique">
             <BooleanSelect v-model:value="form.isUnique" style="width: 100%" />
           </a-form-item>
         </a-col>
@@ -133,8 +129,8 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="是否唯一" name="isUnique">
-            <BooleanSelect v-model:value="form.isUnique" style="width: 100%" />
+          <a-form-item label="$codeGeneratorTool.removeEnumDesc($!{column.fieldComment})"  name="orderType">
+            <DictSelect width="100%" v-model:value="form.orderType" :dict-code="DICT_CODE_ENUM.ORDER_TYPE" placeholder="排序类型"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -228,6 +224,7 @@
     enumType: undefined, //枚举类型
     isUnique: undefined, //是否唯一
     subTableName: undefined, //子表名
+    orderType: undefined, //排序类型（字典：ORDER_TYPE）
   };
 
   let form = reactive({ ...formDefault });
@@ -254,6 +251,7 @@
     isWhere: [{ required: true, message: '是否查询条件 必填' }],
     isBase: [{ required: true, message: '是否基类字段 必填' }],
     isUnique: [{ required: true, message: '是否唯一 必填' }],
+    orderType: [{ required: true, message: '排序类型 必填' }],
   };
 
   // 点击确定，验证表单

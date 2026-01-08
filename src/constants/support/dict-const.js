@@ -27,6 +27,7 @@ export const DICT_CODE_ENUM = {
   FILE_TYPE: 'FILE_TYPE',
   WHERE_TYPE: 'WHERE_TYPE',
   FRONT_COMPONENT: 'FRONT_COMPONENT',
+  ORDER_TYPE: 'ORDER_TYPE',
 };
 
 export default {
