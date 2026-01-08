@@ -57,7 +57,11 @@
 
       <!-- 表格列配置 -->
       <div class="smart-table-setting-block">
-        <TableOperator v-model="columns" :tableId="null" :refresh="queryData" />
+        <TableOperator
+            v-model="columns"
+            :tableId="null"
+            :refresh="queryData"
+        />
       </div>
     </a-row>
 
@@ -128,17 +132,17 @@
     <!-- 分页控件 -->
     <div class="smart-query-table-page">
       <a-pagination
-        showSizeChanger
-        showQuickJumper
-        show-less-items
-        :pageSizeOptions="PAGE_SIZE_OPTIONS"
-        :defaultPageSize="queryForm.pageSize"
-        v-model:current="queryForm.pageNum"
-        v-model:pageSize="queryForm.pageSize"
-        :total="total"
-        @change="queryData"
-        @showSizeChange="queryData"
-        :show-total="(total) => `共${total}条`"
+          showSizeChanger
+          showQuickJumper
+          show-less-items
+          :pageSizeOptions="PAGE_SIZE_OPTIONS"
+          :defaultPageSize="queryForm.pageSize"
+          v-model:current="queryForm.pageNum"
+          v-model:pageSize="queryForm.pageSize"
+          :total="total"
+          @change="queryData"
+          @showSizeChange="queryData"
+          :show-total="(total) => `共${total}条`"
       />
     </div>
 
@@ -272,36 +276,36 @@
   // 数据总数（分页用）
   const total = ref(0);
 
-  // 重置查询条件
-  function resetQuery() {
-    const { pageSize } = queryForm;
-    Object.assign(queryForm, queryFormState);
-    queryForm.pageSize = pageSize; // 保留每页条数
-    queryData();
-  }
+// 重置查询条件
+function resetQuery() {
+  const {pageSize} = queryForm;
+  Object.assign(queryForm, queryFormState);
+  queryForm.pageSize = pageSize; // 保留每页条数
+  queryData();
+}
 
-  // 触发查询
-  function onSearch() {
-    queryForm.pageNum = 1; // 重置为第一页
-    queryData();
-  }
+// 触发查询
+function onSearch() {
+  queryForm.pageNum = 1; // 重置为第一页
+  queryData();
+}
 
-  // 核心查询方法（分页查询）
-  async function queryData() {
-    tableLoading.value = true;
-    try {
-      const queryResult = await tableApi.queryPage(queryForm);
-      tableData.value = queryResult.data.list;
-      total.value = queryResult.data.total;
-    } catch (error) {
-      smartSentry.captureError(error);
-      message.error('查询失败，请稍后重试');
-    } finally {
-      tableLoading.value = false;
-    }
+// 核心查询方法（分页查询）
+async function queryData() {
+  tableLoading.value = true;
+  try {
+    const queryResult = await tableApi.queryPage(queryForm);
+    tableData.value = queryResult.data.list;
+    total.value = queryResult.data.total;
+  } catch (error) {
+    smartSentry.captureError(error);
+    message.error('查询失败，请稍后重试');
+  } finally {
+    tableLoading.value = false;
   }
+}
 
-  // 日期范围选择器变更事件（循环生成）
+// 日期范围选择器变更事件（循环生成）
 
   // ========================== 新增/编辑 ==========================
   // 表单弹窗引用
@@ -349,50 +353,50 @@
     });
   }
 
-  // 单个删除请求
-  async function requestDelete(record) {
-    SmartLoading.show();
-    try {
-      await tableApi.delete(record.tableId);
-      message.success('删除成功');
-      queryData(); // 重新查询数据
-    } catch (error) {
-      smartSentry.captureError(error);
-      message.error('删除失败，请稍后重试');
-    } finally {
-      SmartLoading.hide();
-    }
+// 单个删除请求
+async function requestDelete(record) {
+  SmartLoading.show();
+  try {
+    await tableApi.delete(record.tableId);
+    message.success('删除成功');
+    queryData(); // 重新查询数据
+  } catch (error) {
+    smartSentry.captureError(error);
+    message.error('删除失败，请稍后重试');
+  } finally {
+    SmartLoading.hide();
+  }
+}
+
+// ========================== 批量删除 ==========================
+// 选中的行ID列表
+const selectedRowKeyList = ref([]);
+
+// 行选择变更事件
+function onSelectChange(selectedRowKeys) {
+  selectedRowKeyList.value = selectedRowKeys;
+}
+
+// 批量删除确认
+function confirmBatchDelete() {
+  if (selectedRowKeyList.value.length === 0) {
+    message.warning('请先选择要删除的数据');
+    return;
   }
 
-  // ========================== 批量删除 ==========================
-  // 选中的行ID列表
-  const selectedRowKeyList = ref([]);
+  Modal.confirm({
+    title: '批量删除确认',
+    content: `确定要删除选中的 ${selectedRowKeyList.value.length} 条数据吗？删除后不可恢复！`,
+    okText: '确认删除',
+    okType: 'danger',
+    cancelText: '取消',
+    onOk: requestBatchDelete,
+  });
+}
 
-  // 行选择变更事件
-  function onSelectChange(selectedRowKeys) {
-    selectedRowKeyList.value = selectedRowKeys;
-  }
-
-  // 批量删除确认
-  function confirmBatchDelete() {
-    if (selectedRowKeyList.value.length === 0) {
-      message.warning('请先选择要删除的数据');
-      return;
-    }
-
-    Modal.confirm({
-      title: '批量删除确认',
-      content: `确定要删除选中的 ${selectedRowKeyList.value.length} 条数据吗？删除后不可恢复！`,
-      okText: '确认删除',
-      okType: 'danger',
-      cancelText: '取消',
-      onOk: requestBatchDelete,
-    });
-  }
-
-  // 批量删除请求
-  async function requestBatchDelete() {
-    SmartLoading.show();
+// 批量删除请求
+async function requestBatchDelete() {
+  SmartLoading.show();
     try {
       await tableApi.batchDelete(selectedRowKeyList.value);
       message.success('批量删除成功');
@@ -404,7 +408,7 @@
     } finally {
       SmartLoading.hide();
     }
-  }
+}
 
   // ========================== 页面初始化 ==========================
   // 页面挂载时执行初始查询
