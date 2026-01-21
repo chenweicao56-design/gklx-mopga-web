@@ -61,6 +61,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="外键" name="isFk">
+            <BooleanSelect v-model:value="form.isFk" style="width: 100%" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="前端类型" name="jsType">
             <DictSelect width="100%" v-model:value="form.jsType" :dict-code="DICT_CODE_ENUM.FRONT_FIELD_TYPE" placeholder="前端类型" />
           </a-form-item>
@@ -129,7 +134,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="$codeGeneratorTool.removeEnumDesc($!{column.fieldComment})"  name="orderType">
+          <a-form-item label="排序类型"  name="orderType">
             <DictSelect width="100%" v-model:value="form.orderType" :dict-code="DICT_CODE_ENUM.ORDER_TYPE" placeholder="排序类型"/>
           </a-form-item>
         </a-col>
@@ -202,6 +207,7 @@
     columnName: undefined, //字段名称
     columnComment: undefined, //字段注释
     isPk: undefined, //是否主键（1是）
+    isFk: undefined, //是否外键（1是）
     isIncrement: undefined, //是否自增（1是）
     isNull: undefined, //是否为空（1是）
     columnDefault: undefined, //默认值
@@ -235,6 +241,7 @@
     columnName: [{ required: true, message: '字段名称 必填' }],
     columnComment: [{ required: true, message: '字段注释 必填' }],
     isPk: [{ required: true, message: '是否主键（1是） 必填' }],
+    isFk: [{ required: true, message: '是否外键（1是） 必填' }],
     isIncrement: [{ required: true, message: '是否自增（1是） 必填' }],
     isNull: [{ required: true, message: '是否为空（1是） 必填' }],
     columnType: [{ required: true, message: '字段类型 必填' }],

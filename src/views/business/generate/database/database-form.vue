@@ -17,6 +17,9 @@
 
     <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 5 }" >
       <a-row>
+        <a-col :span="24" class="py-3 font-bold">
+          <span >数据源信息：</span>
+        </a-col>
         <a-col :span="12">
           <a-form-item label="名称"  name="databaseName">
             <a-input style="width: 100%" v-model:value="form.databaseName" placeholder="名称" />
@@ -32,18 +35,18 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="语言类型"  name="languageType">
+            <DictSelect width="100%" v-model:value="form.languageType"
+                        :dict-code="DICT_CODE_ENUM.LANGUAGE_TYPE"
+                        placeholder="语言类型"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="数据源类型"  name="databaseType">
             <DictSelect width="100%" v-model:value="form.databaseType"
                         :dict-code="DICT_CODE_ENUM.DATABASE_TYPE"
                         placeholder="数据源类型"/>
 
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label="语言类型"  name="languageType">
-            <DictSelect width="100%" v-model:value="form.languageType"
-                        :dict-code="DICT_CODE_ENUM.LANGUAGE_TYPE"
-                        placeholder="语言类型"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -72,18 +75,16 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="表前缀"  name="tablePrefix">
+            <a-input style="width: 100%" v-model:value="form.tablePrefix" placeholder="表前缀" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="24" class="py-3 font-bold">
+          <span >注释信息：</span>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="后端作者"  name="backendAuthor">
             <a-input style="width: 100%" v-model:value="form.backendAuthor" placeholder="后端作者" />
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label="后端日期"  name="backendDate">
-            <a-date-picker show-time valueFormat="YYYY-MM-DD HH:mm:ss" v-model:value="form.backendDate" style="width: 100%" placeholder="后端日期" />
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label="后端项目路径"  name="backendProjectPath">
-            <a-input style="width: 100%" v-model:value="form.backendProjectPath" placeholder="后端项目路径" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -92,8 +93,18 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="后端日期"  name="backendDate">
+            <a-date-picker show-time valueFormat="YYYY-MM-DD HH:mm:ss" v-model:value="form.backendDate" style="width: 100%" placeholder="后端日期" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="前端日期"  name="frontDate">
             <a-date-picker show-time valueFormat="YYYY-MM-DD HH:mm:ss" v-model:value="form.frontDate" style="width: 100%" placeholder="前端日期" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="后端项目路径"  name="backendProjectPath">
+            <a-input style="width: 100%" v-model:value="form.backendProjectPath" placeholder="后端项目路径" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -105,6 +116,9 @@
           <a-form-item label="版权"  name="copyright">
             <a-input style="width: 100%" v-model:value="form.copyright" placeholder="版权" />
           </a-form-item>
+        </a-col>
+        <a-col :span="24" class="py-3 font-bold">
+          <span>模块信息：</span>
         </a-col>
         <a-col :span="12">
           <a-form-item label="包名"  name="packageName">
@@ -121,10 +135,9 @@
             <BooleanSelect v-model:value="form.isPhysicallyDeleted" style="width: 100%" />
           </a-form-item>
         </a-col>
-        <a-col :span="12">
-          <a-form-item label="表前缀"  name="tablePrefix">
-            <a-input style="width: 100%" v-model:value="form.tablePrefix" placeholder="表前缀" />
-          </a-form-item>
+
+        <a-col :span="24" class="py-3 font-bold">
+          <span>接口信息：</span>
         </a-col>
         <a-col :span="12">
           <a-form-item label="是否分页"  name="isPage">
@@ -162,6 +175,14 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="日志"  name="log">
+            <a-input-number style="width: 100%" v-model:value="form.log" placeholder="日志" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="24" class="py-3 font-bold">
+          <span>前端信息：</span>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="编辑组件"  name="editComponent">
             <DictSelect width="100%" v-model:value="form.editComponent"
                         :dict-code="DICT_CODE_ENUM.FRONT_EDIT_COMPONENT || 'FRONT_EDIT_COMPONENT'"
@@ -171,6 +192,9 @@
           <a-form-item label="每行几个表单"  name="formCountLine">
             <a-input-number style="width: 100%" v-model:value="form.formCountLine" placeholder="每行几个表单" />
           </a-form-item>
+        </a-col>
+        <a-col :span="24" class="py-3 font-bold">
+          <span>其他信息：</span>
         </a-col>
         <a-col :span="24">
           <a-form-item label="表扩展字段" name="tableExtendedData" :label-col="{ span: 3 }">
@@ -268,6 +292,7 @@ const formDefault = {
   formCountLine: undefined, //每行几个表单
   schemaName: undefined, //模式
   permission: undefined, //权限（0没有）
+  log: undefined, //日志（0没有）
 };
 
 let form = reactive({ ...formDefault });
@@ -296,6 +321,7 @@ const rules = {
   editComponent: [{ required: true, message: '编辑组件 必填' }],
   formCountLine: [{ required: true, message: '每行几个表单 必填' }],
   permission: [{ required: true, message: '权限 必填' }],
+  log: [{ required: true, message: '日志 必填' }],
 };
 
 // 点击确定，验证表单

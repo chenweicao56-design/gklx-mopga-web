@@ -28,6 +28,7 @@ export const DICT_CODE_ENUM = {
   WHERE_TYPE: 'WHERE_TYPE',
   FRONT_COMPONENT: 'FRONT_COMPONENT',
   ORDER_TYPE: 'ORDER_TYPE',
+  TABLE_TYPE: 'TABLE_TYPE',
 };
 
 export default {
