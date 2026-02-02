@@ -54,6 +54,10 @@ const columns = ref([
     width: 60,
   },
   {
+    title: '主键',
+    dataIndex: 'id',
+  },
+  {
     title: '文件类型',
     dataIndex: 'fileType',
   },

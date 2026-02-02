@@ -35,6 +35,9 @@ import { useDictStore } from '/@/store/modules/system/dict.js';
 import { dictApi } from '/@/api/support/dict-api.js';
 import "tailwindcss/tailwind.css"
 import './main.css'
+
+import mitt from 'mitt'
+const emitter = mitt()
 /*
  * -------------------- ※ 着重 解释说明下main.js的初始化逻辑 begin ※ --------------------
  *
@@ -95,6 +98,7 @@ async function initVue() {
   //全局
   app.config.globalProperties.$antIcons = antIcons;
   app.config.globalProperties.$lodash = lodash;
+  app.provide('emitter', emitter)
   //挂载
   app.mount('#app');
 }

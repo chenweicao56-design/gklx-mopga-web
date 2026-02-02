@@ -24,7 +24,6 @@
             <a-input style="width: 100%" v-model:value="form.columnType" placeholder="字段类型" />
           </a-form-item>
         </a-col>
-        <a-col :span="12"></a-col>
         <a-col :span="12">
           <a-form-item label="主键" name="isPk">
             <BooleanSelect v-model:value="form.isPk" style="width: 100%" />
@@ -134,6 +133,16 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="业务类型" name="businessType">
+            <DictSelect
+              width="100%"
+              v-model:value="form.businessType"
+              :dict-code="DICT_CODE_ENUM.COLUMN_BUSINESS_TYPE"
+              placeholder="业务类型"
+            />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="排序类型"  name="orderType">
             <DictSelect width="100%" v-model:value="form.orderType" :dict-code="DICT_CODE_ENUM.ORDER_TYPE" placeholder="排序类型"/>
           </a-form-item>
@@ -231,6 +240,7 @@
     isUnique: undefined, //是否唯一
     subTableName: undefined, //子表名
     orderType: undefined, //排序类型（字典：ORDER_TYPE）
+    businessType: undefined, //业务类型
   };
 
   let form = reactive({ ...formDefault });

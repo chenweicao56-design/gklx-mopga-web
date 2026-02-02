@@ -41,18 +41,20 @@
     </a-spin>
 
 <!--   <DigitalHuman />-->
+    <AIChat ref="aiChatRef" />
   </a-config-provider>
 </template>
 
 <script setup>
 import dayjs from 'dayjs';
-import {computed, h} from 'vue';
+import {computed, h, ref } from 'vue';
 import {messages} from '/@/i18n';
 import {useAppConfigStore} from '/@/store/modules/system/app-config';
 import {useSpinStore} from '/@/store/modules/system/spin';
 import {Popover, theme} from 'ant-design-vue';
 import {themeColors} from '/@/theme/color.js';
 import SmartCopyIcon from '/@/components/framework/smart-copy-icon/index.vue';
+import AIChat from "/@/components/business/ai/AiChat.vue";
 
 const antdLocale = computed(() => messages[useAppConfigStore().language].antdLocale);
   const dayjsLocale = computed(() => messages[useAppConfigStore().language].dayjsLocale);

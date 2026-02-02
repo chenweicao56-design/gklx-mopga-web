@@ -18,6 +18,7 @@
   <RegularChangePasswordModal />
   <!--顶部展开 模式-->
   <TopExpandLayout v-if="layout === LAYOUT_ENUM.TOP_EXPAND.value" />
+  <DigitalHuman ref="digitalHumanRef" v-if="aiFlag"/>
 </template>
 <script setup>
   import { computed } from 'vue';
@@ -28,6 +29,7 @@
   import TopLayout from './top-layout.vue';
   import { useAppConfigStore } from '/@/store/modules/system/app-config';
   import RegularChangePasswordModal from './components/change-password/regular-change-password-modal.vue';
-
+  import DigitalHuman from "/@/components/support/digital-human.vue";
   const layout = computed(() => useAppConfigStore().$state.layout);
+  const aiFlag = computed(() => useAppConfigStore().$state.aiFlag);
 </script>

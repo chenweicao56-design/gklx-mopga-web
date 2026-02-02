@@ -2,18 +2,13 @@
   <a-modal :open="visibleFlag" width="1000px" :footer="null" @cancel="onClose" title="智能助理">
     <div class="ai-chat-container flex flex-col p-4">
       <a-divider class="m-0" />
-      <div class="chat-content flex-1 overflow-y-auto my-4" ref="chatContainer">
+      <div class="chat-content flex-1 overflow-y-auto my-4 pr-4" ref="chatContainer">
         <div v-for="(item, index) in chatList" :key="index" class="mt-4">
-          <div class="question w-full flex justify-end" v-if="item.type === 'user'">
-            <div class="p-4 bg-slate-100 rounded-lg">{{ item.content }}</div>
-          </div>
-          <div class="answer w-full flex justify-start" v-else>
-            <div class="p-4 bg-slate-100 rounded-lg whitespace-break-spaces" v-html="item.content"></div>
-          </div>
+          <Message :message="item" />
         </div>
       </div>
       <div class="chat-header basis-16">
-        <a-textarea v-model:value="chatQueryForm.query" placeholder="问点啥把" :rows="3" />
+        <a-textarea v-model:value="chatQueryForm.query" @keydown="onEnterKey" placeholder="问点啥把" :rows="3" />
         <div class="flex mt-4 items-center justify-between w-full">
           <div>
             <a-select ref="select" size="small" v-model:value="mode" style="width: 120px">
@@ -41,18 +36,21 @@
 </template>
 <script setup lang="ts">
   // 是否显示
-  import { nextTick, onBeforeUnmount, ref, watch } from 'vue';
+  import Message from '/@/components/business/ai/message.vue';
+  import { inject, nextTick, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue';
   import { fetchEventSource } from '@microsoft/fetch-event-source';
   import { useUserStore } from '/@/store/modules/system/user';
   import { useRouter } from 'vue-router';
   const router = useRouter();
   const visibleFlag = ref(false);
-
+  const emitter = inject('emitter');
   function handleOk() {}
 
-  function show() {
+  function show(data) {
     visibleFlag.value = true;
     chatQueryForm.value.conversationId = new Date().getTime();
+    chatQueryForm.value.agentAlias = data.agentAlias;
+    chatQueryForm.value.data = JSON.parse(data.data);
     nextTick(() => {});
   }
 
@@ -74,6 +72,7 @@
   // }
 
   function onClose() {
+    // emitter.emit('ai-send', { scene: 'create-sql', data: 'hello world' });
     visibleFlag.value = false;
   }
 
@@ -96,9 +95,22 @@
     conversationId: new Date().getTime(),
     query: '',
     agentAlias: 'managerAgent',
+    data: {},
   });
 
+  function onEnterKey(e) {
+    if (e.key === 'Enter') {
+      // 阻止默认行为：避免文本框中换行
+      e.preventDefault();
+      sendQuestion();
+    }
+  }
+
   function sendQuestion() {
+    if (!chatQueryForm.value.query) {
+      return;
+    }
+    console.log('question:', chatQueryForm.value.query);
     chatList.value.push({
       content: chatQueryForm.value.query,
       type: 'user',
@@ -290,6 +302,13 @@
   defineExpose({
     show,
   });
+
+  onMounted(() => emitter.on('ai-send', handleAiEvent));
+  onUnmounted(() => emitter.off('ai-send', handleAiEvent));
+  const handleAiEvent = (data) => {
+    console.log('ai-send', data);
+    show(data);
+  };
 </script>
 <style scoped lang="less">
   .ai-chat-container {

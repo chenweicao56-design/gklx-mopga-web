@@ -79,6 +79,11 @@
             <a-input style="width: 100%" v-model:value="form.tablePrefix" placeholder="表前缀" />
           </a-form-item>
         </a-col>
+        <a-col :span="12">
+          <a-form-item label="删除字段名称"  name="deleteColumnName">
+            <a-input style="width: 100%" v-model:value="form.deleteColumnName" placeholder="删除字段名称" />
+          </a-form-item>
+        </a-col>
         <a-col :span="24" class="py-3 font-bold">
           <span >注释信息：</span>
         </a-col>
@@ -293,6 +298,7 @@ const formDefault = {
   schemaName: undefined, //模式
   permission: undefined, //权限（0没有）
   log: undefined, //日志（0没有）
+  deleteColumnName: undefined, // 删除字段名
 };
 
 let form = reactive({ ...formDefault });

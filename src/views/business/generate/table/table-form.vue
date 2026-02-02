@@ -32,10 +32,25 @@
             <a-input style="width: 100%" v-model:value="form.tablePrefix" placeholder="表前缀" />
           </a-form-item>
         </a-col>
+        <a-col :span="12">
+          <a-form-item label="删除字段名称"  name="deleteColumnName">
+            <a-input style="width: 100%" v-model:value="form.deleteColumnName" placeholder="删除字段名称" />
+          </a-form-item>
+        </a-col>
 
         <a-col :span="12">
           <a-form-item label="子表名" name="subTableName">
             <a-input style="width: 100%" v-model:value="form.subTableName" placeholder="子表名" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="业务类型" name="businessType">
+            <DictSelect
+              width="100%"
+              v-model:value="form.businessType"
+              :dict-code="DICT_CODE_ENUM.TABLE_BUSINESS_TYPE"
+              placeholder="业务类型"
+            />
           </a-form-item>
         </a-col>
 
@@ -261,6 +276,8 @@
     subTableName: undefined, //子表名称
     permission: undefined, //权限（0没有）
     log: undefined, //日志（0没有）
+    deleteColumnName: undefined, // 删除字段名
+    businessType: undefined, //业务类型
   };
 
   let form = reactive({ ...formDefault });

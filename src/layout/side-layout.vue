@@ -95,7 +95,7 @@
       <SideHelpDoc />
 <!--      <AIChat />-->
     </a-layout-sider>
-       <DigitalHuman ref="digitalHumanRef" v-if="aiFlag"/>
+
     <MusicControl ref="musicControlRef"/>
   </a-layout>
 </template>
@@ -117,7 +117,7 @@ import {useRouter} from 'vue-router';
 import {HOME_PAGE_NAME} from '/@/constants/system/home-const';
 import {LAYOUT_ELEMENT_IDS} from '/@/layout/layout-const.js';
 import {theme as antDesignTheme} from 'ant-design-vue';
-import DigitalHuman from "/@/components/support/digital-human.vue";
+
 import MusicControl from "/@/components/support/music-control.vue";
 
 
@@ -153,7 +153,7 @@ const appConfigStore = useAppConfigStore();
     }
     return due;
   });
-const aiFlag = computed(() => useAppConfigStore().$state.aiFlag);
+
 
 
 watch(
