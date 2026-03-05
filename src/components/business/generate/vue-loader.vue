@@ -4,48 +4,56 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, shallowRef, watch } from 'vue';
-import { loadModule } from 'vue3-sfc-loader';
+  import { defineAsyncComponent, shallowRef, watch } from 'vue';
+  import { loadModule } from 'vue3-sfc-loader';
+  import TestV1 from '/@/components/business/generate/test_v1.vue';
+  import * as StrUtil from '/@/utils/str-util';
+  import Antd from 'ant-design-vue';
 
-const props = defineProps({
-  code: {
-    type: String,
-    required: true
-  }
-});
-
-// 使用 shallowRef 存储组件，避免深层响应式开销
-const dynamicComponent = shallowRef(null);
-
-// 定义加载函数
-const loadComponent = async () => {
-  dynamicComponent.value = defineAsyncComponent(async () => {
-    try {
-      return await loadModule('inline-component.vue', {
-        getFile: () => props.code,
-        addStyle: (styleStr) => {
-          const style = document.createElement('style');
-          style.textContent = styleStr;
-          document.head.appendChild(style);
-        },
-        moduleCache: {
-          vue: await import('vue'),
-        },
-      });
-    } catch (error) {
-      console.error('组件加载失败:', error);
-      return {
-        template: '<div style="color: red; padding: 20px;">组件加载失败</div>'
-      };
-    }
+  const props = defineProps({
+    code: {
+      type: String,
+      required: true,
+    },
   });
-};
 
-// 初始化加载
-loadComponent();
+  // 使用 shallowRef 存储组件，避免深层响应式开销
+  const dynamicComponent = shallowRef(null);
+  // 定义加载函数
+  const loadComponent = async () => {
+    dynamicComponent.value = defineAsyncComponent(async () => {
+      try {
+        return await loadModule('inline-component.vue', {
+          getFile: () => props.code,
+          addStyle: (styleStr) => {
+            const style = document.createElement('style');
+            style.textContent = styleStr;
+            document.head.appendChild(style);
+          },
+          moduleCache: {
+            vue: await import('vue'),
+            'ant-design-vue': Antd,
+            '/@/components/business/generate/test_v1.vue': TestV1,
+            '/@/utils/str-util': StrUtil,
+          },
+        });
+      } catch (error) {
+        console.error('组件加载失败:', error);
+        return {
+          template: '<div style="color: red; padding: 20px;">组件加载失败</div>',
+        };
+      }
+    });
+  };
 
-// 监听 code 变化，重新加载组件
-watch(() => props.code, () => {
+  // 初始化加载
   loadComponent();
-});
+
+  // 监听 code 变化，重新加载组件
+  watch(
+    () => props.code,
+    () => {
+      loadComponent();
+    }
+  );
 </script>
