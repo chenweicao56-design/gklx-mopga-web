@@ -16,7 +16,7 @@
             </a-select>
           </div>
           <div>{{ chatQueryForm.agentAlias }}</div>
-          <div>
+          <div class="flex items-center">
             <a-button type="primary" shape="circle" size="small" @click="toggleListening">
               <template #icon>
                 <AudioOutlined v-if="!isListening" />
@@ -30,20 +30,35 @@
             </a-button>
           </div>
         </div>
+        <div class="mt-4">
+          <FileUpload
+            ref="aiFileUploadRef"
+            list-type="text"
+            :maxUploadSize="5"
+            buttonText=""
+            @change="changeAttachment"
+            :multiple="true"
+            :folder="FILE_FOLDER_TYPE_ENUM.COMMON.value"
+          />
+        </div>
       </div>
     </div>
   </a-modal>
 </template>
-<script setup lang="ts">
+<script setup lang="js">
   // 是否显示
   import Message from '/@/components/business/ai/message.vue';
   import { inject, nextTick, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue';
   import { fetchEventSource } from '@microsoft/fetch-event-source';
   import { useUserStore } from '/@/store/modules/system/user';
   import { useRouter } from 'vue-router';
+  import { removeJsonMark } from '/@/utils/str-util';
+  import FileUpload from '/@/components/support/file-upload/index.vue';
+  import { FILE_FOLDER_TYPE_ENUM } from '/@/constants/support/file-const';
   const router = useRouter();
   const visibleFlag = ref(false);
   const emitter = inject('emitter');
+  const aiFileUploadRef = ref();
   function handleOk() {}
 
   function show(data) {
@@ -96,6 +111,7 @@
     query: '',
     agentAlias: 'managerAgent',
     data: {},
+    files: [],
   });
 
   function onEnterKey(e) {
@@ -118,6 +134,7 @@
     connect();
     chatQueryForm.value.agentAlias = 'managerAgent';
     chatQueryForm.value.query = '';
+    aiFileUploadRef?.value.clear();
   }
 
   const connect = async () => {
@@ -146,6 +163,7 @@
           if (data.content) {
             chat.content = chat.content + data.content;
             chat.type = 'ai';
+            scrollToBottom();
           }
           if (data.complete) {
             chatQueryForm.value.agentAlias = data.agentAlias;
@@ -154,6 +172,10 @@
               let menu = JSON.parse(menuStr);
               await router.push({ path: menu.path });
             }
+            console.log('result:', chat.content);
+            scrollToBottom();
+            emitter.emit('ai-listen', { agentAlias: 'sqlGenerateAgentService', data: removeJsonMark(chat.content) });
+            onClose();
           }
         },
         onerror: (err) => {
@@ -302,6 +324,17 @@
   defineExpose({
     show,
   });
+  const changeAttachment = (data) => {
+    console.log('changeAttachment', data);
+    if (data && data.length > 0) {
+      let files = [];
+      for (let i = 0; i < data.length; i++) {
+        const file = data[i];
+        files.push(file.fileKey);
+      }
+      chatQueryForm.value.files = files;
+    }
+  };
 
   onMounted(() => emitter.on('ai-send', handleAiEvent));
   onUnmounted(() => emitter.off('ai-send', handleAiEvent));

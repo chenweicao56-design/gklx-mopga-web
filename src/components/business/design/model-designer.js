@@ -252,7 +252,7 @@ class ModelDesigner {
     const title = new Konva.Text({
       x: 10,
       y: 5,
-      text: table.name + ' (' + table.alias + ')',
+      text: table.alias ? table.name + ' (' + table.alias + ')': table.name,
       fontSize: this.FONT_SIZE_TITLE,
       fontStyle: 'bold',
       fill: this.REVERSE_FONT_COLOR,

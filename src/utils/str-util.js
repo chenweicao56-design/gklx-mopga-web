@@ -44,3 +44,15 @@ export function convertLowerCamel(str) {
 
   return str.replace(/_(\w)/g, (_, letter) => letter.toUpperCase());
 }
+
+
+/**
+ * 去掉字符串首尾的```json和```标记
+ * @param {string} str - 带json标记的字符串
+ * @returns {string} 纯净的JSON字符串（匹配不到则返回原字符串）
+ */
+export function removeJsonMark(str) {
+  if (typeof str !== 'string') return str; // 非字符串直接返回，避免报错
+  const reg = /```json\s*([\s\S]*?)\s*```/;
+  return str.match(reg)?.[1] || str;
+}

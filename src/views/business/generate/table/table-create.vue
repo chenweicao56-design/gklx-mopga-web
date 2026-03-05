@@ -30,9 +30,7 @@
     <a-row>
       <a-button type="primary" @click="addColumn">添加字段</a-button>
       <a-button class="ml-4" type="primary" @click="addTemplateColumn">模板字段</a-button>
-      <a-button shape="circle" class="ml-4" @click="startAi">
-        <template #icon><SmileOutlined /></template>
-      </a-button>
+      <GifButton class="ml-4" @click="startAi"/>
     </a-row>
     <a-tabs v-model:activeKey="activeKey" @change="handleTabChange">
       <a-tab-pane key="1" tab="模板">
@@ -368,6 +366,27 @@
   onUnmounted(() => emitter.off('ai-listen', handleAiEvent));
   const handleAiEvent = (data) => {
     console.log('ai-listen', data);
+    if (data.agentAlias === 'sqlGenerateAgentService') {
+      let res = JSON.parse(data.data);
+      let columns = [...form.columns];
+      for (let i = 0; i < res.columns.length; i++) {
+        let column = res.columns[i];
+        if (column.type === 'add') {
+          const newColumn = { ...column, rowKey: generateId() };
+          columns.push(newColumn);
+        } else if (column.type === 'update') {
+          const targetIndex = columns.findIndex((item) => item.rowKey === column.rowKey);
+          if (targetIndex > -1) {
+            columns[targetIndex] = { ...columns[targetIndex], ...column };
+          }
+        } else if (column.type === 'delete') {
+          columns = columns.filter((item) => item.rowKey !== column.rowKey);
+        }
+      }
+      form.tableName = res.tableName;
+      form.tableComment = res.tableComment;
+      form.columns = columns;
+    }
   };
 
   defineExpose({

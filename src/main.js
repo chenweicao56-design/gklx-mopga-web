@@ -36,6 +36,9 @@ import { dictApi } from '/@/api/support/dict-api.js';
 import "tailwindcss/tailwind.css"
 import './main.css'
 
+
+import  GifButton from '/@/components/icon/GifButton.vue'
+
 import mitt from 'mitt'
 const emitter = mitt()
 /*
@@ -98,6 +101,7 @@ async function initVue() {
   //全局
   app.config.globalProperties.$antIcons = antIcons;
   app.config.globalProperties.$lodash = lodash;
+  app.component('GifButton', GifButton)
   app.provide('emitter', emitter)
   //挂载
   app.mount('#app');

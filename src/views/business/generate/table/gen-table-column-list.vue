@@ -177,6 +177,11 @@
       ellipsis: true,
     },
     {
+      title: '字段类型',
+      dataIndex: 'columnType',
+      ellipsis: true,
+    },
+    {
       title: '字段注释',
       dataIndex: 'columnComment',
       ellipsis: true,
