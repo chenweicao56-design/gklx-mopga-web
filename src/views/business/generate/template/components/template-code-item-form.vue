@@ -29,7 +29,7 @@
             </a-col>
             <a-col :span="24">
               <a-form-item label="文件内容" name="content">
-                <CusCodeMirror ref="codeMirrorRef" v-model:model-value="form.content" :height="'500px'" />
+                <CusCodeMirror ref="codeMirrorRef" v-if="activeKey == 1" v-model:model-value="form.content" />
               </a-form-item>
             </a-col>
           </a-row>
@@ -37,7 +37,7 @@
       </a-tab-pane>
       <a-tab-pane key="2" tab="测试" force-render>
         <!--        <CusDiffMatchPatch ref="diffMatchPatchRef" />-->
-        <CusCodeMirror v-if="activeKey == 2" ref="testCodeMirrorRef" v-model:model-value="testCode" :height="'500px'" />
+        <CusCodeMirror v-if="activeKey == 2" ref="testCodeMirrorRef" v-model:model-value="testCode"  />
       </a-tab-pane>
     </a-tabs>
 

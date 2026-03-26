@@ -215,29 +215,28 @@ class ModelDesigner {
     });
     tableGroup.add(background);
     // 创建删除按钮
-    if (table.type !== 'master') {
-      const deleteButton = new Konva.Circle({
-        x: tableGroup.width() - 15,
-        y: -10,
-        radius: 5,
-        fill: this.TABLE_BUTTON_BACKGROUND_COLOR,
-        draggable: false,
-      });
-      deleteButton.on('click', () => {
-        this.events['table:delete'] &&
-          this.events['table:delete']({
-            table,
-            tableGroup,
-          });
-      });
-      deleteButton.on('mouseover', () => {
-        deleteButton.fill(this.TABLE_BUTTON_HOVER_BACKGROUND_COLOR);
-      });
-      deleteButton.on('mouseout', () => {
-        deleteButton.fill(this.TABLE_BUTTON_BACKGROUND_COLOR);
-      });
-      tableGroup.add(deleteButton);
-    }
+    const deleteButton = new Konva.Circle({
+      x: tableGroup.width() - 15,
+      y: -10,
+      radius: 5,
+      fill: this.TABLE_BUTTON_BACKGROUND_COLOR,
+      draggable: false,
+    });
+    deleteButton.on('click', () => {
+      this.events['table:delete'] &&
+        this.events['table:delete']({
+          table,
+          tableGroup,
+        });
+    });
+    deleteButton.on('mouseover', () => {
+      deleteButton.fill(this.TABLE_BUTTON_HOVER_BACKGROUND_COLOR);
+    });
+    deleteButton.on('mouseout', () => {
+      deleteButton.fill(this.TABLE_BUTTON_BACKGROUND_COLOR);
+    });
+    tableGroup.add(deleteButton);
+
     // 创建标题背景
     const titleBackground = new Konva.Rect({
       x: -2,
@@ -252,7 +251,7 @@ class ModelDesigner {
     const title = new Konva.Text({
       x: 10,
       y: 5,
-      text: table.alias ? table.name + ' (' + table.alias + ')': table.name,
+      text: table.alias ? table.name + ' (' + table.alias + ')' : table.name,
       fontSize: this.FONT_SIZE_TITLE,
       fontStyle: 'bold',
       fill: this.REVERSE_FONT_COLOR,

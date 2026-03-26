@@ -10,7 +10,13 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="方法名称" class="smart-query-form-item">
-          <a-input style="width: 200px" v-model:value="form.functionName" placeholder="请输入方法名称" />
+          <a-input style="width: 200px" v-model:value="form.functionName" placeholder="请输入方法名称">
+            <template #suffix>
+              <div>
+                <TranslationOutlined @click="tran" />
+              </div>
+            </template>
+          </a-input>
         </a-form-item>
 
         <a-form-item class="smart-query-form-item">
@@ -37,6 +43,7 @@
   import { reactive, ref } from 'vue';
   import CusCodeMirror from '/@/components/business/generate/CusCodeMirror.vue';
   import { generateApi } from '/@/api/business/generate/generate-api';
+  import { translationApi } from '/@/api/business/generate/translation-api.js';
 
   const props = defineProps({
     width: {
@@ -145,5 +152,12 @@
     generateApi.generateMybatis(form).then((res) => {
       code.value = res.data;
     });
+  }
+  function tran() {
+    if (form.functionName) {
+      translationApi.translation({ content: form.functionName, from: 'zh', to: 'en' }).then((res) => {
+        form.functionName= res.data.toLowerCase();
+      });
+    }
   }
 </script>

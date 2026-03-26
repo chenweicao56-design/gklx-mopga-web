@@ -25,7 +25,7 @@
     </div>
 
     <div class="mt-4" style="overflow: auto; height: 500px">
-      <CusCodeMirror ref="cusCodeMirrorRef" v-model:model-value="form.code" mode="vue" height="500px" />
+      <CusCodeMirror ref="cusCodeMirrorRef" v-model:model-value="form.code" height="500px" />
     </div>
   </div>
 </template>
@@ -40,8 +40,7 @@
   const emitter = inject('emitter');
   const genPluginUrl = ref('http://127.0.0.1:1024');
   const formRef = ref();
-  const tmp =
-    `<template>
+  const tmp = `<template>
 <div>1234</div>
 <a-button type="primary">Primary Button</a-button>
 <TestV1/>
@@ -56,7 +55,7 @@ const test = ref("ello_world")
 <\/script>
 
 <style scoped lang="less">
-<\/style>`
+<\/style>`;
 
   const formDefault = {
     code: tmp,
