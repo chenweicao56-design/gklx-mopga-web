@@ -156,7 +156,7 @@
         </a-col>
         <a-col :span="12">
           <a-form-item label="日志" name="log">
-            <a-input-number style="width: 100%" v-model:value="form.permission" placeholder="日志" />
+            <a-input-number style="width: 100%" v-model:value="form.log" placeholder="日志" />
           </a-form-item>
         </a-col>
         <a-col :span="12">

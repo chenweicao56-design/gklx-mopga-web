@@ -164,9 +164,35 @@
             return item.checked;
           });
           if (files && files.length > 0) {
-            generateApi.coverCode(genPluginUrl.value, files).then((res) => {
-              message.success('保存成功');
-            });
+            // generateApi.coverCode(genPluginUrl.value, files).then((res) => {
+            //   message.success('保存成功');
+            // });
+            generateApi.coverCode(genPluginUrl.value, files)
+              .then((res) => {
+                message.success('保存成功');
+              })
+              .catch((error) => {
+                // 1. 打印详细错误到控制台，方便调试
+                console.error('接口请求失败:', error);
+
+                // 2. 获取用户友好的错误提示
+                let errorMsg = '保存失败，请稍后重试';
+
+                if (error.response) {
+                  // 服务器返回了状态码 (如 400, 500)
+                  // 尝试获取后端返回的具体错误消息，路径视后端结构而定，例如 error.response.data.message
+                  errorMsg = error.response.data?.message || error.response.statusText || `错误代码: ${error.response.status}`;
+                } else if (error.request) {
+                  // 请求已发出但没有收到响应 (如网络断开、跨域)
+                  errorMsg = '网络连接失败，请检查网络';
+                } else {
+                  // 设置请求时发生了错误
+                  errorMsg = error.message;
+                }
+
+                // 3. 使用 message 组件提示用户
+                message.error(errorMsg);
+              });
           }
         }
         // console.log(ft)
