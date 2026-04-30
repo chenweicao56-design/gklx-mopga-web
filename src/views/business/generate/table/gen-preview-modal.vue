@@ -32,9 +32,10 @@
       </a-tab-pane>
     </a-tabs>
     <div>
-      <div></div>
-      <!--      <CusDiffMatchPatch ref="cusDiffMatchPatchRef" />-->
-      <CusCodeMirror ref="cusCodeMirrorRef" v-model:model-value="file.fileContent" height="700px" />
+      <div style="height: 600px;">
+        <CusCodeMirror ref="cusCodeMirrorRef" v-model:model-value="file.fileContent" height="700px" />
+      </div>
+
     </div>
   </a-drawer>
 </template>

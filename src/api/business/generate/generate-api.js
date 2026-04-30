@@ -46,4 +46,7 @@ export const generateApi = {
   generateMybatis: (data) => {
     return postRequest('/gen/mybatis/preview', data);
   },
+  generateSchema: (data) => {
+    return postRequest('/gen/generateSchema', data);
+  },
 };

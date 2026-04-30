@@ -53,6 +53,12 @@
           </template>
           批量删除
         </a-button>
+        <a-button @click="showSchemaModal" type="primary" size="small">
+          <template #icon>
+            <FileCodeOutlined />
+          </template>
+          问数schema
+        </a-button>
       </div>
 
       <!-- 表格列配置 -->
@@ -151,6 +157,7 @@
     <TableCreate ref="tableCreateRef" @reloadList="queryData" />
     <TableDbListModal ref="tableDbListModalRef" :databaseId="databaseId" @finish="syncTable" />
     <GenPreviewModal ref="genPreviewModalRef" />
+    <GenSchemaModal ref="genSchemaModalRef" />
   </a-card>
 </template>
 
@@ -162,6 +169,7 @@
   import TableDbListModal from '/src/views/business/generate/table/table-db-list-modal.vue';
   import TableCreate from './table-create.vue';
   import GenPreviewModal from './gen-preview-modal.vue';
+  import GenSchemaModal from './gen-schema-modal.vue';
   import { tableApi } from '/@/api/business/generate/table-api';
   import { databaseApi } from '/@/api/business/generate/database-api.js';
   import { PAGE_SIZE_OPTIONS } from '/@/constants/common-const';
@@ -311,6 +319,7 @@ async function queryData() {
   // 表单弹窗引用
   const formRef = ref();
   const genPreviewModalRef = ref();
+  const genSchemaModalRef = ref();
   // 打开新增/编辑表单
   function showForm(record = {}) {
     formRef.value?.show(record);
@@ -326,6 +335,10 @@ async function queryData() {
         databaseId: databaseId.value,
       },
     });
+  }
+
+  function showSchemaModal() {
+    genSchemaModalRef.value.showModal(databaseId.value, selectedRowKeyList.value);
   }
 
   function toColumn(data) {
