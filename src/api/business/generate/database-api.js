@@ -56,4 +56,18 @@ export const databaseApi = {
     return getRequest(`/database/getColumnTypes/${id}`);
   },
 
+  /**
+   * 获取术语详情  @author  gklx
+   */
+  getDatabaseTermDetail: (id) => {
+    return getRequest(`/databaseTerm/getByDatabaseId/${id}`);
+  },
+
+  /**
+   * 添加或更新术语  @author  gklx
+   */
+  addOrUpdateDatabaseTerm: (param) => {
+    return postRequest('/databaseTerm/addOrUpdate', param);
+  },
+
 };

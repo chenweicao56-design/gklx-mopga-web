@@ -88,6 +88,7 @@
         <template v-if="column.dataIndex === 'actionSync'">
           <div class="smart-table-operate">
             <a-button @click="handleSyncTable(record,false)" type="link">表同步</a-button>
+            <a-button @click="showTermForm(record)" type="link">术语</a-button>
           </div>
         </template>
 
@@ -123,6 +124,7 @@
         ref="formRef"
         @reloadList="queryData"
     />
+    <DatabaseTermForm ref="termFormRef" @reloadList="queryData" />
   </a-card>
 </template>
 
@@ -132,6 +134,7 @@ import {message, Modal} from 'ant-design-vue';
 import {SmartLoading} from '/@/components/framework/smart-loading';
 import TableOperator from '/@/components/support/table-operator/index.vue';
 import DatabaseForm from '/@/views/business/generate/database/database-form.vue';
+import DatabaseTermForm from '/@/views/business/generate/database/database-term-form.vue';
 import {databaseApi} from '/@/api/business/generate/database-api';
 import {PAGE_SIZE_OPTIONS} from '/@/constants/common-const';
 import {smartSentry} from '/@/lib/smart-sentry';
@@ -251,10 +254,15 @@ async function queryData() {
 // ========================== 新增/编辑 ==========================
 // 表单弹窗引用
 const formRef = ref();
+const termFormRef = ref();
 
 // 打开新增/编辑表单
 function showForm(record = {}) {
   formRef.value?.show(record);
+}
+
+function showTermForm(record) {
+  termFormRef.value?.show(record.id);
 }
 
 // ========================== 单个删除 ==========================
