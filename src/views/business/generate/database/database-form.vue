@@ -21,6 +21,11 @@
           <span >数据源信息：</span>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="别名"  name="aliasName">
+            <a-input style="width: 100%" v-model:value="form.aliasName" placeholder="别名" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="名称"  name="databaseName">
             <a-input style="width: 100%" v-model:value="form.databaseName" placeholder="名称" />
           </a-form-item>
@@ -266,6 +271,7 @@ const formRef = ref();
 
 const formDefault = {
   id: undefined, //ID
+  aliasName: undefined, //别名
   databaseName: undefined, //名称
   databaseType: undefined, //类型
   languageType: undefined, //语言类型
@@ -304,6 +310,7 @@ const formDefault = {
 let form = reactive({ ...formDefault });
 
 const rules = {
+  aliasName: [{ required: true, message: '别名 必填' }],
   databaseName: [{ required: true, message: '名称 必填' }],
   databaseType: [{ required: true, message: '类型 必填' }],
   languageType: [{ required: true, message: '语言类型 必填' }],

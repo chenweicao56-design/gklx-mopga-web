@@ -148,6 +148,11 @@ const columns = ref([
     ellipsis: true,
   },
   {
+    title: '别名',
+    dataIndex: 'aliasName',
+    ellipsis: true,
+  },
+  {
     title: '名称',
     dataIndex: 'databaseName',
     ellipsis: true,
