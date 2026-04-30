@@ -55,9 +55,9 @@
         </a-button>
         <a-button @click="showSchemaModal" type="primary" size="small">
           <template #icon>
-            <FileCodeOutlined />
+            <FontColorsOutlined />
           </template>
-          问数schema
+          schema
         </a-button>
       </div>
 
