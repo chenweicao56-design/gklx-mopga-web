@@ -8,18 +8,18 @@
 <template>
   <a-drawer
       title="编辑术语"
-      :width="600"
+      :width="800"
       :open="visibleFlag"
       @close="onClose"
       :maskClosable="false"
       :destroyOnClose="true"
   >
-    <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 6 }">
+    <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 4 }">
       <a-form-item label="数据源注释术语" name="databaseCommentTerm">
-        <a-textarea v-model:value="form.databaseCommentTerm" placeholder="请输入数据源注释术语" :rows="4" />
+        <a-textarea v-model:value="form.databaseCommentTerm" placeholder="请输入数据源注释术语" :rows="3" />
       </a-form-item>
-      <a-form-item label="术语" name="terms">
-        <a-textarea v-model:value="form.terms" placeholder="请输入术语" :rows="4" />
+      <a-form-item label="术语(JSON)" name="terms">
+        <JsonEditor v-model="form.terms" placeholder="请输入JSON格式的术语" />
       </a-form-item>
     </a-form>
 
@@ -38,6 +38,7 @@ import {message} from 'ant-design-vue';
 import {SmartLoading} from '/@/components/framework/smart-loading';
 import {databaseApi} from '/@/api/business/generate/database-api';
 import {smartSentry} from '/@/lib/smart-sentry';
+import JsonEditor from '/@/components/business/generate/JsonEditor.vue';
 
 const emits = defineEmits(['reloadList']);
 
