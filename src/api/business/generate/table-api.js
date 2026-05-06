@@ -57,4 +57,25 @@ export const tableApi = {
       return postRequest('/table/batchDelete', idList);
   },
 
+  /**
+   * 获取表术语详情  @author  gklx
+   */
+  getTableTermDetail: (id) => {
+    return getRequest(`/tableTerm/getByTableId/${id}`);
+  },
+
+  /**
+   * 添加或更新表术语  @author  gklx
+   */
+  addOrUpdateTableTerm: (param) => {
+    return postRequest('/tableTerm/addOrUpdate', param);
+  },
+
+  /**
+   * 添加或更新数据源术语  @author  gklx
+   */
+  addOrUpdateDatabaseTerm: (param) => {
+    return postRequest('/databaseTerm/addOrUpdate', param);
+  },
+
 };

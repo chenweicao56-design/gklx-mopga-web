@@ -123,6 +123,7 @@
         <template v-if="column.dataIndex === 'actionSync'">
           <div class="smart-table-operate">
             <a-button @click="syncTable(record.tableName, true)" type="link">同步</a-button>
+            <a-button @click="showTermForm(record)" type="link">术语</a-button>
           </div>
         </template>
         <!-- 操作列（编辑/删除） -->
@@ -158,6 +159,7 @@
     <TableDbListModal ref="tableDbListModalRef" :databaseId="databaseId" @finish="syncTable" />
     <GenPreviewModal ref="genPreviewModalRef" />
     <GenSchemaModal ref="genSchemaModalRef" />
+    <TableTermForm ref="termFormRef" @reloadList="queryData" />
   </a-card>
 </template>
 
@@ -177,6 +179,7 @@
   import { useRoute, useRouter } from 'vue-router';
   import { generateApi } from '/@/api/business/generate/generate-api.js';
   import TableForm from '/@/views/business/generate/table/table-form.vue';
+import TableTermForm from '/@/views/business/generate/table/table-term-form.vue';
 
   const route = useRoute();
   const databaseId = ref(parseInt(route.params.id));
@@ -320,6 +323,7 @@ async function queryData() {
   const formRef = ref();
   const genPreviewModalRef = ref();
   const genSchemaModalRef = ref();
+  const termFormRef = ref();
   // 打开新增/编辑表单
   function showForm(record = {}) {
     formRef.value?.show(record);
@@ -339,6 +343,10 @@ async function queryData() {
 
   function showSchemaModal() {
     genSchemaModalRef.value.showModal(databaseId.value, selectedRowKeyList.value);
+  }
+
+  function showTermForm(record) {
+    termFormRef.value?.show(record);
   }
 
   function toColumn(data) {
