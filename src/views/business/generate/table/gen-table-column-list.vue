@@ -123,6 +123,7 @@
         <template v-if="column.dataIndex === 'action'">
           <div class="smart-table-operate">
             <a-button @click="showForm(record)" type="link">编辑</a-button>
+            <a-button @click="showTermForm(record)" type="link">术语</a-button>
             <a-button @click="addTemplate(record)" type="link">模版同步</a-button>
             <a-button @click="onDelete(record)" danger type="link">删除</a-button>
           </div>
@@ -149,6 +150,8 @@
 
     <!-- 新增/编辑表单弹窗 -->
     <GenTableColumnForm ref="formRef" @reloadList="queryData" />
+    <!-- 术语编辑抽屉 -->
+    <ColumnTermForm ref="termFormRef" @reloadList="queryData" />
   </a-card>
 </template>
 
@@ -161,6 +164,7 @@
   import { smartSentry } from '/@/lib/smart-sentry';
   import TableOperator from '/@/components/support/table-operator/index.vue';
   import GenTableColumnForm from './gen-table-column-form.vue';
+  import ColumnTermForm from './column-term-form.vue';
   import { useRoute } from 'vue-router';
   import { DICT_CODE_ENUM } from '/@/constants/support/dict-const.js';
   import DictSelect from '/@/components/support/dict-select/index.vue';
@@ -343,9 +347,14 @@
   // ========================== 新增/编辑 ==========================
   // 表单弹窗引用
   const formRef = ref();
+  const termFormRef = ref();
 
   function showForm(data) {
     formRef.value.show(data);
+  }
+
+  function showTermForm(record) {
+    termFormRef.value?.show(record);
   }
 
   function handleChange(record) {

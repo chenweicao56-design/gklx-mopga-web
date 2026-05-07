@@ -1,5 +1,5 @@
 <!--
-  * 表术语编辑
+  * 列术语编辑
   *
   * @Author:    gklx
   * @Date:      2025-09-06
@@ -7,7 +7,7 @@
 -->
 <template>
   <a-drawer
-      title="编辑表术语"
+      title="编辑列术语"
       :width="800"
       :open="visibleFlag"
       @close="onClose"
@@ -15,11 +15,20 @@
       :destroyOnClose="true"
   >
     <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 4 }">
-      <a-form-item label="注释" name="tableCommentTerm">
-        <a-textarea v-model:value="form.tableCommentTerm" placeholder="请输入注释" :rows="3" />
+      <a-form-item label="注释" name="columnCommentTerm">
+        <a-textarea v-model:value="form.columnCommentTerm" placeholder="请输入注释" :rows="3" />
       </a-form-item>
-      <a-form-item label="场景" name="scenes">
-        <JsonEditor v-model="form.scenes" placeholder="请输入场景" />
+      <a-form-item label="字典" name="dicts">
+        <JsonEditor v-model="form.dicts" placeholder="请输入字典" />
+      </a-form-item>
+      <a-form-item label="外键" name="foreignKey">
+        <JsonEditor v-model="form.foreignKey" placeholder="请输入外键" />
+      </a-form-item>
+      <a-form-item label="示例" name="example">
+        <JsonEditor v-model="form.example" placeholder="请输入示例" />
+      </a-form-item>
+      <a-form-item label="术语" name="terms">
+        <JsonEditor v-model="form.terms" placeholder="请输入术语" />
       </a-form-item>
     </a-form>
 
@@ -36,7 +45,7 @@
 import {reactive, ref, nextTick} from 'vue';
 import {message} from 'ant-design-vue';
 import {SmartLoading} from '/@/components/framework/smart-loading';
-import {tableApi} from '/@/api/business/generate/table-api';
+import {genTableColumnApi} from '/@/api/business/generate/gen-table-column-api';
 import {smartSentry} from '/@/lib/smart-sentry';
 import JsonEditor from '/@/components/business/generate/JsonEditor.vue';
 
@@ -44,14 +53,18 @@ const emits = defineEmits(['reloadList']);
 
 const visibleFlag = ref(false);
 const formRef = ref();
-const tableId = ref(null);
+const columnId = ref(null);
 
 const formDefault = {
   id: undefined,
-  tableId: undefined,
+  columnId: undefined,
   databaseId: undefined,
-  tableCommentTerm: undefined,
-  scenes: undefined,
+  tableId: undefined,
+  columnCommentTerm: undefined,
+  dicts: undefined,
+  example: undefined,
+  foreignKey: undefined,
+  terms: undefined,
 };
 
 let form = reactive({...formDefault});
@@ -59,10 +72,11 @@ let form = reactive({...formDefault});
 const rules = {};
 
 function show(record) {
-  tableId.value = record.tableId;
+  columnId.value = record.columnId;
   Object.assign(form, formDefault);
-  form.tableId = record.tableId;
+  form.columnId = record.columnId;
   form.databaseId = record.databaseId;
+  form.tableId = record.tableId;
   visibleFlag.value = true;
   nextTick(() => {
     loadDetail();
@@ -76,22 +90,25 @@ function onClose() {
 }
 
 function loadDetail() {
-  if (!tableId.value) {
+  if (!columnId.value) {
     return;
   }
   SmartLoading.show();
-  tableApi.getTableTermDetail(tableId.value)
+  genTableColumnApi.getColumnTermDetail(columnId.value)
     .then((res) => {
       const data = res.data || {};
       form.id = data.id;
-      if (data.tableId !== undefined && data.tableId !== null) {
-        form.tableId = data.tableId;
+      if (data.columnId !== undefined && data.columnId !== null) {
+        form.columnId = data.columnId;
       }
       if (data.databaseId !== undefined && data.databaseId !== null) {
         form.databaseId = data.databaseId;
       }
-      form.tableCommentTerm = data.tableCommentTerm;
-      form.scenes = data.scenes;
+      form.columnCommentTerm = data.columnCommentTerm;
+      form.dicts = data.dicts;
+      form.example = data.example;
+      form.foreignKey = data.foreignKey;
+      form.terms = data.terms;
     })
     .catch((err) => {
       smartSentry.captureError(err);
@@ -113,12 +130,16 @@ async function onSubmit() {
 async function save() {
   SmartLoading.show();
   try {
-    await tableApi.addOrUpdateTableTerm({
+    await genTableColumnApi.addOrUpdateColumnTerm({
       id: form.id,
-      tableId: form.tableId,
+      columnId: form.columnId,
       databaseId: form.databaseId,
-      tableCommentTerm: form.tableCommentTerm === '' ? null : form.tableCommentTerm,
-      scenes: form.scenes === '' ? null : form.scenes,
+      tableId: form.tableId,
+      columnCommentTerm: form.columnCommentTerm === "" ? null : form.columnCommentTerm,
+      dicts: form.dicts === "" ? null : form.dicts,
+      example: form.example === "" ? null : form.example,
+      foreignKey: form.foreignKey === "" ? null : form.foreignKey,
+      terms: form.terms === "" ? null : form.terms,
     });
     message.success('保存成功');
     emits('reloadList');
