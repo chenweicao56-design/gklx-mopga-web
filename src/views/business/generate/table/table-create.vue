@@ -19,7 +19,7 @@
             <a-input style="width: 100%" v-model:value="form.tableComment" placeholder="表注释">
               <template #suffix>
                 <div @click="handleTableCommentTrans">
-                  <TranslationOutlined @click="handleTableCommentTrans" />
+                  <TranslationOutlined/>
                 </div>
               </template>
             </a-input>
@@ -70,7 +70,7 @@
               <a-input style="width: 100%" v-model:value="record.columnComment" placeholder="字段注释">
                 <template #suffix>
                   <div @click="handleColumnCommentTrans(record)">
-                    <TranslationOutlined @click="handleTableCommentTrans" />
+                    <TranslationOutlined/>
                   </div>
                 </template>
               </a-input>

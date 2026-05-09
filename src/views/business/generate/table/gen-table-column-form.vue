@@ -7,7 +7,7 @@
 -->
 <template>
   <a-drawer :title="form.columnId ? '编辑' : '添加'" :width="1200" :open="visibleFlag" @close="onClose" :maskClosable="false" :destroyOnClose="true">
-    <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 5 }">
+    <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 6 }">
       <a-row>
         <a-col :span="12">
           <a-form-item label="字段名称" name="columnName">
@@ -147,9 +147,9 @@
             <DictSelect width="100%" v-model:value="form.orderType" :dict-code="DICT_CODE_ENUM.ORDER_TYPE" placeholder="排序类型"/>
           </a-form-item>
         </a-col>
-        <a-col :span="12">
-          <a-form-item label="扩展字段" name="extendedData">
-            <a-textarea style="width: 100%" v-model:value="form.extendedData" placeholder="扩展字段" />
+        <a-col :span="24">
+          <a-form-item label="扩展字段" name="extendedData" :label-col="{ span: 3 }">
+            <JsonEditor v-model="form.extendedData" placeholder="扩展字段" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -174,6 +174,7 @@
   import BooleanSelect from '/@/components/framework/boolean-select/index.vue';
   import DictSelect from '/@/components/support/dict-select/index.vue';
   import { DICT_CODE_ENUM } from '/@/constants/support/dict-const.js';
+  import JsonEditor from '/@/components/business/generate/JsonEditor.vue';
 
   // ------------------------ 事件 ------------------------
 

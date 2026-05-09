@@ -15,7 +15,7 @@
       :destroyOnClose="true"
   >
 
-    <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 5 }" >
+    <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 6 }" >
       <a-row>
         <a-col :span="24" class="py-3 font-bold">
           <span >数据源信息：</span>
@@ -208,12 +208,12 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label="表扩展字段" name="tableExtendedData" :label-col="{ span: 3 }">
-            <a-textarea style="width: 100%" v-model:value="form.tableExtendedData" placeholder="表扩展字段"/>
+            <JsonEditor v-model="form.tableExtendedData" placeholder="表扩展字段" />
           </a-form-item>
         </a-col>
         <a-col :span="24">
           <a-form-item label="字段扩展字段" name="columnExtendedData" :label-col="{ span: 3 }">
-            <a-textarea style="width: 100%" v-model:value="form.columnExtendedData" placeholder="字段扩展字段"/>
+            <JsonEditor v-model="form.columnExtendedData" placeholder="字段扩展字段" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -239,6 +239,7 @@ import {smartSentry} from '/@/lib/smart-sentry';
 import BooleanSelect from '/@/components/framework/boolean-select/index.vue';
 import DictSelect from '/@/components/support/dict-select/index.vue';
 import {DICT_CODE_ENUM} from '/@/constants/support/dict-const.js';
+import JsonEditor from '/@/components/business/generate/JsonEditor.vue';
 
 // ------------------------ 事件 ------------------------
 
@@ -278,14 +279,14 @@ const formDefault = {
   url: undefined, //数据源地址
   userName: undefined, //用户名
   password: undefined, //密码
-  timeout: undefined, //超时时间
-  backendAuthor: undefined, //后端作者
+  timeout: 6000, //超时时间
+  backendAuthor: 'gklx', //后端作者
   backendDate: undefined, //后端日期
   backendProjectPath: undefined, //后端项目路径
-  frontAuthor: undefined, //前端作者
+  frontAuthor: 'gklx', //前端作者
   frontDate: undefined, //前端日期
   frontProjectPath: undefined, //前端项目路径
-  copyright: undefined, //版权
+  copyright: '1.0', //版权
   packageName: undefined, //包名
   moduleName: undefined, //模块名
   tableExtendedData: undefined, //表扩展字段
@@ -293,17 +294,17 @@ const formDefault = {
   isPhysicallyDeleted: undefined, //逻辑删除
   templateId: undefined, //模板id
   tablePrefix: undefined, //表前缀
-  isPage: undefined, //是否分页（1是）
-  isDetail: undefined, //是否详情（1是）
-  isAdd: undefined, //是否增加（1是）
-  isUpdate: undefined, //是否修改（1是）
-  isDelete: undefined, //是否删除（1是）
-  isBatchDelete: undefined, //是否批量删除（1是）
-  editComponent: undefined, //编辑组件
-  formCountLine: undefined, //每行几个表单
+  isPage: 1, //是否分页（1是）
+  isDetail: 1, //是否详情（1是）
+  isAdd: 1, //是否增加（1是）
+  isUpdate: 1, //是否修改（1是）
+  isDelete: 1, //是否删除（1是）
+  isBatchDelete: 1, //是否批量删除（1是）
+  editComponent: 'model', //编辑组件
+  formCountLine: 2, //每行几个表单
   schemaName: undefined, //模式
-  permission: undefined, //权限（0没有）
-  log: undefined, //日志（0没有）
+  permission: 0, //权限（0没有）
+  log: 0, //日志（0没有）
   deleteColumnName: undefined, // 删除字段名
 };
 
