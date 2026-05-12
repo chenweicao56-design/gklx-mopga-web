@@ -160,6 +160,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label="文档" name="doc">
+            <a-input-number style="width: 100%" v-model:value="form.doc" placeholder="文档" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="是否树" name="isTree">
             <BooleanSelect v-model:value="form.isTree" style="width: 100%" />
           </a-form-item>
@@ -277,6 +282,7 @@
     subTableName: undefined, //子表名称
     permission: undefined, //权限（0没有）
     log: undefined, //日志（0没有）
+    doc: undefined, //日志（0没有）
     deleteColumnName: undefined, // 删除字段名
     businessType: undefined, //业务类型
   };
@@ -308,6 +314,7 @@
     isExport: [{ required: true, message: '是否导出 必填' }],
     permission: [{ required: true, message: '权限必填' }],
     log: [{ required: true, message: '日志必填' }],
+    doc: [{ required: true, message: '文档必填' }],
   };
 
   // 点击确定，验证表单

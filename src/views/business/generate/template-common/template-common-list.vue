@@ -101,18 +101,7 @@
         }"
    >
      <template #bodyCell="{ text, record, column }">
-       <template v-if="column.dataIndex === 'fileType'">
-         <DictLabel
-             :dict-code="DICT_CODE_ENUM.FILE_TYPE || 'FILE_TYPE'"
-             :data-value="text"
-         />
-       </template>
-       <template v-if="column.dataIndex === 'category'">
-         <DictLabel
-             :dict-code="DICT_CODE_ENUM.FILE_TYPE || 'FILE_TYPE'"
-             :data-value="text"
-         />
-       </template>
+
 
        <!-- 操作列（编辑/删除） -->
        <template v-if="column.dataIndex === 'action'">
@@ -160,11 +149,12 @@ import {PAGE_SIZE_OPTIONS} from '/@/constants/common-const';
 import {smartSentry} from '/@/lib/smart-sentry';
 import DictSelect from '/@/components/support/dict-select/index.vue';
 import { DICT_CODE_ENUM } from '/@/constants/support/dict-const.js';
+import DictLabel from '/@/components/support/dict-label/index.vue';
 // ========================== 表格列配置 ==========================
 const columns = ref([
   {
-    title: '模板内容',
-    dataIndex: 'content',
+    title: '模板名称',
+    dataIndex: 'templateName',
     ellipsis: true,
   },
   {

@@ -189,6 +189,11 @@
             <a-input-number style="width: 100%" v-model:value="form.log" placeholder="日志" />
           </a-form-item>
         </a-col>
+        <a-col :span="12">
+          <a-form-item label="文档"  name="doc">
+            <a-input-number style="width: 100%" v-model:value="form.doc" placeholder="文档" />
+          </a-form-item>
+        </a-col>
         <a-col :span="24" class="py-3 font-bold">
           <span>前端信息：</span>
         </a-col>
@@ -305,6 +310,7 @@ const formDefault = {
   schemaName: undefined, //模式
   permission: 0, //权限（0没有）
   log: 0, //日志（0没有）
+  doc: 0, //文档（0没有）
   deleteColumnName: undefined, // 删除字段名
 };
 
@@ -336,6 +342,7 @@ const rules = {
   formCountLine: [{ required: true, message: '每行几个表单 必填' }],
   permission: [{ required: true, message: '权限 必填' }],
   log: [{ required: true, message: '日志 必填' }],
+  doc: [{ required: true, message: '文档 必填' }],
 };
 
 // 点击确定，验证表单

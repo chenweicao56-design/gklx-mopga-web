@@ -10,7 +10,15 @@
                 <a-input-search v-model:value="targetTemplateCodeId" placeholder="目标模版" enter-button @search="onSyncOtherCode" />
               </a-form-item>
             </a-col>
-            <a-col :span="11" :offset="2" />
+
+            <a-form-item label="公共模板" name="commonTemplateId">
+              <a-select v-model:value="form.templateId" style="width: 100%" :showSearch="true" :allowClear="true">
+                <a-select-option v-for="item in commonTemplateList" :key="item.id" :value="item.id">
+                  {{ item.templateName }}
+                </a-select-option>
+              </a-select>
+
+            </a-form-item>
             <a-col :span="11">
               <a-form-item label="文件类型" name="fileType">
                 <DictSelect width="100%" v-model:value="form.fileType" :dict-code="DICT_CODE_ENUM.FILE_TYPE || 'FILE_TYPE'" placeholder="文件类型" />
@@ -105,6 +113,7 @@
     fileName: undefined,
     filePath: undefined,
     content: undefined,
+    commonTemplateId: undefined,
   };
 
   const rules = {
@@ -113,6 +122,8 @@
     filePath: [{ required: true, message: '文件路径 必填' }],
     content: [{ required: true, message: '文件内容 必填' }],
   };
+
+  const commonTemplateList = ref([])
   let form = reactive({ ...formDefault });
 
   // 点击确定，验证表单

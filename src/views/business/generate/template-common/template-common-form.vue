@@ -16,24 +16,31 @@
   >
     <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 6 }" >
       <a-row>
-        <a-col :span="8">
+        <a-col :span="12">
+          <a-form-item label="模板名称"  name="templateName">
+            <a-input style="width: 100%" v-model:value="form.templateName" placeholder="模板名称" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="文件类型"  name="fileType">
             <DictSelect width="100%" v-model:value="form.fileType" :dict-code="DICT_CODE_ENUM.FILE_TYPE" placeholder="文件类型"/>
           </a-form-item>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="12">
           <a-form-item label="类别"  name="category">
             <DictSelect width="100%" v-model:value="form.category" :dict-code="DICT_CODE_ENUM.FILE_TYPE" placeholder="类别"/>
           </a-form-item>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="12">
           <a-form-item label="排序"  name="sort">
             <a-input-number style="width: 100%" v-model:value="form.sort" placeholder="排序" />
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="模板内容"  name="content" :label-col="{ span: 2 }">
-            <CodeMirror ref="cusCodeMirrorRef" lang="java" :code="form.content" height="650px" />
+          <a-form-item label="模板内容"  name="content" :label-col="{ span: 3 }">
+            <div style="height: 540px;">
+              <CusCodeMirror ref="cusCodeMirrorRef" v-model:model-value="form.content" />
+            </div>
           </a-form-item>
         </a-col>
       </a-row>
@@ -57,6 +64,7 @@
   import DictSelect from '/@/components/support/dict-select/index.vue';
   import { DICT_CODE_ENUM } from '/@/constants/support/dict-const.js';
   import CodeMirror from '/@/components/business/generate/code-mirror/index.vue';
+  import CusCodeMirror from '/@/components/business/generate/CusCodeMirror.vue';
   // ------------------------ 事件 ------------------------
 
   const emits = defineEmits(['reloadList']);
@@ -97,6 +105,7 @@
       updateUserId: undefined, //更新人
       updateTime: undefined, //更新时间
       deletedFlag: undefined, //删除状态
+      templateName: undefined, //模板名称
       content: undefined, //模板内容
       fileType: undefined, //文件类型
       category: undefined, //类别
@@ -108,6 +117,7 @@
   const rules = {
       id: [{ required: true, message: '主键 必填' }],
       fileType: [{ required: true, message: '文件类型 必填' }],
+      templateName: [{ required: true, message: '模板名称 必填' }],
   };
 
   // 点击确定，验证表单

@@ -2,7 +2,7 @@
   <div class="h-full flex flex-col">
     <a-form class="smart-query-form mb-4">
       <a-row class="smart-query-form-row">
-        <a-form-item label="mode" class="smart-query-form-item">
+        <a-form-item label="" class="smart-query-form-item">
           <a-select ref="select" v-model:value="form.mode" style="width: 120px" @change="handleModelChange">
             <a-select-option value="java">java</a-select-option>
             <a-select-option value="vue">vue</a-select-option>
@@ -57,11 +57,7 @@
     theme: {
       type: String,
       default: 'darcula',
-    },
-    height: {
-      type: String,
-      default: '400px', // 默认高度
-    },
+    }
   });
   const form = ref({
     mode: props.mode,

@@ -13,3 +13,16 @@ export const HOME_PAGE_NAME = 'Home';
 
 //首页页面路径
 export const HOME_PAGE_PATH = '/home';
+
+
+
+export const LOG_TYPE_ENUM = {
+  NONE: {
+    value: 0,
+    desc: '无',
+  },
+  HAVE: {
+    value: 1,
+    desc: '有',
+  }
+};
