@@ -50,18 +50,4 @@ export const genTableColumnApi = {
       return postRequest('/genTableColumn/batchDelete', idList);
   },
 
-  /**
-   * 获取列术语详情  @author  gklx
-   */
-  getColumnTermDetail: (id) => {
-    return getRequest(`/tableColumnTerm/getByColumnId/${id}`);
-  },
-
-  /**
-   * 添加或更新列术语  @author  gklx
-   */
-  addOrUpdateColumnTerm: (param) => {
-    return postRequest('/tableColumnTerm/addOrUpdate', param);
-  },
-
 };
