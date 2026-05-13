@@ -10,8 +10,6 @@
 import { resolve } from 'path';
 import vue from '@vitejs/plugin-vue';
 import customVariables from '/@/theme/custom-variables.js';
-import tailwindcss from 'tailwindcss'
-import autoprefixer from 'autoprefixer'
 const pathResolve = (dir) => {
   return resolve(__dirname, '.', dir);
 };
@@ -88,8 +86,6 @@ export default {
   css: {
     postcss: {
       plugins: [
-        tailwindcss(),
-        autoprefixer(),
         {
           postcssPlugin: 'internal:charset-removal',
           AtRule: {

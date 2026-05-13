@@ -196,6 +196,7 @@ import TableTermForm from '/@/views/business/generate/table/table-term-form.vue'
       title: '表名称',
       dataIndex: 'tableName',
       ellipsis: true,
+      width: 200,
     },
     {
       title: '表注释',

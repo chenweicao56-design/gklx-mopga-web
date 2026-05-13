@@ -1,3 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* 间距模块 - Margin(外边距) 和 Padding(内边距) */
+/* 包含：m-*, mt-*, mb-*, ml-*, mr-*, mx-*, my-*, p-*, pt-*, pb-*, pl-*, pr-*, px-*, py-*, ps-*(行内开始), pe-*(行内结束) */
+@import './assets/css/Interval.css';
+
+/* 尺寸模块 - Width(宽度) 和 Height(高度) */
+/* 包含：w-*, h-*, min-w-*, min-h-*, max-w-*, max-h-*, object-*, aspect-* */
+@import './assets/css/size.css';
+
+/* Flexbox 布局模块 - 弹性盒子布局 */
+/* 包含：flex, flex-row, flex-col, justify-*, items-*, gap-*, flex-1, order-* 等 */
+@import './assets/css/flexbox.css';
+
+/* Grid 网格布局模块 - 网格布局 */
+/* 包含：grid, grid-cols-*, grid-rows-*, col-*, row-*, place-*, auto-cols-*, auto-rows-* 等 */
+@import './assets/css/grid.css';

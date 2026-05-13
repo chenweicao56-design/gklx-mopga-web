@@ -1,15 +1,16 @@
 <template>
   <div class="h-full flex flex-col">
-    <a-form class="smart-query-form mb-4">
+    <a-form class="bg-black px-4">
       <a-row class="smart-query-form-row">
         <a-form-item label="" class="smart-query-form-item">
-          <a-select ref="select" v-model:value="form.mode" style="width: 120px" @change="handleModelChange">
+          <a-select size="small" ref="select" v-model:value="form.mode" style="width: 120px" @change="handleModelChange">
             <a-select-option value="java">java</a-select-option>
             <a-select-option value="vue">vue</a-select-option>
+            <a-select-option value="markdown">markdown</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item class="smart-query-form-item">
-          <a-button type="primary" @click="fromatCode">
+        <a-form-item  class="smart-query-form-item">
+          <a-button type="primary" @click="formatCode" size="small">
             <template #icon>
               <FormatPainterOutlined />
             </template>
@@ -31,6 +32,7 @@
   import { basicSetup } from 'codemirror';
   import { java } from '@codemirror/lang-java';
   import { vue } from '@codemirror/lang-vue';
+  import { markdown } from '@codemirror/lang-markdown';
   import * as prettier from 'prettier/standalone';
   import parserHtml from 'prettier/plugins/html';
   import parserBabel from 'prettier/plugins/babel';
@@ -67,45 +69,56 @@
   const extensions = [basicSetup, oneDark];
 
   function handleModelChange(e) {
-    form.value.mode === e;
+    form.value.mode = e;
   }
 
   function handleChange(e) {
     emit('update:modelValue', form.value.code);
   }
 
-  const fromatCode = async () => {
+  const formatCode = async () => {
     try {
-      // Prettier 3.x 支持 Vue 单文件组件格式化
-      const formatted = await prettier.format(form.value.code, {
-        parser: 'vue',
-        plugins: [
-          parserHtml, // 用于 template 部分
-          parserBabel, // 用于 script 部分
-          parserEstree, // ESTree 支持
-          parserPostcss, // 用于 style 部分
-        ],
-        // 通用格式配置
-        printWidth: 80,
-        tabWidth: 2,
-        useTabs: false,
-        semi: true,
-        singleQuote: true,
-        quoteProps: 'as-needed',
-        trailingComma: 'es5',
-        bracketSpacing: true,
-        arrowParens: 'avoid',
-        // Vue 特定配置
-        vueIndentScriptAndStyle: true, // script 和 style 缩进
-        htmlWhitespaceSensitivity: 'strict',
-      });
+      let formatted;
+      let parserName = form.value.mode;
+
+      if (form.value.mode === 'vue') {
+        formatted = await prettier.format(form.value.code, {
+          parser: 'vue',
+          plugins: [
+            parserHtml,
+            parserBabel,
+            parserEstree,
+            parserPostcss,
+          ],
+          printWidth: 80,
+          tabWidth: 2,
+          useTabs: false,
+          semi: true,
+          singleQuote: true,
+          quoteProps: 'as-needed',
+          trailingComma: 'es5',
+          bracketSpacing: true,
+          arrowParens: 'avoid',
+          vueIndentScriptAndStyle: true,
+          htmlWhitespaceSensitivity: 'strict',
+        });
+      } else if (form.value.mode === 'markdown') {
+        formatted = await prettier.format(form.value.code, {
+          parser: 'markdown',
+          printWidth: 80,
+          tabWidth: 2,
+          useTabs: false,
+          singleQuote: true,
+          trailingComma: 'es5',
+        });
+      } else {
+        return;
+      }
 
       form.value.code = formatted;
     } catch (error) {
-      console.error('Vue 格式化失败:', error);
+      console.error('格式化失败:', error);
       alert(`格式化错误: ${error.message}`);
-    } finally {
-      console.log('Vue 格式化完成');
     }
   };
 
@@ -114,6 +127,8 @@
       return java();
     } else if (form.value.mode === 'vue') {
       return vue();
+    } else if (form.value.mode === 'markdown') {
+      return markdown();
     }
     return vue();
   });

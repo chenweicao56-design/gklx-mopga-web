@@ -1,0 +1,624 @@
+/**
+ * Tailwind CSS Flex 基准（Flex-Basis）工具类
+ *
+ * 命名规则：
+ * - basis-{size}       : 固定基准（基于 spacing 比例）
+ * - basis-{fraction}   : 百分比基准（分数）
+ * - basis-auto         : 自动基准（基于内容）
+ * - basis-full         : 100% 基准
+ * - basis-px           : 1px 基准
+ *
+ * 用途：在 flex 布局中，设置元素的初始主轴尺寸（main size）
+ * 类似于 width（水平布局）或 height（垂直布局），但仅适用于 flex 项目
+ *
+ * 基础单位：1rem = 16px（浏览器默认字体大小）
+ */
+
+/* ============================================
+   固定基准（基于 spacing 比例）
+   ============================================ */
+
+/* 0px 系列 */
+.basis-0 { flex-basis: 0px; }
+.basis-px { flex-basis: 1px; }
+
+/* 0.5 => 0.125rem (2px) */
+.basis-0\.5 { flex-basis: 0.125rem; } /* 2px */
+
+/* 1 => 0.25rem (4px) */
+.basis-1 { flex-basis: 0.25rem; } /* 4px */
+
+/* 1.5 => 0.375rem (6px) */
+.basis-1\.5 { flex-basis: 0.375rem; } /* 6px */
+
+/* 2 => 0.5rem (8px) */
+.basis-2 { flex-basis: 0.5rem; } /* 8px */
+
+/* 2.5 => 0.625rem (10px) */
+.basis-2\.5 { flex-basis: 0.625rem; } /* 10px */
+
+/* 3 => 0.75rem (12px) */
+.basis-3 { flex-basis: 0.75rem; } /* 12px */
+
+/* 3.5 => 0.875rem (14px) */
+.basis-3\.5 { flex-basis: 0.875rem; } /* 14px */
+
+/* 4 => 1rem (16px) */
+.basis-4 { flex-basis: 1rem; } /* 16px */
+
+/* 5 => 1.25rem (20px) */
+.basis-5 { flex-basis: 1.25rem; } /* 20px */
+
+/* 6 => 1.5rem (24px) */
+.basis-6 { flex-basis: 1.5rem; } /* 24px */
+
+/* 7 => 1.75rem (28px) */
+.basis-7 { flex-basis: 1.75rem; } /* 28px */
+
+/* 8 => 2rem (32px) */
+.basis-8 { flex-basis: 2rem; } /* 32px */
+
+/* 9 => 2.25rem (36px) */
+.basis-9 { flex-basis: 2.25rem; } /* 36px */
+
+/* 10 => 2.5rem (40px) */
+.basis-10 { flex-basis: 2.5rem; } /* 40px */
+
+/* 11 => 2.75rem (44px) */
+.basis-11 { flex-basis: 2.75rem; } /* 44px */
+
+/* 12 => 3rem (48px) */
+.basis-12 { flex-basis: 3rem; } /* 48px */
+
+/* 14 => 3.5rem (56px) */
+.basis-14 { flex-basis: 3.5rem; } /* 56px */
+
+/* 16 => 4rem (64px) */
+.basis-16 { flex-basis: 4rem; } /* 64px */
+
+/* 20 => 5rem (80px) */
+.basis-20 { flex-basis: 5rem; } /* 80px */
+
+/* 24 => 6rem (96px) */
+.basis-24 { flex-basis: 6rem; } /* 96px */
+
+/* 28 => 7rem (112px) */
+.basis-28 { flex-basis: 7rem; } /* 112px */
+
+/* 32 => 8rem (128px) */
+.basis-32 { flex-basis: 8rem; } /* 128px */
+
+/* 36 => 9rem (144px) */
+.basis-36 { flex-basis: 9rem; } /* 144px */
+
+/* 40 => 10rem (160px) */
+.basis-40 { flex-basis: 10rem; } /* 160px */
+
+/* 44 => 11rem (176px) */
+.basis-44 { flex-basis: 11rem; } /* 176px */
+
+/* 48 => 12rem (192px) */
+.basis-48 { flex-basis: 12rem; } /* 192px */
+
+/* 52 => 13rem (208px) */
+.basis-52 { flex-basis: 13rem; } /* 208px */
+
+/* 56 => 14rem (224px) */
+.basis-56 { flex-basis: 14rem; } /* 224px */
+
+/* 60 => 15rem (240px) */
+.basis-60 { flex-basis: 15rem; } /* 240px */
+
+/* 64 => 16rem (256px) */
+.basis-64 { flex-basis: 16rem; } /* 256px */
+
+/* 72 => 18rem (288px) */
+.basis-72 { flex-basis: 18rem; } /* 288px */
+
+/* 80 => 20rem (320px) */
+.basis-80 { flex-basis: 20rem; } /* 320px */
+
+/* 96 => 24rem (384px) */
+.basis-96 { flex-basis: 24rem; } /* 384px */
+
+/* ============================================
+   自动基准
+   ============================================ */
+.basis-auto { flex-basis: auto; }
+
+/* ============================================
+   百分比基准（分数）
+   ============================================ */
+
+/* 二分之一（50%） */
+.basis-1\/2 { flex-basis: 50%; }
+.basis-2\/4 { flex-basis: 50%; }   /* 等价于 1/2 */
+.basis-3\/6 { flex-basis: 50%; }   /* 等价于 1/2 */
+.basis-6\/12 { flex-basis: 50%; }  /* 等价于 1/2 */
+
+/* 三分之一（33.333333%） */
+.basis-1\/3 { flex-basis: 33.333333%; }
+.basis-2\/6 { flex-basis: 33.333333%; }  /* 等价于 1/3 */
+.basis-4\/12 { flex-basis: 33.333333%; } /* 等价于 1/3 */
+
+/* 三分之二（66.666667%） */
+.basis-2\/3 { flex-basis: 66.666667%; }
+.basis-4\/6 { flex-basis: 66.666667%; }  /* 等价于 2/3 */
+.basis-8\/12 { flex-basis: 66.666667%; } /* 等价于 2/3 */
+
+/* 四分之一（25%） */
+.basis-1\/4 { flex-basis: 25%; }
+.basis-3\/12 { flex-basis: 25%; }  /* 等价于 1/4 */
+
+/* 四分之三（75%） */
+.basis-3\/4 { flex-basis: 75%; }
+.basis-9\/12 { flex-basis: 75%; }  /* 等价于 3/4 */
+
+/* 五分之一（20%） */
+.basis-1\/5 { flex-basis: 20%; }
+
+/* 五分之二（40%） */
+.basis-2\/5 { flex-basis: 40%; }
+
+/* 五分之三（60%） */
+.basis-3\/5 { flex-basis: 60%; }
+
+/* 五分之四（80%） */
+.basis-4\/5 { flex-basis: 80%; }
+
+/* 六分之一（16.666667%） */
+.basis-1\/6 { flex-basis: 16.666667%; }
+.basis-2\/12 { flex-basis: 16.666667%; } /* 等价于 1/6 */
+
+/* 六分之五（83.333333%） */
+.basis-5\/6 { flex-basis: 83.333333%; }
+.basis-10\/12 { flex-basis: 83.333333%; } /* 等价于 5/6 */
+
+/* 十二分之一（8.333333%） */
+.basis-1\/12 { flex-basis: 8.333333%; }
+
+/* 十二分之五（41.666667%） */
+.basis-5\/12 { flex-basis: 41.666667%; }
+
+/* 十二分之七（58.333333%） */
+.basis-7\/12 { flex-basis: 58.333333%; }
+
+/* 十二分之十一（91.666667%） */
+.basis-11\/12 { flex-basis: 91.666667%; }
+
+/* ============================================
+   完整基准
+   ============================================ */
+.basis-full { flex-basis: 100%; }
+
+
+/**
+ * Tailwind CSS Flex 方向（Flex Direction）工具类
+ */
+
+/* ============================================
+   水平方向（默认值）
+   ============================================ */
+.flex-row {
+    flex-direction: row;
+}
+
+/* ============================================
+   水平反向
+   ============================================ */
+.flex-row-reverse {
+    flex-direction: row-reverse;
+}
+
+/* ============================================
+   垂直方向
+   ============================================ */
+.flex-col {
+    flex-direction: column;
+}
+
+/* ============================================
+   垂直反向
+   ============================================ */
+.flex-col-reverse {
+    flex-direction: column-reverse;
+}
+
+/**
+ * Tailwind CSS Flex 换行（Flex Wrap）工具类
+ */
+
+/* ============================================
+   换行（允许换行）
+   ============================================ */
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   反向换行
+   ============================================ */
+.flex-wrap-reverse {
+    flex-wrap: wrap-reverse;
+}
+
+/* ============================================
+   不换行（默认值）
+   ============================================ */
+.flex-nowrap {
+    flex-wrap: nowrap;
+}
+
+
+/**
+ * Tailwind CSS Flex 简写（Flex）工具类
+ */
+
+/* ============================================
+   flex: 1 1 0%
+   可以增长、可以收缩、基准为 0%
+   常用于占满剩余空间的弹性元素
+   ============================================ */
+.flex-1 {
+    flex: 1 1 0%;
+}
+
+/* ============================================
+   flex: 1 1 auto
+   可以增长、可以收缩、基准为 auto
+   根据内容自动调整，同时允许伸缩
+   ============================================ */
+.flex-auto {
+    flex: 1 1 auto;
+}
+
+/* ============================================
+   flex: 0 1 auto
+   不增长、可以收缩、基准为 auto
+   弹性元素的初始状态（默认值）
+   ============================================ */
+.flex-initial {
+    flex: 0 1 auto;
+}
+
+/* ============================================
+   flex: none
+   不增长、不收缩、基准为 auto
+   固定尺寸的弹性元素
+   ============================================ */
+.flex-none {
+    flex: none;
+}
+
+/**
+ * Tailwind CSS Flex 增长（Flex Grow）工具类
+ */
+
+/* ============================================
+   flex-grow: 1
+   允许元素增长，占据剩余空间
+   ============================================ */
+.grow {
+    flex-grow: 1;
+}
+
+/* ============================================
+   flex-grow: 0
+   不允许元素增长（默认值）
+   ============================================ */
+.grow-0 {
+    flex-grow: 0;
+}
+
+/**
+ * Tailwind CSS Flex 收缩（Flex Shrink）工具类
+ */
+
+/* ============================================
+   flex-shrink: 1
+   允许元素收缩（默认值）
+   ============================================ */
+.shrink {
+    flex-shrink: 1;
+}
+
+/* ============================================
+   flex-shrink: 0
+   不允许元素收缩
+   ============================================ */
+.shrink-0 {
+    flex-shrink: 0;
+}
+
+/**
+ * Tailwind CSS 顺序（Order）工具类
+ */
+
+/* ============================================
+   正数顺序值（1-12）
+   ============================================ */
+.order-1 {
+    order: 1;
+}
+.order-2 {
+    order: 2;
+}
+.order-3 {
+    order: 3;
+}
+.order-4 {
+    order: 4;
+}
+.order-5 {
+    order: 5;
+}
+.order-6 {
+    order: 6;
+}
+.order-7 {
+    order: 7;
+}
+.order-8 {
+    order: 8;
+}
+.order-9 {
+    order: 9;
+}
+.order-10 {
+    order: 10;
+}
+.order-11 {
+    order: 11;
+}
+.order-12 {
+    order: 12;
+}
+
+/* ============================================
+   特殊顺序值
+   ============================================ */
+
+/* 最先显示（极小值） */
+.order-first {
+    order: -9999;
+}
+
+/* 最后显示（极大值） */
+.order-last {
+    order: 9999;
+}
+
+/* 默认顺序（无排序） */
+.order-none {
+    order: 0;
+}
+
+/**
+ * Tailwind CSS 主轴对齐（Justify Content）工具类
+ */
+
+/* ============================================
+   主轴对齐方式
+   ============================================ */
+
+/* 正常对齐（默认值） */
+.justify-normal {
+    justify-content: normal;
+}
+
+/* 起始位置对齐 */
+.justify-start {
+    justify-content: flex-start;
+}
+
+/* 结束位置对齐 */
+.justify-end {
+    justify-content: flex-end;
+}
+
+/* 居中对齐 */
+.justify-center {
+    justify-content: center;
+}
+
+/* 两端对齐，项目之间间距相等 */
+.justify-between {
+    justify-content: space-between;
+}
+
+/* 项目周围间距相等 */
+.justify-around {
+    justify-content: space-around;
+}
+
+/* 项目之间间距完全相等 */
+.justify-evenly {
+    justify-content: space-evenly;
+}
+
+/* 拉伸对齐 */
+.justify-stretch {
+    justify-content: stretch;
+}
+/**
+ * Tailwind CSS 网格项目内联轴对齐（Justify Items）工具类
+ */
+
+/* ============================================
+   网格项目内联轴对齐方式
+   ============================================ */
+
+/* 起始位置对齐 */
+.justify-items-start {
+    justify-items: start;
+}
+
+/* 结束位置对齐 */
+.justify-items-end {
+    justify-items: end;
+}
+
+/* 居中对齐 */
+.justify-items-center {
+    justify-items: center;
+}
+
+/* 拉伸填充（默认值） */
+.justify-items-stretch {
+    justify-items: stretch;
+}
+/**
+ * Tailwind CSS 网格项目内联轴单个对齐（Justify Self）工具类
+ */
+
+/* ============================================
+   网格项目内联轴单个对齐方式
+   ============================================ */
+
+/* 自动对齐（默认值） */
+.justify-self-auto {
+    justify-self: auto;
+}
+
+/* 起始位置对齐 */
+.justify-self-start {
+    justify-self: start;
+}
+
+/* 结束位置对齐 */
+.justify-self-end {
+    justify-self: end;
+}
+
+/* 居中对齐 */
+.justify-self-center {
+    justify-self: center;
+}
+
+/* 拉伸填充 */
+.justify-self-stretch {
+    justify-self: stretch;
+}
+/**
+ * Tailwind CSS 交叉轴多行对齐（Align Content）工具类
+ */
+
+/* ============================================
+   交叉轴多行对齐方式
+   ============================================ */
+
+/* 正常对齐（默认值） */
+.content-normal {
+    align-content: normal;
+}
+
+/* 居中对齐 */
+.content-center {
+    align-content: center;
+}
+
+/* 起始位置对齐 */
+.content-start {
+    align-content: flex-start;
+}
+
+/* 结束位置对齐 */
+.content-end {
+    align-content: flex-end;
+}
+
+/* 两端对齐，行之间间距相等 */
+.content-between {
+    align-content: space-between;
+}
+
+/* 行周围间距相等 */
+.content-around {
+    align-content: space-around;
+}
+
+/* 行之间间距完全相等 */
+.content-evenly {
+    align-content: space-evenly;
+}
+
+/* 基线对齐 */
+.content-baseline {
+    align-content: baseline;
+}
+
+/* 拉伸填充 */
+.content-stretch {
+    align-content: stretch;
+}
+
+/**
+ * Tailwind CSS 交叉轴单行对齐（Align Items）工具类
+ */
+
+/* ============================================
+   交叉轴单行对齐方式
+   ============================================ */
+
+/* 起始位置对齐 */
+.items-start {
+    align-items: flex-start;
+}
+
+/* 结束位置对齐 */
+.items-end {
+    align-items: flex-end;
+}
+
+/* 居中对齐 */
+.items-center {
+    align-items: center;
+}
+
+/* 基线对齐 */
+.items-baseline {
+    align-items: baseline;
+}
+
+/* 拉伸填充（默认值） */
+.items-stretch {
+    align-items: stretch;
+}
+
+/**
+ * Tailwind CSS 交叉轴单个项目对齐（Align Self）工具类
+ */
+
+/* ============================================
+   交叉轴单个项目对齐方式
+   ============================================ */
+
+/* 自动对齐（默认值，继承父级 align-items） */
+.self-auto {
+    align-self: auto;
+}
+
+/* 起始位置对齐 */
+.self-start {
+    align-self: flex-start;
+}
+
+/* 结束位置对齐 */
+.self-end {
+    align-self: flex-end;
+}
+
+/* 居中对齐 */
+.self-center {
+    align-self: center;
+}
+
+/* 拉伸填充 */
+.self-stretch {
+    align-self: stretch;
+}
+
+/* 基线对齐 */
+.self-baseline {
+    align-self: baseline;
+}

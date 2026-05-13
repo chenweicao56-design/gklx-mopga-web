@@ -28,13 +28,12 @@ import { store } from '/@/store';
 import { useUserStore } from '/@/store/modules/system/user';
 import 'ant-design-vue/dist/reset.css';
 import '/@/theme/index.less';
+import './main.css';
 import { localRead } from '/@/utils/local-util.js';
 import LocalStorageKeyConst from '/@/constants/local-storage-key-const.js';
 import '/@/utils/ployfill';
 import { useDictStore } from '/@/store/modules/system/dict.js';
 import { dictApi } from '/@/api/support/dict-api.js';
-import "tailwindcss/tailwind.css"
-import './main.css'
 
 
 import  GifButton from '/@/components/icon/GifButton.vue'

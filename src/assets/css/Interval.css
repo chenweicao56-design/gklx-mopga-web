@@ -1,0 +1,783 @@
+/**
+ * Interval.css - 间距样式模块
+ *
+ * Tailwind CSS 间距类完整对照表
+ * 所有类名与 Tailwind CSS 保持一致，可直接替代使用
+ *
+ * ===========================================
+ * 尺寸换算表（基于 0.25rem = 4px）
+ * ===========================================
+ * 后缀    rem值    px值    说明
+ * -----------------------------------------
+ * 0       0        0px     无间距
+ * px      1px      1px     1像素
+ * 0.5     0.125    2px     极小间距
+ * 1       0.25     4px     小间距
+ * 1.5     0.375    6px     小间距
+ * 2       0.5      8px     默认间距
+ * 2.5     0.625    10px    中等偏小
+ * 3       0.75     12px    中等间距
+ * 3.5     0.875    14px    中等偏大
+ * 4       1        16px    较大间距
+ * 5       1.25     20px    大间距
+ * 6       1.5      24px    更大间距
+ * 7       1.75     28px    超大间距
+ * 8       2        32px    极大间距
+ * 9       2.25     36px    超级大
+ * 10      2.5      40px    巨大
+ * ...以此类推，每增加1增加4px
+ * ===========================================
+ *
+ * 使用示例：
+ *   class="p-4"           → padding: 16px
+ *   class="m-2 mx-auto"   → margin: 8px; margin-left: auto; margin-right: auto
+ *   class="px-4 py-2"    → padding-left: 16px; padding-right: 16px; padding-top: 8px; padding-bottom: 8px
+ */
+
+/* ==================== Padding 内边距 ==================== */
+
+/* -------- 通用内边距 (p-*) -------- */
+/**
+ * 适用场景：给元素内部四周添加统一间距
+ * 示例：class="p-4" → padding: 16px
+ */
+.p-0 { padding: 0px; }
+.p-px { padding: 1px; }
+.p-0\.5 { padding: 0.125rem; }
+.p-1 { padding: 0.25rem; }
+.p-1\.5 { padding: 0.375rem; }
+.p-2 { padding: 0.5rem; }
+.p-2\.5 { padding: 0.625rem; }
+.p-3 { padding: 0.75rem; }
+.p-3\.5 { padding: 0.875rem; }
+.p-4 { padding: 1rem; }
+.p-5 { padding: 1.25rem; }
+.p-6 { padding: 1.5rem; }
+.p-7 { padding: 1.75rem; }
+.p-8 { padding: 2rem; }
+.p-9 { padding: 2.25rem; }
+.p-10 { padding: 2.5rem; }
+.p-11 { padding: 2.75rem; }
+.p-12 { padding: 3rem; }
+.p-14 { padding: 3.5rem; }
+.p-16 { padding: 4rem; }
+.p-20 { padding: 5rem; }
+.p-24 { padding: 6rem; }
+.p-28 { padding: 7rem; }
+.p-32 { padding: 8rem; }
+.p-36 { padding: 9rem; }
+.p-40 { padding: 10rem; }
+.p-44 { padding: 11rem; }
+.p-48 { padding: 12rem; }
+.p-52 { padding: 13rem; }
+.p-56 { padding: 14rem; }
+.p-60 { padding: 15rem; }
+.p-64 { padding: 16rem; }
+.p-72 { padding: 18rem; }
+.p-80 { padding: 20rem; }
+.p-96 { padding: 24rem; }
+
+/* -------- 水平方向内边距 (px-*) -------- */
+/**
+ * 适用场景：左右两侧相等的内边距，常用于水平居中内容的左右padding
+ * 示例：class="px-4" → padding-left: 16px; padding-right: 16px
+ */
+.px-0 { padding-left: 0px; padding-right: 0px; }
+.px-px { padding-left: 1px; padding-right: 1px; }
+.px-0\.5 { padding-left: 0.125rem; padding-right: 0.125rem; }
+.px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+.px-1\.5 { padding-left: 0.375rem; padding-right: 0.375rem; }
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-2\.5 { padding-left: 0.625rem; padding-right: 0.625rem; }
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.px-3\.5 { padding-left: 0.875rem; padding-right: 0.875rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.px-7 { padding-left: 1.75rem; padding-right: 1.75rem; }
+.px-8 { padding-left: 2rem; padding-right: 2rem; }
+.px-9 { padding-left: 2.25rem; padding-right: 2.25rem; }
+.px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
+.px-11 { padding-left: 2.75rem; padding-right: 2.75rem; }
+.px-12 { padding-left: 3rem; padding-right: 3rem; }
+.px-14 { padding-left: 3.5rem; padding-right: 3.5rem; }
+.px-16 { padding-left: 4rem; padding-right: 4rem; }
+.px-20 { padding-left: 5rem; padding-right: 5rem; }
+.px-24 { padding-left: 6rem; padding-right: 6rem; }
+.px-28 { padding-left: 7rem; padding-right: 7rem; }
+.px-32 { padding-left: 8rem; padding-right: 8rem; }
+.px-36 { padding-left: 9rem; padding-right: 9rem; }
+.px-40 { padding-left: 10rem; padding-right: 10rem; }
+.px-44 { padding-left: 11rem; padding-right: 11rem; }
+.px-48 { padding-left: 12rem; padding-right: 12rem; }
+.px-52 { padding-left: 13rem; padding-right: 13rem; }
+.px-56 { padding-left: 14rem; padding-right: 14rem; }
+.px-60 { padding-left: 15rem; padding-right: 15rem; }
+.px-64 { padding-left: 16rem; padding-right: 16rem; }
+.px-72 { padding-left: 18rem; padding-right: 18rem; }
+.px-80 { padding-left: 20rem; padding-right: 20rem; }
+.px-96 { padding-left: 24rem; padding-right: 24rem; }
+
+/* -------- 垂直方向内边距 (py-*) -------- */
+/**
+ * 适用场景：上下两侧相等的内边距，常用于控制垂直方向上的间距
+ * 示例：class="py-4" → padding-top: 16px; padding-bottom: 16px
+ */
+.py-0 { padding-top: 0px; padding-bottom: 0px; }
+.py-px { padding-top: 1px; padding-bottom: 1px; }
+.py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-2\.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-3\.5 { padding-top: 0.875rem; padding-bottom: 0.875rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.py-7 { padding-top: 1.75rem; padding-bottom: 1.75rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.py-9 { padding-top: 2.25rem; padding-bottom: 2.25rem; }
+.py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+.py-11 { padding-top: 2.75rem; padding-bottom: 2.75rem; }
+.py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+.py-14 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+.py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+.py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+.py-24 { padding-top: 6rem; padding-bottom: 6rem; }
+.py-28 { padding-top: 7rem; padding-bottom: 7rem; }
+.py-32 { padding-top: 8rem; padding-bottom: 8rem; }
+.py-36 { padding-top: 9rem; padding-bottom: 9rem; }
+.py-40 { padding-top: 10rem; padding-bottom: 10rem; }
+.py-44 { padding-top: 11rem; padding-bottom: 11rem; }
+.py-48 { padding-top: 12rem; padding-bottom: 12rem; }
+.py-52 { padding-top: 13rem; padding-bottom: 13rem; }
+.py-56 { padding-top: 14rem; padding-bottom: 14rem; }
+.py-60 { padding-top: 15rem; padding-bottom: 15rem; }
+.py-64 { padding-top: 16rem; padding-bottom: 16rem; }
+.py-72 { padding-top: 18rem; padding-bottom: 18rem; }
+.py-80 { padding-top: 20rem; padding-bottom: 20rem; }
+.py-96 { padding-top: 24rem; padding-bottom: 24rem; }
+
+/* -------- 顶部内边距 (pt-*) -------- */
+/**
+ * 适用场景：只设置顶部内边距
+ * 示例：class="pt-4" → padding-top: 16px
+ */
+.pt-0 { padding-top: 0px; }
+.pt-px { padding-top: 1px; }
+.pt-0\.5 { padding-top: 0.125rem; }
+.pt-1 { padding-top: 0.25rem; }
+.pt-1\.5 { padding-top: 0.375rem; }
+.pt-2 { padding-top: 0.5rem; }
+.pt-2\.5 { padding-top: 0.625rem; }
+.pt-3 { padding-top: 0.75rem; }
+.pt-3\.5 { padding-top: 0.875rem; }
+.pt-4 { padding-top: 1rem; }
+.pt-5 { padding-top: 1.25rem; }
+.pt-6 { padding-top: 1.5rem; }
+.pt-7 { padding-top: 1.75rem; }
+.pt-8 { padding-top: 2rem; }
+.pt-9 { padding-top: 2.25rem; }
+.pt-10 { padding-top: 2.5rem; }
+.pt-11 { padding-top: 2.75rem; }
+.pt-12 { padding-top: 3rem; }
+.pt-14 { padding-top: 3.5rem; }
+.pt-16 { padding-top: 4rem; }
+.pt-20 { padding-top: 5rem; }
+.pt-24 { padding-top: 6rem; }
+.pt-28 { padding-top: 7rem; }
+.pt-32 { padding-top: 8rem; }
+.pt-36 { padding-top: 9rem; }
+.pt-40 { padding-top: 10rem; }
+.pt-44 { padding-top: 11rem; }
+.pt-48 { padding-top: 12rem; }
+.pt-52 { padding-top: 13rem; }
+.pt-56 { padding-top: 14rem; }
+.pt-60 { padding-top: 15rem; }
+.pt-64 { padding-top: 16rem; }
+.pt-72 { padding-top: 18rem; }
+.pt-80 { padding-top: 20rem; }
+.pt-96 { padding-top: 24rem; }
+
+/* -------- 右侧内边距 (pr-*) -------- */
+/**
+ * 适用场景：只设置右侧内边距
+ * 示例：class="pr-4" → padding-right: 16px
+ */
+.pr-0 { padding-right: 0px; }
+.pr-px { padding-right: 1px; }
+.pr-0\.5 { padding-right: 0.125rem; }
+.pr-1 { padding-right: 0.25rem; }
+.pr-1\.5 { padding-right: 0.375rem; }
+.pr-2 { padding-right: 0.5rem; }
+.pr-2\.5 { padding-right: 0.625rem; }
+.pr-3 { padding-right: 0.75rem; }
+.pr-3\.5 { padding-right: 0.875rem; }
+.pr-4 { padding-right: 1rem; }
+.pr-5 { padding-right: 1.25rem; }
+.pr-6 { padding-right: 1.5rem; }
+.pr-7 { padding-right: 1.75rem; }
+.pr-8 { padding-right: 2rem; }
+.pr-9 { padding-right: 2.25rem; }
+.pr-10 { padding-right: 2.5rem; }
+.pr-11 { padding-right: 2.75rem; }
+.pr-12 { padding-right: 3rem; }
+.pr-14 { padding-right: 3.5rem; }
+.pr-16 { padding-right: 4rem; }
+.pr-20 { padding-right: 5rem; }
+.pr-24 { padding-right: 6rem; }
+.pr-28 { padding-right: 7rem; }
+.pr-32 { padding-right: 8rem; }
+.pr-36 { padding-right: 9rem; }
+.pr-40 { padding-right: 10rem; }
+.pr-44 { padding-right: 11rem; }
+.pr-48 { padding-right: 12rem; }
+.pr-52 { padding-right: 13rem; }
+.pr-56 { padding-right: 14rem; }
+.pr-60 { padding-right: 15rem; }
+.pr-64 { padding-right: 16rem; }
+.pr-72 { padding-right: 18rem; }
+.pr-80 { padding-right: 20rem; }
+.pr-96 { padding-right: 24rem; }
+
+/* -------- 底部内边距 (pb-*) -------- */
+/**
+ * 适用场景：只设置底部内边距
+ * 示例：class="pb-4" → padding-bottom: 16px
+ */
+.pb-0 { padding-bottom: 0px; }
+.pb-px { padding-bottom: 1px; }
+.pb-0\.5 { padding-bottom: 0.125rem; }
+.pb-1 { padding-bottom: 0.25rem; }
+.pb-1\.5 { padding-bottom: 0.375rem; }
+.pb-2 { padding-bottom: 0.5rem; }
+.pb-2\.5 { padding-bottom: 0.625rem; }
+.pb-3 { padding-bottom: 0.75rem; }
+.pb-3\.5 { padding-bottom: 0.875rem; }
+.pb-4 { padding-bottom: 1rem; }
+.pb-5 { padding-bottom: 1.25rem; }
+.pb-6 { padding-bottom: 1.5rem; }
+.pb-7 { padding-bottom: 1.75rem; }
+.pb-8 { padding-bottom: 2rem; }
+.pb-9 { padding-bottom: 2.25rem; }
+.pb-10 { padding-bottom: 2.5rem; }
+.pb-11 { padding-bottom: 2.75rem; }
+.pb-12 { padding-bottom: 3rem; }
+.pb-14 { padding-bottom: 3.5rem; }
+.pb-16 { padding-bottom: 4rem; }
+.pb-20 { padding-bottom: 5rem; }
+.pb-24 { padding-bottom: 6rem; }
+.pb-28 { padding-bottom: 7rem; }
+.pb-32 { padding-bottom: 8rem; }
+.pb-36 { padding-bottom: 9rem; }
+.pb-40 { padding-bottom: 10rem; }
+.pb-44 { padding-bottom: 11rem; }
+.pb-48 { padding-bottom: 12rem; }
+.pb-52 { padding-bottom: 13rem; }
+.pb-56 { padding-bottom: 14rem; }
+.pb-60 { padding-bottom: 15rem; }
+.pb-64 { padding-bottom: 16rem; }
+.pb-72 { padding-bottom: 18rem; }
+.pb-80 { padding-bottom: 20rem; }
+.pb-96 { padding-bottom: 24rem; }
+
+/* -------- 左侧内边距 (pl-*) -------- */
+/**
+ * 适用场景：只设置左侧内边距
+ * 示例：class="pl-4" → padding-left: 16px
+ */
+.pl-0 { padding-left: 0px; }
+.pl-px { padding-left: 1px; }
+.pl-0\.5 { padding-left: 0.125rem; }
+.pl-1 { padding-left: 0.25rem; }
+.pl-1\.5 { padding-left: 0.375rem; }
+.pl-2 { padding-left: 0.5rem; }
+.pl-2\.5 { padding-left: 0.625rem; }
+.pl-3 { padding-left: 0.75rem; }
+.pl-3\.5 { padding-left: 0.875rem; }
+.pl-4 { padding-left: 1rem; }
+.pl-5 { padding-left: 1.25rem; }
+.pl-6 { padding-left: 1.5rem; }
+.pl-7 { padding-left: 1.75rem; }
+.pl-8 { padding-left: 2rem; }
+.pl-9 { padding-left: 2.25rem; }
+.pl-10 { padding-left: 2.5rem; }
+.pl-11 { padding-left: 2.75rem; }
+.pl-12 { padding-left: 3rem; }
+.pl-14 { padding-left: 3.5rem; }
+.pl-16 { padding-left: 4rem; }
+.pl-20 { padding-left: 5rem; }
+.pl-24 { padding-left: 6rem; }
+.pl-28 { padding-left: 7rem; }
+.pl-32 { padding-left: 8rem; }
+.pl-36 { padding-left: 9rem; }
+.pl-40 { padding-left: 10rem; }
+.pl-44 { padding-left: 11rem; }
+.pl-48 { padding-left: 12rem; }
+.pl-52 { padding-left: 13rem; }
+.pl-56 { padding-left: 14rem; }
+.pl-60 { padding-left: 15rem; }
+.pl-64 { padding-left: 16rem; }
+.pl-72 { padding-left: 18rem; }
+.pl-80 { padding-left: 20rem; }
+.pl-96 { padding-left: 24rem; }
+
+/* -------- 行内起始内边距 (ps-*) -------- */
+/**
+ * 适用场景：CSS逻辑属性，适用于RTL(从右到左)布局
+ * 等同于 LTR 布局中的 padding-left，RTL 布局中的 padding-right
+ * 示例：class="ps-4" → LTR: padding-left: 16px; RTL: padding-right: 16px
+ */
+.ps-0 { padding-inline-start: 0px; }
+.ps-px { padding-inline-start: 1px; }
+.ps-0\.5 { padding-inline-start: 0.125rem; }
+.ps-1 { padding-inline-start: 0.25rem; }
+.ps-1\.5 { padding-inline-start: 0.375rem; }
+.ps-2 { padding-inline-start: 0.5rem; }
+.ps-2\.5 { padding-inline-start: 0.625rem; }
+.ps-3 { padding-inline-start: 0.75rem; }
+.ps-3\.5 { padding-inline-start: 0.875rem; }
+.ps-4 { padding-inline-start: 1rem; }
+.ps-5 { padding-inline-start: 1.25rem; }
+.ps-6 { padding-inline-start: 1.5rem; }
+.ps-7 { padding-inline-start: 1.75rem; }
+.ps-8 { padding-inline-start: 2rem; }
+.ps-9 { padding-inline-start: 2.25rem; }
+.ps-10 { padding-inline-start: 2.5rem; }
+.ps-11 { padding-inline-start: 2.75rem; }
+.ps-12 { padding-inline-start: 3rem; }
+.ps-14 { padding-inline-start: 3.5rem; }
+.ps-16 { padding-inline-start: 4rem; }
+.ps-20 { padding-inline-start: 5rem; }
+.ps-24 { padding-inline-start: 6rem; }
+.ps-28 { padding-inline-start: 7rem; }
+.ps-32 { padding-inline-start: 8rem; }
+.ps-36 { padding-inline-start: 9rem; }
+.ps-40 { padding-inline-start: 10rem; }
+.ps-44 { padding-inline-start: 11rem; }
+.ps-48 { padding-inline-start: 12rem; }
+.ps-52 { padding-inline-start: 13rem; }
+.ps-56 { padding-inline-start: 14rem; }
+.ps-60 { padding-inline-start: 15rem; }
+.ps-64 { padding-inline-start: 16rem; }
+.ps-72 { padding-inline-start: 18rem; }
+.ps-80 { padding-inline-start: 20rem; }
+.ps-96 { padding-inline-start: 24rem; }
+
+/* -------- 行内结束内边距 (pe-*) -------- */
+/**
+ * 适用场景：CSS逻辑属性，适用于RTL(从右到左)布局
+ * 等同于 LTR 布局中的 padding-right，RTL 布局中的 padding-left
+ * 示例：class="pe-4" → LTR: padding-right: 16px; RTL: padding-left: 16px
+ */
+.pe-0 { padding-inline-end: 0px; }
+.pe-px { padding-inline-end: 1px; }
+.pe-0\.5 { padding-inline-end: 0.125rem; }
+.pe-1 { padding-inline-end: 0.25rem; }
+.pe-1\.5 { padding-inline-end: 0.375rem; }
+.pe-2 { padding-inline-end: 0.5rem; }
+.pe-2\.5 { padding-inline-end: 0.625rem; }
+.pe-3 { padding-inline-end: 0.75rem; }
+.pe-3\.5 { padding-inline-end: 0.875rem; }
+.pe-4 { padding-inline-end: 1rem; }
+.pe-5 { padding-inline-end: 1.25rem; }
+.pe-6 { padding-inline-end: 1.5rem; }
+.pe-7 { padding-inline-end: 1.75rem; }
+.pe-8 { padding-inline-end: 2rem; }
+.pe-9 { padding-inline-end: 2.25rem; }
+.pe-10 { padding-inline-end: 2.5rem; }
+.pe-11 { padding-inline-end: 2.75rem; }
+.pe-12 { padding-inline-end: 3rem; }
+.pe-14 { padding-inline-end: 3.5rem; }
+.pe-16 { padding-inline-end: 4rem; }
+.pe-20 { padding-inline-end: 5rem; }
+.pe-24 { padding-inline-end: 6rem; }
+.pe-28 { padding-inline-end: 7rem; }
+.pe-32 { padding-inline-end: 8rem; }
+.pe-36 { padding-inline-end: 9rem; }
+.pe-40 { padding-inline-end: 10rem; }
+.pe-44 { padding-inline-end: 11rem; }
+.pe-48 { padding-inline-end: 12rem; }
+.pe-52 { padding-inline-end: 13rem; }
+.pe-56 { padding-inline-end: 14rem; }
+.pe-60 { padding-inline-end: 15rem; }
+.pe-64 { padding-inline-end: 16rem; }
+.pe-72 { padding-inline-end: 18rem; }
+.pe-80 { padding-inline-end: 20rem; }
+.pe-96 { padding-inline-end: 24rem; }
+
+/* ==================== Margin 外边距 ==================== */
+
+/* -------- 通用外边距 (m-*) -------- */
+/**
+ * 适用场景：给元素外部四周添加统一间距（常用于组件之间的间距）
+ * 示例：class="m-4" → margin: 16px
+ */
+.m-0 { margin: 0px; }
+.m-px { margin: 1px; }
+.m-0\.5 { margin: 0.125rem; }
+.m-1 { margin: 0.25rem; }
+.m-1\.5 { margin: 0.375rem; }
+.m-2 { margin: 0.5rem; }
+.m-2\.5 { margin: 0.625rem; }
+.m-3 { margin: 0.75rem; }
+.m-3\.5 { margin: 0.875rem; }
+.m-4 { margin: 1rem; }
+.m-5 { margin: 1.25rem; }
+.m-6 { margin: 1.5rem; }
+.m-7 { margin: 1.75rem; }
+.m-8 { margin: 2rem; }
+.m-9 { margin: 2.25rem; }
+.m-10 { margin: 2.5rem; }
+.m-11 { margin: 2.75rem; }
+.m-12 { margin: 3rem; }
+.m-14 { margin: 3.5rem; }
+.m-16 { margin: 4rem; }
+.m-20 { margin: 5rem; }
+.m-24 { margin: 6rem; }
+.m-28 { margin: 7rem; }
+.m-32 { margin: 8rem; }
+.m-36 { margin: 9rem; }
+.m-40 { margin: 10rem; }
+.m-44 { margin: 11rem; }
+.m-48 { margin: 12rem; }
+.m-52 { margin: 13rem; }
+.m-56 { margin: 14rem; }
+.m-60 { margin: 15rem; }
+.m-64 { margin: 16rem; }
+.m-72 { margin: 18rem; }
+.m-80 { margin: 20rem; }
+.m-96 { margin: 24rem; }
+
+/* -------- 水平方向外边距 (mx-*) -------- */
+/**
+ * 适用场景：左右两侧相等的外部间距
+ * 示例：class="mx-auto" → 水平居中（左右margin自动）
+ *       class="mx-4" → margin-left: 16px; margin-right: 16px
+ */
+.mx-0 { margin-left: 0px; margin-right: 0px; }
+.mx-px { margin-left: 1px; margin-right: 1px; }
+.mx-0\.5 { margin-left: 0.125rem; margin-right: 0.125rem; }
+.mx-1 { margin-left: 0.25rem; margin-right: 0.25rem; }
+.mx-1\.5 { margin-left: 0.375rem; margin-right: 0.375rem; }
+.mx-2 { margin-left: 0.5rem; margin-right: 0.5rem; }
+.mx-2\.5 { margin-left: 0.625rem; margin-right: 0.625rem; }
+.mx-3 { margin-left: 0.75rem; margin-right: 0.75rem; }
+.mx-3\.5 { margin-left: 0.875rem; margin-right: 0.875rem; }
+.mx-4 { margin-left: 1rem; margin-right: 1rem; }
+.mx-5 { margin-left: 1.25rem; margin-right: 1.25rem; }
+.mx-6 { margin-left: 1.5rem; margin-right: 1.5rem; }
+.mx-7 { margin-left: 1.75rem; margin-right: 1.75rem; }
+.mx-8 { margin-left: 2rem; margin-right: 2rem; }
+.mx-9 { margin-left: 2.25rem; margin-right: 2.25rem; }
+.mx-10 { margin-left: 2.5rem; margin-right: 2.5rem; }
+.mx-11 { margin-left: 2.75rem; margin-right: 2.75rem; }
+.mx-12 { margin-left: 3rem; margin-right: 3rem; }
+.mx-14 { margin-left: 3.5rem; margin-right: 3.5rem; }
+.mx-16 { margin-left: 4rem; margin-right: 4rem; }
+.mx-20 { margin-left: 5rem; margin-right: 5rem; }
+.mx-24 { margin-left: 6rem; margin-right: 6rem; }
+.mx-28 { margin-left: 7rem; margin-right: 7rem; }
+.mx-32 { margin-left: 8rem; margin-right: 8rem; }
+.mx-36 { margin-left: 9rem; margin-right: 9rem; }
+.mx-40 { margin-left: 10rem; margin-right: 10rem; }
+.mx-44 { margin-left: 11rem; margin-right: 11rem; }
+.mx-48 { margin-left: 12rem; margin-right: 12rem; }
+.mx-52 { margin-left: 13rem; margin-right: 13rem; }
+.mx-56 { margin-left: 14rem; margin-right: 14rem; }
+.mx-60 { margin-left: 15rem; margin-right: 15rem; }
+.mx-64 { margin-left: 16rem; margin-right: 16rem; }
+.mx-72 { margin-left: 18rem; margin-right: 18rem; }
+.mx-80 { margin-left: 20rem; margin-right: 20rem; }
+.mx-96 { margin-left: 24rem; margin-right: 24rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+/* -------- 垂直方向外边距 (my-*) -------- */
+/**
+ * 适用场景：上下两侧相等的外部间距，常用于垂直方向上的间距控制
+ * 示例：class="my-4" → margin-top: 16px; margin-bottom: 16px
+ */
+.my-0 { margin-top: 0px; margin-bottom: 0px; }
+.my-px { margin-top: 1px; margin-bottom: 1px; }
+.my-0\.5 { margin-top: 0.125rem; margin-bottom: 0.125rem; }
+.my-1 { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+.my-1\.5 { margin-top: 0.375rem; margin-bottom: 0.375rem; }
+.my-2 { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+.my-2\.5 { margin-top: 0.625rem; margin-bottom: 0.625rem; }
+.my-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+.my-3\.5 { margin-top: 0.875rem; margin-bottom: 0.875rem; }
+.my-4 { margin-top: 1rem; margin-bottom: 1rem; }
+.my-5 { margin-top: 1.25rem; margin-bottom: 1.25rem; }
+.my-6 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+.my-7 { margin-top: 1.75rem; margin-bottom: 1.75rem; }
+.my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+.my-9 { margin-top: 2.25rem; margin-bottom: 2.25rem; }
+.my-10 { margin-top: 2.5rem; margin-bottom: 2.5rem; }
+.my-11 { margin-top: 2.75rem; margin-bottom: 2.75rem; }
+.my-12 { margin-top: 3rem; margin-bottom: 3rem; }
+.my-14 { margin-top: 3.5rem; margin-bottom: 3.5rem; }
+.my-16 { margin-top: 4rem; margin-bottom: 4rem; }
+.my-20 { margin-top: 5rem; margin-bottom: 5rem; }
+.my-24 { margin-top: 6rem; margin-bottom: 6rem; }
+.my-28 { margin-top: 7rem; margin-bottom: 7rem; }
+.my-32 { margin-top: 8rem; margin-bottom: 8rem; }
+.my-36 { margin-top: 9rem; margin-bottom: 9rem; }
+.my-40 { margin-top: 10rem; margin-bottom: 10rem; }
+.my-44 { margin-top: 11rem; margin-bottom: 11rem; }
+.my-48 { margin-top: 12rem; margin-bottom: 12rem; }
+.my-52 { margin-top: 13rem; margin-bottom: 13rem; }
+.my-56 { margin-top: 14rem; margin-bottom: 14rem; }
+.my-60 { margin-top: 15rem; margin-bottom: 15rem; }
+.my-64 { margin-top: 16rem; margin-bottom: 16rem; }
+.my-72 { margin-top: 18rem; margin-bottom: 18rem; }
+.my-80 { margin-top: 20rem; margin-bottom: 20rem; }
+.my-96 { margin-top: 24rem; margin-bottom: 24rem; }
+
+/* -------- 顶部外边距 (mt-*) -------- */
+/**
+ * 适用场景：只设置顶部外部间距
+ * 示例：class="mt-4" → margin-top: 16px
+ */
+.mt-0 { margin-top: 0px; }
+.mt-px { margin-top: 1px; }
+.mt-0\.5 { margin-top: 0.125rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-1\.5 { margin-top: 0.375rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-2\.5 { margin-top: 0.625rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-3\.5 { margin-top: 0.875rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-5 { margin-top: 1.25rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-7 { margin-top: 1.75rem; }
+.mt-8 { margin-top: 2rem; }
+.mt-9 { margin-top: 2.25rem; }
+.mt-10 { margin-top: 2.5rem; }
+.mt-11 { margin-top: 2.75rem; }
+.mt-12 { margin-top: 3rem; }
+.mt-14 { margin-top: 3.5rem; }
+.mt-16 { margin-top: 4rem; }
+.mt-20 { margin-top: 5rem; }
+.mt-24 { margin-top: 6rem; }
+.mt-28 { margin-top: 7rem; }
+.mt-32 { margin-top: 8rem; }
+.mt-36 { margin-top: 9rem; }
+.mt-40 { margin-top: 10rem; }
+.mt-44 { margin-top: 11rem; }
+.mt-48 { margin-top: 12rem; }
+.mt-52 { margin-top: 13rem; }
+.mt-56 { margin-top: 14rem; }
+.mt-60 { margin-top: 15rem; }
+.mt-64 { margin-top: 16rem; }
+.mt-72 { margin-top: 18rem; }
+.mt-80 { margin-top: 20rem; }
+.mt-96 { margin-top: 24rem; }
+
+/* -------- 右侧外边距 (mr-*) -------- */
+/**
+ * 适用场景：只设置右侧外部间距
+ * 示例：class="mr-4" → margin-right: 16px
+ */
+.mr-0 { margin-right: 0px; }
+.mr-px { margin-right: 1px; }
+.mr-0\.5 { margin-right: 0.125rem; }
+.mr-1 { margin-right: 0.25rem; }
+.mr-1\.5 { margin-right: 0.375rem; }
+.mr-2 { margin-right: 0.5rem; }
+.mr-2\.5 { margin-right: 0.625rem; }
+.mr-3 { margin-right: 0.75rem; }
+.mr-3\.5 { margin-right: 0.875rem; }
+.mr-4 { margin-right: 1rem; }
+.mr-5 { margin-right: 1.25rem; }
+.mr-6 { margin-right: 1.5rem; }
+.mr-7 { margin-right: 1.75rem; }
+.mr-8 { margin-right: 2rem; }
+.mr-9 { margin-right: 2.25rem; }
+.mr-10 { margin-right: 2.5rem; }
+.mr-11 { margin-right: 2.75rem; }
+.mr-12 { margin-right: 3rem; }
+.mr-14 { margin-right: 3.5rem; }
+.mr-16 { margin-right: 4rem; }
+.mr-20 { margin-right: 5rem; }
+.mr-24 { margin-right: 6rem; }
+.mr-28 { margin-right: 7rem; }
+.mr-32 { margin-right: 8rem; }
+.mr-36 { margin-right: 9rem; }
+.mr-40 { margin-right: 10rem; }
+.mr-44 { margin-right: 11rem; }
+.mr-48 { margin-right: 12rem; }
+.mr-52 { margin-right: 13rem; }
+.mr-56 { margin-right: 14rem; }
+.mr-60 { margin-right: 15rem; }
+.mr-64 { margin-right: 16rem; }
+.mr-72 { margin-right: 18rem; }
+.mr-80 { margin-right: 20rem; }
+.mr-96 { margin-right: 24rem; }
+
+/* -------- 底部外边距 (mb-*) -------- */
+/**
+ * 适用场景：只设置底部外部间距
+ * 示例：class="mb-4" → margin-bottom: 16px
+ */
+.mb-0 { margin-bottom: 0px; }
+.mb-px { margin-bottom: 1px; }
+.mb-0\.5 { margin-bottom: 0.125rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-1\.5 { margin-bottom: 0.375rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-2\.5 { margin-bottom: 0.625rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-3\.5 { margin-bottom: 0.875rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-5 { margin-bottom: 1.25rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-7 { margin-bottom: 1.75rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mb-9 { margin-bottom: 2.25rem; }
+.mb-10 { margin-bottom: 2.5rem; }
+.mb-11 { margin-bottom: 2.75rem; }
+.mb-12 { margin-bottom: 3rem; }
+.mb-14 { margin-bottom: 3.5rem; }
+.mb-16 { margin-bottom: 4rem; }
+.mb-20 { margin-bottom: 5rem; }
+.mb-24 { margin-bottom: 6rem; }
+.mb-28 { margin-bottom: 7rem; }
+.mb-32 { margin-bottom: 8rem; }
+.mb-36 { margin-bottom: 9rem; }
+.mb-40 { margin-bottom: 10rem; }
+.mb-44 { margin-bottom: 11rem; }
+.mb-48 { margin-bottom: 12rem; }
+.mb-52 { margin-bottom: 13rem; }
+.mb-56 { margin-bottom: 14rem; }
+.mb-60 { margin-bottom: 15rem; }
+.mb-64 { margin-bottom: 16rem; }
+.mb-72 { margin-bottom: 18rem; }
+.mb-80 { margin-bottom: 20rem; }
+.mb-96 { margin-bottom: 24rem; }
+
+/* -------- 左侧外边距 (ml-*) -------- */
+/**
+ * 适用场景：只设置左侧外部间距
+ * 示例：class="ml-4" → margin-left: 16px
+ */
+.ml-0 { margin-left: 0px; }
+.ml-px { margin-left: 1px; }
+.ml-0\.5 { margin-left: 0.125rem; }
+.ml-1 { margin-left: 0.25rem; }
+.ml-1\.5 { margin-left: 0.375rem; }
+.ml-2 { margin-left: 0.5rem; }
+.ml-2\.5 { margin-left: 0.625rem; }
+.ml-3 { margin-left: 0.75rem; }
+.ml-3\.5 { margin-left: 0.875rem; }
+.ml-4 { margin-left: 1rem; }
+.ml-5 { margin-left: 1.25rem; }
+.ml-6 { margin-left: 1.5rem; }
+.ml-7 { margin-left: 1.75rem; }
+.ml-8 { margin-left: 2rem; }
+.ml-9 { margin-left: 2.25rem; }
+.ml-10 { margin-left: 2.5rem; }
+.ml-11 { margin-left: 2.75rem; }
+.ml-12 { margin-left: 3rem; }
+.ml-14 { margin-left: 3.5rem; }
+.ml-16 { margin-left: 4rem; }
+.ml-20 { margin-left: 5rem; }
+.ml-24 { margin-left: 6rem; }
+.ml-28 { margin-left: 7rem; }
+.ml-32 { margin-left: 8rem; }
+.ml-36 { margin-left: 9rem; }
+.ml-40 { margin-left: 10rem; }
+.ml-44 { margin-left: 11rem; }
+.ml-48 { margin-left: 12rem; }
+.ml-52 { margin-left: 13rem; }
+.ml-56 { margin-left: 14rem; }
+.ml-60 { margin-left: 15rem; }
+.ml-64 { margin-left: 16rem; }
+.ml-72 { margin-left: 18rem; }
+.ml-80 { margin-left: 20rem; }
+.ml-96 { margin-left: 24rem; }
+
+/* -------- 行内起始外边距 (ms-*) -------- */
+/**
+ * 适用场景：CSS逻辑属性，适用于RTL(从右到左)布局
+ * 等同于 LTR 布局中的 margin-left，RTL 布局中的 margin-right
+ */
+.ms-0 { margin-inline-start: 0px; }
+.ms-px { margin-inline-start: 1px; }
+.ms-0\.5 { margin-inline-start: 0.125rem; }
+.ms-1 { margin-inline-start: 0.25rem; }
+.ms-1\.5 { margin-inline-start: 0.375rem; }
+.ms-2 { margin-inline-start: 0.5rem; }
+.ms-2\.5 { margin-inline-start: 0.625rem; }
+.ms-3 { margin-inline-start: 0.75rem; }
+.ms-3\.5 { margin-inline-start: 0.875rem; }
+.ms-4 { margin-inline-start: 1rem; }
+.ms-5 { margin-inline-start: 1.25rem; }
+.ms-6 { margin-inline-start: 1.5rem; }
+.ms-7 { margin-inline-start: 1.75rem; }
+.ms-8 { margin-inline-start: 2rem; }
+.ms-9 { margin-inline-start: 2.25rem; }
+.ms-10 { margin-inline-start: 2.5rem; }
+.ms-11 { margin-inline-start: 2.75rem; }
+.ms-12 { margin-inline-start: 3rem; }
+.ms-14 { margin-inline-start: 3.5rem; }
+.ms-16 { margin-inline-start: 4rem; }
+.ms-20 { margin-inline-start: 5rem; }
+.ms-24 { margin-inline-start: 6rem; }
+.ms-28 { margin-inline-start: 7rem; }
+.ms-32 { margin-inline-start: 8rem; }
+.ms-36 { margin-inline-start: 9rem; }
+.ms-40 { margin-inline-start: 10rem; }
+.ms-44 { margin-inline-start: 11rem; }
+.ms-48 { margin-inline-start: 12rem; }
+.ms-52 { margin-inline-start: 13rem; }
+.ms-56 { margin-inline-start: 14rem; }
+.ms-60 { margin-inline-start: 15rem; }
+.ms-64 { margin-inline-start: 16rem; }
+.ms-72 { margin-inline-start: 18rem; }
+.ms-80 { margin-inline-start: 20rem; }
+.ms-96 { margin-inline-start: 24rem; }
+.ms-auto { margin-inline-start: auto; }
+
+/* -------- 行内结束外边距 (me-*) -------- */
+/**
+ * 适用场景：CSS逻辑属性，适用于RTL(从右到左)布局
+ * 等同于 LTR 布局中的 margin-right，RTL 布局中的 margin-left
+ */
+.me-0 { margin-inline-end: 0px; }
+.me-px { margin-inline-end: 1px; }
+.me-0\.5 { margin-inline-end: 0.125rem; }
+.me-1 { margin-inline-end: 0.25rem; }
+.me-1\.5 { margin-inline-end: 0.375rem; }
+.me-2 { margin-inline-end: 0.5rem; }
+.me-2\.5 { margin-inline-end: 0.625rem; }
+.me-3 { margin-inline-end: 0.75rem; }
+.me-3\.5 { margin-inline-end: 0.875rem; }
+.me-4 { margin-inline-end: 1rem; }
+.me-5 { margin-inline-end: 1.25rem; }
+.me-6 { margin-inline-end: 1.5rem; }
+.me-7 { margin-inline-end: 1.75rem; }
+.me-8 { margin-inline-end: 2rem; }
+.me-9 { margin-inline-end: 2.25rem; }
+.me-10 { margin-inline-end: 2.5rem; }
+.me-11 { margin-inline-end: 2.75rem; }
+.me-12 { margin-inline-end: 3rem; }
+.me-14 { margin-inline-end: 3.5rem; }
+.me-16 { margin-inline-end: 4rem; }
+.me-20 { margin-inline-end: 5rem; }
+.me-24 { margin-inline-end: 6rem; }
+.me-28 { margin-inline-end: 7rem; }
+.me-32 { margin-inline-end: 8rem; }
+.me-36 { margin-inline-end: 9rem; }
+.me-40 { margin-inline-end: 10rem; }
+.me-44 { margin-inline-end: 11rem; }
+.me-48 { margin-inline-end: 12rem; }
+.me-52 { margin-inline-end: 13rem; }
+.me-56 { margin-inline-end: 14rem; }
+.me-60 { margin-inline-end: 15rem; }
+.me-64 { margin-inline-end: 16rem; }
+.me-72 { margin-inline-end: 18rem; }
+.me-80 { margin-inline-end: 20rem; }
+.me-96 { margin-inline-end: 24rem; }
+.me-auto { margin-inline-end: auto; }
