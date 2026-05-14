@@ -1,0 +1,241 @@
+/**
+ * Tailwind CSS 显示（Display）工具类
+ */
+
+/* ============================================
+   基本显示类型
+   ============================================ */
+.block {
+    display: block;
+}
+.inline-block {
+    display: inline-block;
+}
+.inline {
+    display: inline;
+}
+
+/* ============================================
+   Flex 布局
+   ============================================ */
+.flex {
+    display: flex;
+}
+.inline-flex {
+    display: inline-flex;
+}
+
+/* ============================================
+   表格布局
+   ============================================ */
+.table {
+    display: table;
+}
+.inline-table {
+    display: inline-table;
+}
+.table-caption {
+    display: table-caption;
+}
+.table-cell {
+    display: table-cell;
+}
+.table-column {
+    display: table-column;
+}
+.table-column-group {
+    display: table-column-group;
+}
+.table-footer-group {
+    display: table-footer-group;
+}
+.table-header-group {
+    display: table-header-group;
+}
+.table-row-group {
+    display: table-row-group;
+}
+.table-row {
+    display: table-row;
+}
+
+/* ============================================
+   流式布局
+   ============================================ */
+.flow-root {
+    display: flow-root;
+}
+
+/* ============================================
+   网格布局
+   ============================================ */
+.grid {
+    display: grid;
+}
+.inline-grid {
+    display: inline-grid;
+}
+
+/* ============================================
+   特殊显示类型
+   ============================================ */
+.contents {
+    display: contents;
+}
+.list-item {
+    display: list-item;
+}
+
+/* ============================================
+   隐藏元素
+   ============================================ */
+.hidden {
+    display: none;
+}
+
+/**
+ * Tailwind CSS 浮动（Float）工具类
+ */
+
+/* ============================================
+   物理属性浮动
+   ============================================ */
+
+/* 右浮动 */
+.float-right {
+    float: right;
+}
+
+/* 左浮动 */
+.float-left {
+    float: left;
+}
+
+/* 无浮动（默认值） */
+.float-none {
+    float: none;
+}
+
+/**
+ * Tailwind CSS 定位（Position）工具类
+ */
+
+/* ============================================
+   定位方式
+   ============================================ */
+
+/* 静态定位（默认值） */
+.static {
+    position: static;
+}
+
+/* 固定定位（相对于视口） */
+.fixed {
+    position: fixed;
+}
+
+/* 绝对定位（相对于最近的非 static 祖先元素） */
+.absolute {
+    position: absolute;
+}
+
+/* 相对定位（相对于自身正常位置） */
+.relative {
+    position: relative;
+}
+
+/* 粘性定位（滚动时在特定位置固定） */
+.sticky {
+    position: sticky;
+}
+
+/**
+ * Tailwind CSS 溢出（Overflow）工具类
+ */
+
+/* ============================================
+   双向溢出
+   ============================================ */
+
+/* 自动（必要时显示滚动条） */
+.overflow-auto {
+    overflow: auto;
+}
+
+/* 隐藏（溢出内容被裁剪） */
+.overflow-hidden {
+    overflow: hidden;
+}
+
+/* 裁剪（溢出内容不可见，无滚动条） */
+.overflow-clip {
+    overflow: clip;
+}
+
+/* 可见（溢出内容显示在容器外） */
+.overflow-visible {
+    overflow: visible;
+}
+
+/* 滚动（始终显示滚动条） */
+.overflow-scroll {
+    overflow: scroll;
+}
+
+/* ============================================
+   水平溢出（X轴）
+   ============================================ */
+
+/* 水平自动 */
+.overflow-x-auto {
+    overflow-x: auto;
+}
+
+/* 水平隐藏 */
+.overflow-x-hidden {
+    overflow-x: hidden;
+}
+
+/* 水平裁剪 */
+.overflow-x-clip {
+    overflow-x: clip;
+}
+
+/* 水平可见 */
+.overflow-x-visible {
+    overflow-x: visible;
+}
+
+/* 水平滚动 */
+.overflow-x-scroll {
+    overflow-x: scroll;
+}
+
+/* ============================================
+   垂直溢出（Y轴）
+   ============================================ */
+
+/* 垂直自动 */
+.overflow-y-auto {
+    overflow-y: auto;
+}
+
+/* 垂直隐藏 */
+.overflow-y-hidden {
+    overflow-y: hidden;
+}
+
+/* 垂直裁剪 */
+.overflow-y-clip {
+    overflow-y: clip;
+}
+
+/* 垂直可见 */
+.overflow-y-visible {
+    overflow-y: visible;
+}
+
+/* 垂直滚动 */
+.overflow-y-scroll {
+    overflow-y: scroll;
+}

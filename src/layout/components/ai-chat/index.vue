@@ -1,7 +1,7 @@
 <template>
   <div class="ai-chat-container flex flex-col  p-4">
     <div class="chat-header basis-10 flex justify-between items-center">
-      <strong>智能助理</strong>
+      <strong>智能助理1</strong>
       <strong class="help-doc-close">
         <close-outlined/>
       </strong>
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="chat-header basis-16">
-      <a-textarea v-model:value="chatQueryForm.question" placeholder="问点啥把" :rows="3"/>
+      <a-textarea v-model:value="chatQueryForm.question" placeholder="问点啥把1" :rows="3"/>
       <div class="flex mt-4 items-center justify-between w-full">
         <div>
           <a-select
@@ -123,8 +123,6 @@ onUnmounted(() => {
 <style scoped lang="less">
 .ai-chat-container {
   height: 800px;
-
-
 }
 
 </style>

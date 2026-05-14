@@ -1,45 +1,57 @@
 <template>
   <a-modal :open="visibleFlag" width="1000px" :footer="null" @cancel="onClose" title="智能助理">
-    <div class="ai-chat-container flex flex-col p-4">
-      <a-divider class="m-0" />
-      <div class="chat-content flex-1 overflow-y-auto my-4 pr-4" ref="chatContainer">
-        <div v-for="(item, index) in chatList" :key="index" class="mt-4">
-          <Message :message="item" />
+    <div class="assistant-container">
+      <div class="message-container" ref="chatContainer">
+        <div v-for="(msg, index) in chatList" :key="index" :class="['message-item', msg.type]">
+          <div class="message-content">
+            <div class="message-text">{{ msg.content }}</div>
+          </div>
+        </div>
+        <div v-if="isLoading" class="message-item">
+          <div class="message-content">
+            <div class="loading-container">
+              <Loading3QuartersOutlined />
+              <span>正在生成回答...</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="chat-header basis-16">
-        <a-textarea v-model:value="chatQueryForm.query" @keydown="onEnterKey" placeholder="问点啥把" :rows="3" />
-        <div class="flex mt-4 items-center justify-between w-full">
-          <div>
-            <a-select ref="select" size="small" v-model:value="mode" style="width: 120px">
-              <a-select-option value="shell">指令模式</a-select-option>
-            </a-select>
+      <div class="input-container">
+        <a-textarea
+          v-model:value="chatQueryForm.query"
+          :auto-size="{ minRows: 1, maxRows: 4 }"
+          placeholder="问点啥吧"
+          class="input-field"
+          @keydown="onEnterKey"
+        />
+
+        <div class="input-toolbar">
+          <div class="toolbar-left">
+            <FileUpload
+              ref="aiFileUploadRef"
+              list-type="text"
+              :maxUploadSize="5"
+              buttonText=""
+              @change="changeAttachment"
+              :multiple="true"
+              :folder="FILE_FOLDER_TYPE_ENUM.COMMON.value"
+            />
           </div>
-          <div>{{ chatQueryForm.agentAlias }}</div>
-          <div class="flex items-center">
-            <a-button type="primary" shape="circle" size="small" @click="toggleListening">
+
+          <div class="toolbar-right">
+            <a-button type="text" class="tool-btn" aria-label="语音" @click="toggleListening">
               <template #icon>
-                <AudioOutlined v-if="!isListening" />
+                <AudioOutlined v-if="!isListening"/>
                 <AudioMutedOutlined v-else />
               </template>
             </a-button>
-            <a-button class="ml-4" type="primary" shape="circle" size="small" @click="sendQuestion">
+
+            <a-button type="primary" shape="circle" class="send-btn" :disabled="isLoading" @click="sendQuestion">
               <template #icon>
-                <SmileOutlined />
+                <ArrowUpOutlined />
               </template>
             </a-button>
           </div>
-        </div>
-        <div class="mt-4">
-          <FileUpload
-            ref="aiFileUploadRef"
-            list-type="text"
-            :maxUploadSize="5"
-            buttonText=""
-            @change="changeAttachment"
-            :multiple="true"
-            :folder="FILE_FOLDER_TYPE_ENUM.COMMON.value"
-          />
         </div>
       </div>
     </div>
@@ -47,7 +59,6 @@
 </template>
 <script setup lang="js">
   // 是否显示
-  import Message from '/@/components/business/ai/message.vue';
   import { inject, nextTick, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue';
   import { fetchEventSource } from '@microsoft/fetch-event-source';
   import { useUserStore } from '/@/store/modules/system/user';
@@ -55,49 +66,32 @@
   import { removeJsonMark } from '/@/utils/str-util';
   import FileUpload from '/@/components/support/file-upload/index.vue';
   import { FILE_FOLDER_TYPE_ENUM } from '/@/constants/support/file-const';
+
   const router = useRouter();
+  const isLoading = ref(false);
   const visibleFlag = ref(false);
   const emitter = inject('emitter');
   const aiFileUploadRef = ref();
+
   function handleOk() {}
 
   function show(data) {
     visibleFlag.value = true;
     chatQueryForm.value.conversationId = new Date().getTime();
-    chatQueryForm.value.agentAlias = data.agentAlias;
-    chatQueryForm.value.data = JSON.parse(data.data);
+    if (data) {
+      chatQueryForm.value.agentAlias = data.agentAlias;
+      chatQueryForm.value.data = JSON.parse(data.data);
+    }
     nextTick(() => {});
   }
 
-  // const startPosition = ref({x: 0, y: 0, offsetX: 0, offsetY: 0})
-  // const isMovedown = ref(false)
-  //
-  // function initDrag() {
-  //   const header = document.querySelector('.ant-modal-header')
-  //   if (header) {
-  //     header.addEventListener('mousedown', (e) => {
-  //       startPosition.value.x = e.pageX
-  //       startPosition.value.y = e.pageY
-  //       startPosition.value.offsetX = e.offsetX
-  //       startPosition.value.offsetY = e.offsetY
-  //       isMovedown.value = true
-  //     })
-  //   }
-  //
-  // }
-
   function onClose() {
-    // emitter.emit('ai-send', { scene: 'create-sql', data: 'hello world' });
     visibleFlag.value = false;
   }
 
   const chatList = ref([
     {
-      content: '你是谁',
-      type: 'user',
-    },
-    {
-      content: '你好，我是智能助理,你要问神马？你好，我是智能助理,你要问神马？你好，我是智能助理,你要问神马？',
+      content: '你好，我是智能助理,你要问神马？',
       type: 'ai',
     },
   ]);
@@ -109,7 +103,7 @@
   const chatQueryForm = ref({
     conversationId: new Date().getTime(),
     query: '',
-    agentAlias: 'managerAgent',
+    agentAlias: 'planAgent',
     data: {},
     files: [],
   });
@@ -123,7 +117,7 @@
   }
 
   function sendQuestion() {
-    if (!chatQueryForm.value.query) {
+    if (!chatQueryForm.value.query.trim() || isLoading.value) {
       return;
     }
     console.log('question:', chatQueryForm.value.query);
@@ -131,9 +125,11 @@
       content: chatQueryForm.value.query,
       type: 'user',
     });
+    scrollToBottom();
     connect();
-    chatQueryForm.value.agentAlias = 'managerAgent';
+    // chatQueryForm.value.agentAlias = 'nanoAgentService';
     chatQueryForm.value.query = '';
+    isLoading.value = true;
     aiFileUploadRef?.value.clear();
   }
 
@@ -167,15 +163,19 @@
           }
           if (data.complete) {
             chatQueryForm.value.agentAlias = data.agentAlias;
-            const menuStr = data.menu;
-            if (menuStr) {
-              let menu = JSON.parse(menuStr);
-              await router.push({ path: menu.path });
+            if (data.agentAlias === 'sqlGenerateAgentService') {
+              emitter.emit('ai-listen', { agentAlias: 'sqlGenerateAgentService', data: removeJsonMark(chat.content) });
+              onClose();
+            } else {
             }
             console.log('result:', chat.content);
-            scrollToBottom();
-            emitter.emit('ai-listen', { agentAlias: 'sqlGenerateAgentService', data: removeJsonMark(chat.content) });
-            onClose();
+            isLoading.value = false;
+            // const menuStr = data.menu;
+            // if (menuStr) {
+            //   let menu = JSON.parse(menuStr);
+            //   await router.push({ path: menu.path });
+            // }
+            //
           }
         },
         onerror: (err) => {
@@ -346,5 +346,131 @@
 <style scoped lang="less">
   .ai-chat-container {
     height: 60vh;
+  }
+
+  .assistant-container {
+    display: flex;
+    flex-direction: column;
+    height: 540px;
+  }
+
+  .message-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 24px 16px;
+  }
+
+  .message-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .message-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .message-container::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+  }
+
+  .message-container::-webkit-scrollbar-thumb:hover {
+    background: var(--border-dark);
+  }
+
+  .message-item {
+    display: flex;
+    margin-bottom: 16px;
+    animation: fadeIn 0.3s ease;
+    align-items: flex-start;
+  }
+
+  .message-item.user {
+    justify-content: flex-end;
+  }
+
+  .message-item.ai {
+    justify-content: flex-start;
+  }
+
+  .message-content {
+    max-width: 85%;
+    padding: 14px 16px;
+    border-radius: 18px;
+    line-height: 1.7;
+    box-shadow: 0 8px 24px rgba(31, 35, 41, 0.06);
+    position: relative;
+  }
+
+  .message-item.user .message-content {
+    background: linear-gradient(135deg, #878c95, #70757f);
+    color: white;
+    border-top-right-radius: 6px;
+  }
+
+  .message-item.ai .message-content {
+    background: rgba(255, 255, 255, 0.96);
+    color: #2f3339;
+    border-bottom-left-radius: 6px;
+    border: 1px solid #ece8e3;
+  }
+
+  .message-text {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    font-size: 14px;
+  }
+
+  .loading-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+  }
+
+  .loading-icon {
+    animation: spin 1s linear infinite;
+    color: var(--primary-color);
+  }
+
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 18px 12px;
+    margin: 0 20px 20px;
+    background: #ffffff;
+    border: 1px solid #ebe7e2;
+    border-radius: 28px;
+    box-shadow:
+      0 8px 20px rgba(26, 28, 32, 0.06),
+      0 1px 2px rgba(26, 28, 32, 0.04);
+  }
+
+  .input-field {
+    width: 100%;
+  }
+
+  .input-container:deep(.ant-input) {
+    box-shadow: none;
+    border: none;
+  }
+
+  .input-container:deep(.ant-input:focus) {
+    box-shadow: none;
+    border: none;
+  }
+
+  .input-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .toolbar-left,
+  .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 </style>
