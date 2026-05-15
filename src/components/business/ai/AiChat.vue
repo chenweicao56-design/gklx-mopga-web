@@ -1,5 +1,12 @@
 <template>
-  <a-modal :open="visibleFlag" :width="isFullScreen ? '100%' : '1000px'" :footer="null" :closable="false" :wrapClassName="isFullScreen ? 'ai-chat-fullscreen' : ''" @cancel="onClose">
+  <a-modal
+    :open="visibleFlag"
+    :width="isFullScreen ? '100%' : '1000px'"
+    :footer="null"
+    :closable="false"
+    :wrapClassName="isFullScreen ? 'ai-chat-fullscreen' : ''"
+    @cancel="onClose"
+  >
     <template #title>
       <div class="flex justify-between">
         <div>智能助理</div>
@@ -16,7 +23,7 @@
             <FullscreenExitOutlined v-else />
           </div>
           <div>
-            <CloseOutlined @click="onClose"/>
+            <CloseOutlined @click="onClose" />
           </div>
         </div>
       </div>
@@ -25,10 +32,19 @@
       <div class="message-container" ref="chatContainer" @click="handleCodeCopy">
         <div v-for="(msg, index) in chatList" :key="index" :class="['message-item', msg.type]">
           <div class="message-content">
-            <div class="message-text markdown-body" v-html=" mdConvert(msg.content)"></div>
+            <div class="message-text markdown-body" v-html="mdConvert(msg.content)"></div>
+          </div>
+          <div class="message-tools">
+            <a-button type="text" size="small" @click.stop="copyMessage(msg.content, index)">
+              <template #icon>
+                <CheckOutlined class="icon" v-if="copiedIndex === index" />
+                <CopyOutlined class="icon" v-else />
+              </template>
+            </a-button>
           </div>
         </div>
-        <div v-if="isLoading" class="message-item">
+
+        <div v-if="isLoadingIcon" class="message-item">
           <div class="message-content">
             <div class="loading-container">
               <Loading3QuartersOutlined />
@@ -97,11 +113,12 @@
 
   const isFullScreen = ref(false);
   const isLoading = ref(false);
+  const isLoadingIcon = ref(false);
   const visibleFlag = ref(false);
 
   const md = new MarkdownIt({
-    html: false,       // 禁止 HTML 标签，防止 XSS
-    linkify: true,     // 自动识别 URL 并转换为链接
+    html: false, // 禁止 HTML 标签，防止 XSS
+    linkify: true, // 自动识别 URL 并转换为链接
     typographer: true, // 启用排版优化
   });
 
@@ -126,20 +143,41 @@
     const btn = e.target.closest('.code-copy-btn');
     if (!btn) return;
     const label = btn.querySelector('span');
-    navigator.clipboard.writeText(btn.dataset.code).then(() => {
-      label.textContent = '已复制';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        label.textContent = '复制';
-        btn.classList.remove('copied');
-      }, 1500);
-    }).catch(() => {
-      message.error('复制失败，请手动复制');
-    });
+    navigator.clipboard
+      .writeText(btn.dataset.code)
+      .then(() => {
+        label.textContent = '已复制';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          label.textContent = '复制';
+          btn.classList.remove('copied');
+        }, 1500);
+      })
+      .catch(() => {
+        message.error('复制失败，请手动复制');
+      });
   }
 
   function mdConvert(v) {
     return md.render(v);
+  }
+
+  const copiedIndex = ref(-1);
+
+  function copyMessage(content, index) {
+    const textContent = content.replace(/<[^>]+>/g, '');
+    navigator.clipboard
+      .writeText(textContent)
+      .then(() => {
+        copiedIndex.value = index;
+        message.success('已复制到剪贴板');
+        setTimeout(() => {
+          copiedIndex.value = -1;
+        }, 1500);
+      })
+      .catch(() => {
+        message.error('复制失败，请手动复制');
+      });
   }
 
   function show(data) {
@@ -155,7 +193,12 @@
     visibleFlag.value = false;
   }
 
-  const chatList = ref([]);
+  const chatList = ref([
+    {
+      content: '你好，我是智能助理,你要问神马？',
+      type: 'ai',
+    },
+  ]);
 
   let abortController = null;
 
@@ -188,6 +231,7 @@
     chatQueryForm.value.query = '';
     chatQueryForm.value.files = [];
     isLoading.value = true;
+    isLoadingIcon.value = true;
     aiFileUploadRef?.value.clear();
   }
 
@@ -212,6 +256,7 @@
         },
 
         onmessage: async (event) => {
+          isLoadingIcon.value =false
           const data = JSON.parse(event.data);
           console.log('SSE 接收到消息:', data);
           let chat = chatList.value[chatList.value.length - 1];
@@ -231,6 +276,7 @@
         },
         onerror: (err) => {
           isLoading.value = false;
+          isLoadingIcon.value =false
           throw err;
         },
         onclose: () => {
@@ -371,10 +417,6 @@
   });
 </script>
 <style scoped lang="less">
-  .ai-chat-container {
-    height: 60vh;
-  }
-
   .assistant-container {
     display: flex;
     flex-direction: column;
@@ -428,17 +470,19 @@
 
   .message-item {
     display: flex;
+    flex-direction: column;
+    width: 100%;
     margin-bottom: 16px;
     animation: fadeIn 0.3s ease;
     align-items: flex-start;
   }
 
   .message-item.user {
-    justify-content: flex-end;
+    align-items: flex-end;
   }
 
   .message-item.ai {
-    justify-content: flex-start;
+    align-items: flex-start;
   }
 
   .message-content {
@@ -455,7 +499,8 @@
     color: white;
     border-top-right-radius: 6px;
   }
-  .message-item.user .markdown-body{
+
+  .message-item.user .markdown-body {
     background: linear-gradient(135deg, #878c95, #70757f);
     color: white;
   }
@@ -477,6 +522,21 @@
     border-radius: 8px;
     overflow: hidden;
     background: #f6f8fa;
+  }
+
+
+  .message-tools {
+    margin-top: 12px;
+    opacity: 0;
+
+    .icon {
+      font-size: 12px;
+      color: gray;
+    }
+  }
+
+  .message-item:hover .message-tools {
+    opacity: 1;
   }
 
   .code-header {
@@ -590,7 +650,13 @@
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
