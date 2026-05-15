@@ -1,10 +1,31 @@
 <template>
-  <a-modal :open="visibleFlag" width="1000px" :footer="null" @cancel="onClose" title="智能助理">
-    <div class="assistant-container">
+  <a-modal :open="visibleFlag" :width="isFullScreen ? '100%' : '1000px'" :footer="null" :closable="false" :wrapClassName="isFullScreen ? 'ai-chat-fullscreen' : ''" @cancel="onClose">
+    <template #title>
+      <div class="flex justify-between">
+        <div>智能助理</div>
+        <div class="flex">
+          <div
+            class="mr-4"
+            @click="
+              () => {
+                isFullScreen = !isFullScreen;
+              }
+            "
+          >
+            <FullscreenOutlined v-if="isFullScreen" />
+            <FullscreenExitOutlined v-else />
+          </div>
+          <div>
+            <CloseOutlined />
+          </div>
+        </div>
+      </div>
+    </template>
+    <div :class="['assistant-container', { 'assistant-container--fullscreen': isFullScreen }]">
       <div class="message-container" ref="chatContainer">
         <div v-for="(msg, index) in chatList" :key="index" :class="['message-item', msg.type]">
           <div class="message-content">
-            <div class="message-text">{{ msg.content }}</div>
+            <div class="message-text markdown-body" v-html="mdConvert(msg.content)"></div>
           </div>
         </div>
         <div v-if="isLoading" class="message-item">
@@ -41,7 +62,7 @@
           <div class="toolbar-right">
             <a-button type="text" class="tool-btn" aria-label="语音" @click="toggleListening">
               <template #icon>
-                <AudioOutlined v-if="!isListening"/>
+                <AudioOutlined v-if="!isListening" />
                 <AudioMutedOutlined v-else />
               </template>
             </a-button>
@@ -62,16 +83,32 @@
   import { inject, nextTick, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue';
   import { fetchEventSource } from '@microsoft/fetch-event-source';
   import { useUserStore } from '/@/store/modules/system/user';
-  import { useRouter } from 'vue-router';
   import { removeJsonMark } from '/@/utils/str-util';
   import FileUpload from '/@/components/support/file-upload/index.vue';
   import { FILE_FOLDER_TYPE_ENUM } from '/@/constants/support/file-const';
+  import MarkdownIt from 'markdown-it';
+  import 'github-markdown-css/github-markdown.css';
+  import 'highlight.js/styles/github.css';
 
-  const router = useRouter();
+  const isFullScreen = ref(false);
   const isLoading = ref(false);
   const visibleFlag = ref(false);
   const emitter = inject('emitter');
   const aiFileUploadRef = ref();
+
+  import markdownItHighlightjs from 'markdown-it-highlightjs';
+
+  const md = new MarkdownIt({
+    html: true,        // 允许 HTML 标签
+    linkify: true,     // 自动识别 URL 并转换为链接
+    typographer: true, // 启用排版优化
+  });
+
+  md.use(markdownItHighlightjs);
+
+  function mdConvert(v) {
+    return md.render(v);
+  }
 
   function handleOk() {}
 
@@ -91,7 +128,11 @@
 
   const chatList = ref([
     {
-      content: '你好，我是智能助理,你要问神马？',
+      content: '\n' +
+        '```python\n' +
+        'def hello():\n' +
+        '    print("Hello, World!")\n' +
+        '```',
       type: 'ai',
     },
   ]);
@@ -354,6 +395,28 @@
     height: 540px;
   }
 
+  .assistant-container--fullscreen {
+    height: 100%;
+  }
+
+  :global(.ai-chat-fullscreen .ant-modal) {
+    max-height: 100vh;
+    top: 12px;
+    padding: 0 12px;
+  }
+
+  :global(.ai-chat-fullscreen .ant-modal-content) {
+    height: calc(100vh - 24px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(.ai-chat-fullscreen .ant-modal-body) {
+    flex: 1;
+    overflow: hidden;
+    padding: 0;
+  }
+
   .message-container {
     flex: 1;
     overflow-y: auto;
@@ -415,9 +478,30 @@
   }
 
   .message-text {
-    word-wrap: break-word;
-    white-space: pre-wrap;
     font-size: 14px;
+  }
+
+  .message-text pre {
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    background: #f6f8fa;
+  }
+
+  .message-text pre code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre;
+    word-wrap: normal;
+  }
+
+  .message-text code:not(pre code) {
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #eff1f3;
+    font-size: 13px;
   }
 
   .loading-container {

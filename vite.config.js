@@ -32,6 +32,10 @@ export default {
         find: /^~/,
         replacement: '',
       },
+      {
+        find: '@framework',
+        replacement: pathResolve('public/live2d/Framework/src'),
+      }
     ],
   },
   server: {

@@ -10,3 +10,8 @@ window.DIFF_EQUAL = 0    // 相同内容标识
 // 引入merge插件及其样式（关键步骤！）
 import 'codemirror/addon/merge/merge.css'
 import 'codemirror/addon/merge/merge.js'
+
+```python
+def hello():
+    print("Hello, World!")
+```
