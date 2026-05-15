@@ -78,8 +78,8 @@
           <div class="toolbar-right">
             <a-button type="text" class="tool-btn" aria-label="语音" @click="toggleListening">
               <template #icon>
-                <AudioOutlined v-if="!isListening" />
-                <AudioMutedOutlined v-else />
+                <AudioMutedOutlined v-if="!isListening" />
+                <AudioOutlined v-else />
               </template>
             </a-button>
 
