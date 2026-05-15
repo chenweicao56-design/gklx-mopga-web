@@ -14,9 +14,11 @@
         <a-radio-button v-for="item in fileTypes" :key="item.value" :value="item.value">{{ item.label }} </a-radio-button>
       </a-radio-group>
       <div class="flex flex-row items-center">
-        <a-button class="mr-3" type="primary" @click="checkAll()">{{ buttonSelectChecked ? '全选' : '取消' }}</a-button>
+        <a-button class="mr-3" type="primary" @click="tableChange">表变更</a-button>
+        <a-button class="mr-3" type="primary" @click="checkAll(true)"> 全选</a-button>
+        <a-button class="mr-3" type="primary" @click="checkAll(false)">清空</a-button>
         <a-button class="mr-3" type="primary" @click="copy()">复制</a-button>
-        <a-button class="mr-3" type="primary" :disabled="fileType.toUpperCase() !== 'SQL'" @click="executeSql">执行</a-button>
+        <a-button class="mr-3" type="primary" :disabled="fileType.toUpperCase() !== 'SQL'" @click="executeSql">执行 </a-button>
         <a-button class="mr-3" type="primary" @click="contract()">对比</a-button>
         <a-input-search v-model:value="genPluginUrl" placeholder="覆盖的本地服务地址" enter-button="覆盖" size="large" @search="syncSave" />
       </div>
@@ -32,10 +34,9 @@
       </a-tab-pane>
     </a-tabs>
     <div>
-      <div style="height: 600px;">
+      <div style="height: 600px">
         <CusCodeMirror ref="cusCodeMirrorRef" v-model:model-value="file.fileContent" height="700px" />
       </div>
-
     </div>
   </a-drawer>
 </template>
@@ -79,25 +80,25 @@
         fileTypes.value = res.data;
         fileType.value = fileTypes.value[0].value;
         fileKey.value = fileTypes.value[0].files[0].fileName;
-        loadCache(fileTypes.value);
+        // loadCache(fileTypes.value);
         files.value = fileTypes.value[0].files;
         file.value = fileTypes.value[0].files[0];
       });
     });
   }
 
-  function loadCache(list) {
-    for (let i = 0; i < list.length; i++) {
-      let items = list[i];
-      for (let j = 0; j < items.files.length; j++) {
-        let item = items.files[j];
-        let checked = previewStore().getPreviewFileChecked(item.id);
-        if (checked) {
-          item.checked = checked === 'checked';
-        }
-      }
-    }
-  }
+  // function loadCache(list) {
+  //   for (let i = 0; i < list.length; i++) {
+  //     let items = list[i];
+  //     for (let j = 0; j < items.files.length; j++) {
+  //       let item = items.files[j];
+  //       let checked = previewStore().getPreviewFileChecked(item.id);
+  //       if (checked) {
+  //         item.checked = checked === 'checked';
+  //       }
+  //     }
+  //   }
+  // }
 
   function onCheckChange(e) {
     previewStore().setPreviewFileChecked(e.id, e.checked ? 'checked' : 'unChecked');
@@ -127,15 +128,26 @@
       }
     });
   }
-  const buttonSelectChecked = ref(true);
-  function checkAll() {
-    buttonSelectChecked.value = !buttonSelectChecked.value;
+
+  function checkAll(e) {
     let ft = fileTypes.value.find((item) => {
       return item.value === fileType.value;
     });
     if (ft) {
       ft.files.forEach((item) => {
-        item.checked = buttonSelectChecked.value;
+        item.checked = e;
+      });
+    }
+  }
+  const tableChangeFile=["Mapper.xml","Entity.java","Vo.java","Form.java","Dao.xml"]
+  function tableChange() {
+    let ft = fileTypes.value.find((item) => {
+      return item.value === fileType.value;
+    });
+    if (ft) {
+      ft.files.forEach((item) => {
+        item.checked = tableChangeFile.some(char => item.fileName.includes(char))
+
       });
     }
   }
@@ -168,7 +180,8 @@
             // generateApi.coverCode(genPluginUrl.value, files).then((res) => {
             //   message.success('保存成功');
             // });
-            generateApi.coverCode(genPluginUrl.value, files)
+            generateApi
+              .coverCode(genPluginUrl.value, files)
               .then((res) => {
                 message.success('保存成功');
               })
@@ -202,6 +215,7 @@
       onCancel() {},
     });
   }
+
   function executeSql() {}
 
   defineExpose({
