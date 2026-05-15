@@ -83,6 +83,7 @@
   import { fetchEventSource } from '@microsoft/fetch-event-source';
   import MarkdownIt from 'markdown-it';
   import markdownItHighlightjs from 'markdown-it-highlightjs';
+  import { message } from 'ant-design-vue';
   import { useUserStore } from '/@/store/modules/system/user';
   import { removeJsonMark } from '/@/utils/str-util';
   import FileUpload from '/@/components/support/file-upload/index.vue';
@@ -99,7 +100,7 @@
   const visibleFlag = ref(false);
 
   const md = new MarkdownIt({
-    html: true,        // 允许 HTML 标签
+    html: false,       // 禁止 HTML 标签，防止 XSS
     linkify: true,     // 自动识别 URL 并转换为链接
     typographer: true, // 启用排版优化
   });
@@ -132,6 +133,8 @@
         label.textContent = '复制';
         btn.classList.remove('copied');
       }, 1500);
+    }).catch(() => {
+      message.error('复制失败，请手动复制');
     });
   }
 
@@ -152,21 +155,12 @@
     visibleFlag.value = false;
   }
 
-  const chatList = ref([
-    {
-      content: '\n' +
-        '```python\n' +
-        'def hello():\n' +
-        '    print("Hello, World!")\n' +
-        '```',
-      type: 'ai',
-    },
-  ]);
+  const chatList = ref([]);
 
   let abortController = null;
 
   const chatQueryForm = ref({
-    conversationId: new Date().getTime(),
+    conversationId: Date.now(),
     query: '',
     agentAlias: 'planAgent',
     data: {},
@@ -174,8 +168,7 @@
   });
 
   function onEnterKey(e) {
-    if (e.key === 'Enter') {
-      // 阻止默认行为：避免文本框中换行
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendQuestion();
     }
@@ -192,8 +185,8 @@
     });
     scrollToBottom();
     connect();
-    // chatQueryForm.value.agentAlias = 'nanoAgentService';
     chatQueryForm.value.query = '';
+    chatQueryForm.value.files = [];
     isLoading.value = true;
     aiFileUploadRef?.value.clear();
   }
@@ -201,7 +194,7 @@
   const connect = async () => {
     abortController = new AbortController();
     try {
-      await fetchEventSource('http://127.0.0.1:1024/chat', {
+      await fetchEventSource(import.meta.env.VITE_APP_API_URL + '/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -211,9 +204,9 @@
         signal: abortController.signal,
         onopen: async (response) => {
           if (!response.ok) {
-            console.error('连接失败:', response.status);
+            isLoading.value = false;
+            message.error('连接失败: ' + response.status);
           } else {
-            console.log('SSE 连接成功');
             chatList.value.push({ type: 'ai', content: '' });
           }
         },
@@ -232,36 +225,26 @@
             if (data.agentAlias === 'sqlGenerateAgentService') {
               emitter.emit('ai-listen', { agentAlias: 'sqlGenerateAgentService', data: removeJsonMark(chat.content) });
               onClose();
-            } else {
             }
-            console.log('result:', chat.content);
             isLoading.value = false;
-            // const menuStr = data.menu;
-            // if (menuStr) {
-            //   let menu = JSON.parse(menuStr);
-            //   await router.push({ path: menu.path });
-            // }
-            //
           }
         },
         onerror: (err) => {
-          console.error('发生错误:', err);
+          isLoading.value = false;
           throw err;
         },
         onclose: () => {
           scrollToBottom();
-          console.log('SSE 连接关闭');
         },
       });
     } catch (err) {
-      console.error('连接失败:', err);
+      isLoading.value = false;
+      message.error('连接失败，请稍后重试');
     }
   };
 
-  //
   const isListening = ref(false);
   const isProcessing = ref(false);
-  const errorMsg = ref('');
   let recognition = null;
 
   const startRecognition = () => {
@@ -269,22 +252,14 @@
     if (isProcessing.value) return;
 
     isProcessing.value = true;
-    errorMsg.value = '';
 
     // 检查浏览器支持
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      errorMsg.value = '您的浏览器不支持语音识别功能，请使用Chrome、Edge等现代浏览器';
+      message.error('您的浏览器不支持语音识别功能，请使用Chrome、Edge等现代浏览器');
       isProcessing.value = false;
       return;
     }
-
-    // 检查安全环境
-    // if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
-    //   errorMsg.value = '语音识别需要在HTTPS环境下使用（localhost除外）';
-    //   isProcessing.value = false;
-    //   return;
-    // }
 
     // 创建识别实例
     recognition = new SpeechRecognition();
@@ -307,10 +282,9 @@
       isProcessing.value = false;
       console.log('开始语音识别');
     } catch (err) {
-      errorMsg.value = `启动识别失败: ${err.message}`;
+      message.error('启动识别失败: ' + err.message);
       isListening.value = false;
       isProcessing.value = false;
-      console.error('启动识别失败:', err);
     }
   };
   const handleResult = (event) => {
@@ -321,11 +295,9 @@
     }
   };
   const handleError = (event) => {
-    console.error('识别错误:', event.error);
     isListening.value = false;
     isProcessing.value = false;
 
-    // 错误信息映射表
     const errorMap = {
       'not-allowed': '请允许麦克风权限后再试',
       'permission-denied': '麦克风权限已被拒绝',
@@ -333,11 +305,10 @@
       'audio-capture': '无法访问麦克风，请检查设备',
     };
 
-    errorMsg.value = `识别失败: ${errorMap[event.error] || event.error}`;
+    message.error('识别失败: ' + (errorMap[event.error] || event.error));
   };
 
   const handleEnd = () => {
-    console.log('语音识别已结束');
     isListening.value = false;
     isProcessing.value = false;
   };
@@ -616,5 +587,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
