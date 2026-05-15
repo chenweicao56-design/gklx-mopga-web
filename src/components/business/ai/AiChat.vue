@@ -16,16 +16,16 @@
             <FullscreenExitOutlined v-else />
           </div>
           <div>
-            <CloseOutlined />
+            <CloseOutlined @click="onClose"/>
           </div>
         </div>
       </div>
     </template>
     <div :class="['assistant-container', { 'assistant-container--fullscreen': isFullScreen }]">
-      <div class="message-container" ref="chatContainer">
+      <div class="message-container" ref="chatContainer" @click="handleCodeCopy">
         <div v-for="(msg, index) in chatList" :key="index" :class="['message-item', msg.type]">
           <div class="message-content">
-            <div class="message-text markdown-body" v-html="mdConvert(msg.content)"></div>
+            <div class="message-text markdown-body" v-html=" mdConvert(msg.content)"></div>
           </div>
         </div>
         <div v-if="isLoading" class="message-item">
@@ -79,24 +79,24 @@
   </a-modal>
 </template>
 <script setup lang="js">
-  // 是否显示
-  import { inject, nextTick, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue';
+  import { inject, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
   import { fetchEventSource } from '@microsoft/fetch-event-source';
+  import MarkdownIt from 'markdown-it';
+  import markdownItHighlightjs from 'markdown-it-highlightjs';
   import { useUserStore } from '/@/store/modules/system/user';
   import { removeJsonMark } from '/@/utils/str-util';
   import FileUpload from '/@/components/support/file-upload/index.vue';
   import { FILE_FOLDER_TYPE_ENUM } from '/@/constants/support/file-const';
-  import MarkdownIt from 'markdown-it';
   import 'github-markdown-css/github-markdown.css';
   import 'highlight.js/styles/github.css';
+
+  const emitter = inject('emitter');
+  const aiFileUploadRef = ref();
+  const chatContainer = ref(null);
 
   const isFullScreen = ref(false);
   const isLoading = ref(false);
   const visibleFlag = ref(false);
-  const emitter = inject('emitter');
-  const aiFileUploadRef = ref();
-
-  import markdownItHighlightjs from 'markdown-it-highlightjs';
 
   const md = new MarkdownIt({
     html: true,        // 允许 HTML 标签
@@ -106,20 +106,46 @@
 
   md.use(markdownItHighlightjs);
 
+  // Inject copy button into <pre> blocks
+  md.renderer.rules.fence = (tokens, idx) => {
+    const token = tokens[idx];
+    const lang = token.info.trim();
+    const highlighted = md.options.highlight
+      ? md.options.highlight(token.content, lang, '') || md.utils.escapeHtml(token.content)
+      : md.utils.escapeHtml(token.content);
+    const langLabel = lang ? `<span class="code-lang">${lang}</span>` : '';
+    return `<pre class="code-block">
+<div class="code-header flex justify-between"><div>${langLabel}</div>
+<button class="code-copy-btn" data-code="${md.utils.escapeHtml(token.content)}"><span>复制</span></button>
+</div>
+<code class="hljs language-${lang}">${highlighted}</code></pre>`;
+  };
+
+  function handleCodeCopy(e) {
+    const btn = e.target.closest('.code-copy-btn');
+    if (!btn) return;
+    const label = btn.querySelector('span');
+    navigator.clipboard.writeText(btn.dataset.code).then(() => {
+      label.textContent = '已复制';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        label.textContent = '复制';
+        btn.classList.remove('copied');
+      }, 1500);
+    });
+  }
+
   function mdConvert(v) {
     return md.render(v);
   }
 
-  function handleOk() {}
-
   function show(data) {
     visibleFlag.value = true;
-    chatQueryForm.value.conversationId = new Date().getTime();
+    chatQueryForm.value.conversationId = Date.now();
     if (data) {
       chatQueryForm.value.agentAlias = data.agentAlias;
       chatQueryForm.value.data = JSON.parse(data.data);
     }
-    nextTick(() => {});
   }
 
   function onClose() {
@@ -136,10 +162,8 @@
       type: 'ai',
     },
   ]);
-  const mode = ref('shell');
 
-  const abortController = new AbortController();
-  const isTalking = ref(false);
+  let abortController = null;
 
   const chatQueryForm = ref({
     conversationId: new Date().getTime(),
@@ -175,6 +199,7 @@
   }
 
   const connect = async () => {
+    abortController = new AbortController();
     try {
       await fetchEventSource('http://127.0.0.1:1024/chat', {
         method: 'POST',
@@ -238,7 +263,7 @@
   const isProcessing = ref(false);
   const errorMsg = ref('');
   let recognition = null;
-  // 开始语音识别
+
   const startRecognition = () => {
     // 防止重复启动
     if (isProcessing.value) return;
@@ -288,7 +313,6 @@
       console.error('启动识别失败:', err);
     }
   };
-  // 处理识别结果
   const handleResult = (event) => {
     if (event.results && event.results.length > 0) {
       const result = event.results[event.results.length - 1][0].transcript;
@@ -296,7 +320,6 @@
       chatQueryForm.value.query += result;
     }
   };
-  // 处理错误
   const handleError = (event) => {
     console.error('识别错误:', event.error);
     isListening.value = false;
@@ -313,14 +336,12 @@
     errorMsg.value = `识别失败: ${errorMap[event.error] || event.error}`;
   };
 
-  // 处理识别结束
   const handleEnd = () => {
     console.log('语音识别已结束');
     isListening.value = false;
     isProcessing.value = false;
   };
 
-  // 停止语音识别
   const stopRecognition = () => {
     if (recognition && isListening.value) {
       recognition.stop();
@@ -329,7 +350,6 @@
     }
   };
 
-  // 切换识别状态
   const toggleListening = () => {
     if (isListening.value) {
       stopRecognition();
@@ -337,17 +357,6 @@
       startRecognition();
     }
   };
-  onBeforeUnmount(() => {
-    if (recognition) {
-      recognition.abort(); // 强制终止识别
-      // 移除事件监听
-      recognition.onresult = null;
-      recognition.onerror = null;
-      recognition.onend = null;
-      recognition = null;
-    }
-  });
-  const chatContainer = ref(null); // 获取div的ref
   const scrollToBottom = () => {
     nextTick(() => {
       if (chatContainer.value) {
@@ -362,27 +371,33 @@
     },
     { immediate: true } // 初始化时执行一次
   );
-  defineExpose({
-    show,
-  });
   const changeAttachment = (data) => {
-    console.log('changeAttachment', data);
-    if (data && data.length > 0) {
-      let files = [];
-      for (let i = 0; i < data.length; i++) {
-        const file = data[i];
-        files.push(file.fileKey);
-      }
-      chatQueryForm.value.files = files;
+    if (data?.length > 0) {
+      chatQueryForm.value.files = data.map((file) => file.fileKey);
     }
   };
 
-  onMounted(() => emitter.on('ai-send', handleAiEvent));
-  onUnmounted(() => emitter.off('ai-send', handleAiEvent));
   const handleAiEvent = (data) => {
-    console.log('ai-send', data);
     show(data);
   };
+
+  onMounted(() => emitter.on('ai-send', handleAiEvent));
+
+  onBeforeUnmount(() => {
+    emitter.off('ai-send', handleAiEvent);
+    abortController?.abort();
+    if (recognition) {
+      recognition.abort();
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
+      recognition = null;
+    }
+  });
+
+  defineExpose({
+    show,
+  });
 </script>
 <style scoped lang="less">
   .ai-chat-container {
@@ -469,6 +484,10 @@
     color: white;
     border-top-right-radius: 6px;
   }
+  .message-item.user .markdown-body{
+    background: linear-gradient(135deg, #878c95, #70757f);
+    color: white;
+  }
 
   .message-item.ai .message-content {
     background: rgba(255, 255, 255, 0.96);
@@ -481,15 +500,56 @@
     font-size: 14px;
   }
 
-  .message-text pre {
+  .message-text pre.code-block {
     margin: 8px 0;
-    padding: 12px;
+    padding: 0;
     border-radius: 8px;
-    overflow-x: auto;
+    overflow: hidden;
     background: #f6f8fa;
   }
 
-  .message-text pre code {
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    background: #eff1f3;
+    border-bottom: 1px solid #d8dee4;
+  }
+
+  .code-lang {
+    font-size: 12px;
+    color: #656d76;
+  }
+
+  .code-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #656d76;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+
+  .code-copy-btn:hover {
+    background: #d0d7de;
+    color: #24292f;
+  }
+
+  .code-copy-btn.copied {
+    color: #1a7f37;
+  }
+
+  .message-text pre.code-block code {
+    display: block;
+    padding: 12px 16px;
+    overflow-x: auto;
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
     font-size: 13px;
     line-height: 1.6;
